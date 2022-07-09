@@ -24,14 +24,14 @@
     "ethers": "^5.6.9",
     "install": "^0.13.0",
     "npm": "^8.12.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.0",
+    "react-scripts": "^5.0.1",
     "styled-components": "^5.3.3",
     "tailwindcss": "^3.1.3",
     "tw-elements": "^1.0.0-alpha12",
-    "typescript": "^4.4.2"
+    "typescript": "^4.7.4"
   },
   "scripts": {
     "start": "react-scripts start",
