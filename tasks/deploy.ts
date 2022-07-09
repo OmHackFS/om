@@ -5,7 +5,7 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 task('deploy', 'Deploy Greeter contract').setAction(
   async (_, hre: HardhatRuntimeEnvironment): Promise<void> => {
     const Greeter = await hre.ethers.getContractFactory('Greeter');
-    const greeter = await Greeter.deploy('Hello, Hardhat!');
+    const greeter = await Greeter.deploy('Hello, Hardhat second time!');
 
     await greeter.deployed();
 

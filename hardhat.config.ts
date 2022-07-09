@@ -21,7 +21,8 @@ const config: HardhatUserConfig = {
       mining: {
         auto: false,
         interval: 1000
-      }
+      },
+      initialBaseFeePerGas: 0
     },
     ropsten: {
       url: process.env.ROPSTEN_URL || '',
