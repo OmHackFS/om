@@ -1,19 +1,18 @@
 import { ReactElement } from 'react';
-import styled from 'styled-components';
-import { ActivateDeactivate } from './components/ActivateDeactivate';
-import { Greeter } from './components/Greeter';
-import { SectionDivider } from './components/SectionDivider';
-import { SignMessage } from './components/SignMessage';
-import { WalletStatus } from './components/WalletStatus';
-import { Example } from './components/Example';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Wallet } from './components/Wallet';
+import { MainPage } from './components/MainPage';
 
-const StyledAppDiv = styled.div`
-  display: grid;
-  grid-gap: 20px;
-`;
 
 export function App(): ReactElement {
   return (
-    <div>hello world</div>
+    <div className="App">
+      <BrowserRouter>
+        {/* <Navigation /> */}
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }

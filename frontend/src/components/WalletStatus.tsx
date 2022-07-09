@@ -7,31 +7,21 @@ import { Provider } from '../utils/provider';
 type CleanupFunction = (() => void) | undefined;
 
 const StyledWalletStatusDiv = styled.div`
-  display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 0.6fr 0.1fr 0.6fr 1fr 0.1fr 0.6fr 0.5fr 0.1fr 1.1fr 0.4fr 0.1fr 1fr 0.9fr 0.1fr 0.7fr 0.1fr;
-  grid-gap: 10px;
-  place-self: center;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-`;
-
-const StyledStatusIcon = styled.h1`
-  margin: 0px;
 `;
 
 function ChainId(): ReactElement {
   const { chainId } = useWeb3React<Provider>();
 
   return (
-    <>
-      <span>
+    <div className='w-full flex'>
+      <span className='w-48'>
         <strong>Chain Id</strong>
       </span>
-      <span role="img" aria-label="chain">
-        ⛓
-      </span>
       <span>{chainId ?? ''}</span>
-    </>
+    </div>
   );
 }
 
@@ -78,15 +68,12 @@ function BlockNumber(): ReactElement {
   }, [library, chainId]); // ensures refresh if referential identity of library doesn't change across chainIds
 
   return (
-    <>
-      <span>
+    <div className='w-full flex'>
+      <span className='w-48'>
         <strong>Block Number</strong>
       </span>
-      <span role="img" aria-label="numbers">
-        🔢
-      </span>
       <span>{blockNumber === null ? 'Error' : blockNumber ?? ''}</span>
-    </>
+    </div>
   );
 }
 
@@ -94,23 +81,16 @@ function Account(): ReactElement {
   const { account } = useWeb3React<Provider>();
 
   return (
-    <>
-      <span>
+    <div className='w-full flex'>
+      <span className='w-48'>
         <strong>Account</strong>
-      </span>
-      <span role="img" aria-label="robot">
-        🤖
       </span>
       <span>
         {typeof account === 'undefined'
           ? ''
-          : account
-          ? `${account.substring(0, 6)}...${account.substring(
-              account.length - 4
-            )}`
-          : ''}
+          : account}
       </span>
-    </>
+    </div>
   );
 }
 
@@ -166,21 +146,18 @@ function Balance(): ReactElement {
   }, [account, library, chainId]); // ensures refresh if referential identity of library doesn't change across chainIds
 
   return (
-    <>
-      <span>
+    <div className='w-full flex'>
+      <span className='w-48'>
         <strong>Balance</strong>
-      </span>
-      <span role="img" aria-label="gold">
-        💰
       </span>
       <span>
         {balance === null
           ? 'Error'
           : balance
-          ? `Ξ${Math.round(+ethers.utils.formatEther(balance) * 1e4) / 1e4}`
+          ? `${Math.round(+ethers.utils.formatEther(balance) * 1e4) / 1e4}`
           : ''}
       </span>
-    </>
+    </div>
   );
 }
 
@@ -236,23 +213,12 @@ function NextNonce(): ReactElement {
   }, [account, library, chainId]); // ensures refresh if referential identity of library doesn't change across chainIds
 
   return (
-    <>
-      <span>
+    <div className='w-full flex'>
+      <span className='w-48'>
         <strong>Next Nonce</strong>
       </span>
-      <span role="img" aria-label="gold">
-        #️⃣
-      </span>
       <span>{nextNonce === null ? 'Error' : nextNonce ?? ''}</span>
-    </>
-  );
-}
-
-function StatusIcon(): ReactElement {
-  const { active, error } = useWeb3React<Provider>();
-
-  return (
-    <StyledStatusIcon>{active ? '🟢' : error ? '🔴' : '🟠'}</StyledStatusIcon>
+    </div>
   );
 }
 
@@ -264,7 +230,6 @@ export function WalletStatus(): ReactElement {
       <Account />
       <Balance />
       <NextNonce />
-      <StatusIcon />
     </StyledWalletStatusDiv>
   );
 }
