@@ -3,7 +3,7 @@ import { Provider } from '../utils/provider';
 import { useWeb3React } from '@web3-react/core';
 import { Contract, ethers, Signer } from 'ethers';
 
-import AirBlockArtifact from '../artifacts/contracts/AirBlock.sol/AirBlock.json';
+import OmArtifact from '../artifacts/contracts/Om.sol/Om.json';
 
 export const DeployContractButton = () => {
   const context = useWeb3React<Provider>();
@@ -11,7 +11,6 @@ export const DeployContractButton = () => {
   const [signer, setSigner] = useState<Signer>();
   const [deploying, setDeploying] = useState(false);
   const [airBlockContract, setAirBlockContract] = useState<Contract>();
-  // new ethers.Contract(airBlockContractAddr, AirBlockArtifact.abi, signer)
 
   useEffect((): void => {
     if (!library) {
@@ -34,8 +33,8 @@ export const DeployContractButton = () => {
 
     async function deployAirBlockContract(signer: Signer): Promise<void> {
       const AirBlock = new ethers.ContractFactory(
-        AirBlockArtifact.abi,
-        AirBlockArtifact.bytecode,
+        OmArtifact.abi,
+        OmArtifact.bytecode,
         signer
       );
 
@@ -46,7 +45,7 @@ export const DeployContractButton = () => {
 
         setAirBlockContract(newAirBlockContract);
 
-        console.log(`AirBlock deployed to: ${newAirBlockContract.address}`);
+        console.log(`Om deployed to: ${newAirBlockContract.address}`);
 
         setDeploying(false);
       } catch (error: any) {
