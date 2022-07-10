@@ -1,10 +1,9 @@
 import React from "react";
 import { Header } from "./Header";
 import { SubHeader } from "./SubHeader";
-import { DaoData } from "./DaoData";
-import { ProposalInput } from "./ProposalInput";
+import { DataInput } from "./DataInput";
 
-export const ProposalsInputPage = () => {
+export const DataInputPage = () => {
   return (
     <div>
       <div className="md:pl-64 flex flex-col flex-1">
@@ -38,12 +37,12 @@ export const ProposalsInputPage = () => {
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mb-8">
               <h1 className="text-2xl font-semibold text-gray-900">
-                Proposal Input
+                Data Input Page
               </h1>
             </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            <ProposalInput/>
- 
+         
+              <DataInput />
             </div>
           </div>
         </main>

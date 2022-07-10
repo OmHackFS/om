@@ -14,7 +14,7 @@
   }
   ```
 */
-export const ProposalInput = () => {
+export const DataInput = () => {
     return (
       <div className="space-y-6">
        
@@ -30,7 +30,7 @@ export const ProposalInput = () => {
 
                  <div className="col-span-6 sm:col-span-4">
                     <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
-                      Proposal Title
+                      Data Input
                     </label>
                     <input
                       type="text"

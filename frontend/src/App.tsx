@@ -7,6 +7,7 @@ import { DaoDataPage } from './components/DaoDataPage';
 import { ProposalsPage } from './components/ProposalPage';
 import { ProposalsInputPage } from './components/ProposalInputPage';
 import { ProposalInfoPage } from './components/ProposalInfoPage';
+import { DataInputPage } from './components/DataInputPage';
 
 export function App(): ReactElement {
   return (
@@ -19,6 +20,7 @@ export function App(): ReactElement {
           <Route path="/dao_proposal" element={<ProposalsPage />} />
           <Route path="/dao_proposal_input" element={<ProposalsInputPage />} />
           <Route path="/dao_proposal_info" element={<ProposalInfoPage/>} />
+          <Route path="/dao_data_input" element={<DataInputPage />} />
         </Routes>
       </BrowserRouter>
     </div>
