@@ -3,6 +3,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Wallet } from './components/Wallet';
 import { MainPage } from './components/MainPage';
 import { SidebarNavigation } from './components/SidebarNavigation';
+import { DaoDataPage } from './components/DaoDataPage';
+import { ProposalsPage } from './components/ProposalPage';
+import { ProposalsInputPage } from './components/ProposalInputPage';
+import { ProposalInfoPage } from './components/ProposalInfoPage';
 
 export function App(): ReactElement {
   return (
@@ -11,6 +15,10 @@ export function App(): ReactElement {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/dao_data" element={<DaoDataPage />} />
+          <Route path="/dao_proposal" element={<ProposalsPage />} />
+          <Route path="/dao_proposal_input" element={<ProposalsInputPage />} />
+          <Route path="/dao_proposal_info" element={<ProposalInfoPage/>} />
         </Routes>
       </BrowserRouter>
     </div>
