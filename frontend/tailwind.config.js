@@ -4,7 +4,11 @@ module.exports = {
     './node_modules/tw-elements/dist/js/**/*.js'
   ],
   theme: {
-    extend: {}
+    extend: {
+      fontFamily: {
+        sans: ["Inter var", ...require('tailwindcss/defaultTheme').fontFamily.sans],
+      },
+    },
   },
   plugins: [require('tw-elements/dist/plugin')]
 };
