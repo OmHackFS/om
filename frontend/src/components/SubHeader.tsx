@@ -43,30 +43,20 @@ export const SubHeader = () => {
       <div className="lg:hidden" id="mobile-menu">
         <div className="pt-2 pb-3 space-y-1">
           {/* <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" --> */}
-          <a
-            href="#"
-            className="bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-          >
-            Dashboard
-          </a>
-          <a
-            href="#"
-            className="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-          >
-            Team
-          </a>
-          <a
-            href="#"
-            className="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-          >
-            Projects
-          </a>
-          <a
-            href="#"
-            className="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-          >
-            Calendar
-          </a>
+          {HEADERS.map((header) => (
+            <span
+              onClick={() => handleSelectHeader(header.name)}
+              key={header.id}
+              className={`cursor-pointer
+                    ${
+                      activeHeader === header.name
+                        ? "bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+                        : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+                    }`}
+            >
+              {header.name}
+            </span>
+          ))}
         </div>
       </div>
     </nav>
