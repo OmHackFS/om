@@ -30,7 +30,7 @@ export const DataInput = () => {
 
                  <div className="col-span-6 sm:col-span-4">
                     <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
-                      Data Input
+                      Session Title
                     </label>
                     <input
                       type="text"
@@ -39,10 +39,10 @@ export const DataInput = () => {
                       autoComplete="proposal"
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md pt-5"
                     />
-                  </div>
+                   </div>
                   <div className="col-span-6 sm:col-span-3">
                     <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">
-                      Start Date
+                      Doctor Name
                     </label>
                     <input
                       type="text"
@@ -55,7 +55,7 @@ export const DataInput = () => {
   
                   <div className="col-span-6 sm:col-span-3">
                     <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                      End Date
+                      Session Date
                     </label>
                     <input
                       type="text"
@@ -71,7 +71,7 @@ export const DataInput = () => {
                 
                   <div className="col-span-6 sm:col-span-6">
                   <label htmlFor="about" className="block text-sm font-medium text-gray-700">
-                    Proposal Description
+                    Session Description
                   </label>
                   <div className="mt-1">
                     <textarea
@@ -88,7 +88,7 @@ export const DataInput = () => {
              
                   <div className="col-span-6">
                     <label htmlFor="street-address" className="block text-sm font-medium text-gray-700">
-                      Link(Optional)
+                      Doctor Id
                     </label>
                     <input
                       type="text"
@@ -100,7 +100,7 @@ export const DataInput = () => {
                   </div>
                   <div className="col-span-6">
                     <label htmlFor="street-address" className="block text-sm font-medium text-gray-700">
-                      Funds Requested
+                      Doctor Contact
                     </label>
                     <input
                       type="text"
@@ -134,7 +134,7 @@ export const DataInput = () => {
                           htmlFor="file-upload"
                           className="w-full relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                         >
-                          <span>Upload a file</span>
+                          <span>Upload Files</span>
                           <input id="file-upload" name="file-upload" type="file" className="sr-only" />
                         </label>
                         <p className="pl-1">or drag and drop</p>
