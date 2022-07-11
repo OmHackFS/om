@@ -11,7 +11,11 @@ contract Om is SemaphoreCore, SemaphoreGroups {
     event MemberAdded(uint256 indexed groupId);
     event MemberRemoved(uint256 indexed groupId);
     event VoteCast(uint256 indexed groupId, uint256 proposalId, bytes32 signal);
-    event ProposalCreated(uint256 indexed groupId, bytes32 proposalName);
+    event ProposalCreated(
+        uint256 indexed groupId,
+        uint256 proposalId,
+        bytes32 proposalName
+    );
 
     uint8 public treeDepth;
     IVerifier public verifier;
@@ -20,7 +24,7 @@ contract Om is SemaphoreCore, SemaphoreGroups {
         address admin;
         uint256 members;
         uint256 nextProposal;
-        mapping(uint256 => Proposal) proposals;
+        Proposal[] proposals;
     }
 
     struct Proposal {
@@ -58,6 +62,7 @@ contract Om is SemaphoreCore, SemaphoreGroups {
             "Only group admin may add members"
         );
         _addMember(groupId, identityCommitment);
+        daoGroups[groupId].members++;
     }
 
     function removeMember(
@@ -76,6 +81,7 @@ contract Om is SemaphoreCore, SemaphoreGroups {
             proofSiblings,
             proofPathIndices
         );
+        daoGroups[groupId].members--;
     }
 
     function createProposal(
@@ -98,13 +104,13 @@ contract Om is SemaphoreCore, SemaphoreGroups {
         // _saveNullifierHash(nullifierHash);
 
         Proposal memory proposal;
-        proposal.id = nextProposal;
+        uint256 proposalId = daoGroups[groupId].nextProposal;
+        proposal.id = proposalId;
         proposal.deadline = block.number + 100;
+        daoGroups[groupId].proposals.push(proposal);
+        daoGroups[groupId].nextProposal++;
 
-        proposals[nextProposal] = proposal;
-        nextProposal++;
-
-        emit ProposalCreated(groupId, proposalName);
+        emit ProposalCreated(groupId, proposalId, proposalName);
     }
 
     function castVote(
