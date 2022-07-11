@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../logos/Om-logos_white.png";
 
 const TABS = [
@@ -71,7 +72,7 @@ export const SidebarNavigation = () => {
 
   const handleSelectTab = (newTab: string) => {
     setActiveTab(newTab);
-  }
+  };
 
   return (
     <div>
@@ -176,7 +177,9 @@ export const SidebarNavigation = () => {
                   key={tab.name}
                   onClick={() => handleSelectTab(tab.name)}
                   className={`cursor-pointer ${
-                    activeTab === tab.name ? "bg-indigo-800 text-white" : "text-indigo-100"
+                    activeTab === tab.name
+                      ? "bg-indigo-800 text-white"
+                      : "text-indigo-100"
                   } hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md`}
                 >
                   {tab.logo}

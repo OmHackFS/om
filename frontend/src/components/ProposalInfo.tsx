@@ -14,8 +14,8 @@
   }
   ```
 */
-import { Fragment } from 'react'
-import { Menu, Popover, Transition } from '@headlessui/react'
+import { Fragment } from "react";
+import { Menu, Popover, Transition } from "@headlessui/react";
 import {
   ArrowNarrowLeftIcon,
   CheckIcon,
@@ -25,111 +25,115 @@ import {
   SearchIcon,
   ThumbUpIcon,
   UserIcon,
-} from '@heroicons/react/solid'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+} from "@heroicons/react/solid";
+import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 
 const user = {
-  name: 'Whitney Francis',
-  email: 'whitney@example.com',
+  name: "Whitney Francis",
+  email: "whitney@example.com",
   imageUrl:
-    'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80',
-}
+    "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80",
+};
 const navigation = [
-  { name: 'Dashboard', href: '#' },
-  { name: 'Jobs', href: '#' },
-  { name: 'Applicants', href: '#' },
-  { name: 'Company', href: '#' },
-]
+  { name: "Dashboard", href: "#" },
+  { name: "Jobs", href: "#" },
+  { name: "Applicants", href: "#" },
+  { name: "Company", href: "#" },
+];
 const breadcrumbs = [
-  { name: 'Jobs', href: '#', current: false },
-  { name: 'Front End Developer', href: '#', current: false },
-  { name: 'Applicants', href: '#', current: true },
-]
+  { name: "Jobs", href: "#", current: false },
+  { name: "Front End Developer", href: "#", current: false },
+  { name: "Applicants", href: "#", current: true },
+];
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-]
+  { name: "Your Profile", href: "#" },
+  { name: "Settings", href: "#" },
+  { name: "Sign out", href: "#" },
+];
 const attachments = [
-  { name: 'resume_front_end_developer.pdf', href: '#' },
-  { name: 'coverletter_front_end_developer.pdf', href: '#' },
-]
+  { name: "resume_front_end_developer.pdf", href: "#" },
+  { name: "coverletter_front_end_developer.pdf", href: "#" },
+];
 const eventTypes = {
-  applied: { icon: UserIcon, bgColorClass: 'bg-gray-400' },
-  advanced: { icon: ThumbUpIcon, bgColorClass: 'bg-blue-500' },
-  completed: { icon: CheckIcon, bgColorClass: 'bg-green-500' },
-}
+  applied: { icon: UserIcon, bgColorClass: "bg-gray-400" },
+  advanced: { icon: ThumbUpIcon, bgColorClass: "bg-blue-500" },
+  completed: { icon: CheckIcon, bgColorClass: "bg-green-500" },
+};
 const timeline = [
   {
     id: 1,
     type: eventTypes.applied,
-    content: 'Voting Started',
-    target: 'By: Sub-Group1',
-    date: 'Sep 20',
-    datetime: '2020-09-20',
+    content: "Voting Started",
+    target: "By: Sub-Group1",
+    date: "Sep 20",
+    datetime: "2020-09-20",
   },
   {
     id: 2,
     type: eventTypes.advanced,
-    content: 'No',
-    target: 'Sub-Group2',
-    date: 'Sep 22',
-    datetime: '2020-09-22',
+    content: "No",
+    target: "Sub-Group2",
+    date: "Sep 22",
+    datetime: "2020-09-22",
   },
   {
     id: 3,
     type: eventTypes.completed,
-    content: 'Yes',
-    target: 'Martha Gardner',
-    date: 'Sep 28',
-    datetime: '2020-09-28',
+    content: "Yes",
+    target: "Martha Gardner",
+    date: "Sep 28",
+    datetime: "2020-09-28",
   },
   {
     id: 4,
     type: eventTypes.advanced,
-    content: 'No',
-    target: 'Bethany Blake',
-    date: 'Sep 30',
-    datetime: '2020-09-30',
+    content: "No",
+    target: "Bethany Blake",
+    date: "Sep 30",
+    datetime: "2020-09-30",
   },
   {
     id: 5,
     type: eventTypes.completed,
-    content: 'Yes',
-    target: 'Sub Group 4',
-    date: 'Oct 4',
-    datetime: '2020-10-04',
+    content: "Yes",
+    target: "Sub Group 4",
+    date: "Oct 4",
+    datetime: "2020-10-04",
   },
-]
+];
 const comments = [
   {
     id: 1,
-    name: 'Leslie Alexander',
-    date: '4d ago',
-    imageId: '1494790108377-be9c29b29330',
-    body: 'Ducimus quas delectus ad maxime totam doloribus reiciendis ex. Tempore dolorem maiores. Similique voluptatibus tempore non ut.',
+    name: "Leslie Alexander",
+    date: "4d ago",
+    imageId: "1494790108377-be9c29b29330",
+    body: "Ducimus quas delectus ad maxime totam doloribus reiciendis ex. Tempore dolorem maiores. Similique voluptatibus tempore non ut.",
   },
   {
     id: 2,
-    name: 'Michael Foster',
-    date: '4d ago',
-    imageId: '1519244703995-f4e0f30006d5',
-    body: 'Et ut autem. Voluptatem eum dolores sint necessitatibus quos. Quis eum qui dolorem accusantium voluptas voluptatem ipsum. Quo facere iusto quia accusamus veniam id explicabo et aut.',
+    name: "Michael Foster",
+    date: "4d ago",
+    imageId: "1519244703995-f4e0f30006d5",
+    body: "Et ut autem. Voluptatem eum dolores sint necessitatibus quos. Quis eum qui dolorem accusantium voluptas voluptatem ipsum. Quo facere iusto quia accusamus veniam id explicabo et aut.",
   },
   {
     id: 3,
-    name: 'Dries Vincent',
-    date: '4d ago',
-    imageId: '1506794778202-cad84cf45f1d',
-    body: 'Expedita consequatur sit ea voluptas quo ipsam recusandae. Ab sint et voluptatem repudiandae voluptatem et eveniet. Nihil quas consequatur autem. Perferendis rerum et.',
+    name: "Dries Vincent",
+    date: "4d ago",
+    imageId: "1506794778202-cad84cf45f1d",
+    body: "Expedita consequatur sit ea voluptas quo ipsam recusandae. Ab sint et voluptatem repudiandae voluptatem et eveniet. Nihil quas consequatur autem. Perferendis rerum et.",
   },
-]
+];
 
-function classNames(...classes : any[]) {
-  return classes.filter(Boolean).join(' ')
+function classNames(...classes: any[]) {
+  return classes.filter(Boolean).join(" ");
 }
 
-export const ProposalInfo = () => {
+type ProposalInfoProps = {
+  proposalId: string;
+};
+
+export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
   return (
     <>
       {/*
@@ -141,34 +145,33 @@ export const ProposalInfo = () => {
         ```
       */}
       <div className="min-h-full">
-        
-
-
         <main className="py-10">
           {/* Page header */}
           <div className="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
             <div className="flex items-center space-x-5">
               <div className="flex-shrink-0">
                 <div className="relative">
-                <img
+                  <img
                     className="h-16 w-16 rounded-full"
                     src="https://img.freepik.com/free-vector/violet-fire-colours-hand-painted-background_23-2148427580.jpg?w=2000"
                     alt=""
                   />
-            
-                  <span className="absolute inset-0 shadow-inner rounded-full" aria-hidden="true" />
+
+                  <span
+                    className="absolute inset-0 shadow-inner rounded-full"
+                    aria-hidden="true"
+                  />
                 </div>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Proposal 1 - Should Avatar Continue?</h1>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  Proposal {proposalId} - Should Avatar Continue?
+                </h1>
                 <p className="text-sm font-medium text-gray-500">
-                    
-                  Applied by{' '}
+                  Applied by{" "}
                   <a href="#" className="text-gray-900">
-                    
-                    
                     Sub-Group 1
-                  </a>{' '}
+                  </a>{" "}
                   on <time dateTime="2020-08-25">August 25, 2020</time>
                 </p>
               </div>
@@ -181,57 +184,92 @@ export const ProposalInfo = () => {
               <section aria-labelledby="applicant-information-title">
                 <div className="bg-white shadow sm:rounded-lg">
                   <div className="px-4 py-5 sm:px-6">
-                    <h2 id="applicant-information-title" className="text-lg leading-6 font-medium text-gray-900">
+                    <h2
+                      id="applicant-information-title"
+                      className="text-lg leading-6 font-medium text-gray-900"
+                    >
                       Proposal Title
                     </h2>
-                    <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and application.</p>
+                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                      Personal details and application.
+                    </p>
                   </div>
                   <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
                     <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                        <div className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">Proposed By</dt>
-                        <dd className="mt-1 text-sm text-gray-900">Sub Group1</dd>
-                      </div>
-                   
                       <div className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">Funds Requested</dt>
+                        <dt className="text-sm font-medium text-gray-500">
+                          Proposed By
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900">
+                          Sub Group1
+                        </dd>
+                      </div>
+
+                      <div className="sm:col-span-1">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Funds Requested
+                        </dt>
                         <dd className="mt-1 text-sm text-gray-900">$120,000</dd>
                       </div>
-                   
+
                       <div className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">Start Date</dt>
-                        <dd className="mt-1 text-sm text-gray-900">15/07/2022</dd>
+                        <dt className="text-sm font-medium text-gray-500">
+                          Start Date
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900">
+                          15/07/2022
+                        </dd>
                       </div>
                       <div className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">End Date</dt>
-                        <dd className="mt-1 text-sm text-gray-900">30/07/2022</dd>
+                        <dt className="text-sm font-medium text-gray-500">
+                          End Date
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900">
+                          30/07/2022
+                        </dd>
                       </div>
                       <div className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">Uploaded Files</dt>
-                        <dd className="mt-1 text-sm text-gray-900">File Link</dd>
+                        <dt className="text-sm font-medium text-gray-500">
+                          Uploaded Files
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900">
+                          File Link
+                        </dd>
                       </div>
                       <div className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">Proposal Links</dt>
+                        <dt className="text-sm font-medium text-gray-500">
+                          Proposal Links
+                        </dt>
                         <dd className="mt-1 text-sm text-gray-900">Linktree</dd>
                       </div>
                       <div className="sm:col-span-2">
-                        <dt className="text-sm font-medium text-gray-500">Proposal Details</dt>
+                        <dt className="text-sm font-medium text-gray-500">
+                          Proposal Details
+                        </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat.
-                          Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-                          proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
-                          Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat.
-                          Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-                          proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
-                          Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat.
-                          Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-                          proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
-                          Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat.
-                          Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-                          proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+                          Fugiat ipsum ipsum deserunt culpa aute sint do nostrud
+                          anim incididunt cillum culpa consequat. Excepteur qui
+                          ipsum aliquip consequat sint. Sit id mollit nulla
+                          mollit nostrud in ea officia proident. Irure nostrud
+                          pariatur mollit ad adipisicing reprehenderit deserunt
+                          qui eu. Fugiat ipsum ipsum deserunt culpa aute sint do
+                          nostrud anim incididunt cillum culpa consequat.
+                          Excepteur qui ipsum aliquip consequat sint. Sit id
+                          mollit nulla mollit nostrud in ea officia proident.
+                          Irure nostrud pariatur mollit ad adipisicing
+                          reprehenderit deserunt qui eu. Fugiat ipsum ipsum
+                          deserunt culpa aute sint do nostrud anim incididunt
+                          cillum culpa consequat. Excepteur qui ipsum aliquip
+                          consequat sint. Sit id mollit nulla mollit nostrud in
+                          ea officia proident. Irure nostrud pariatur mollit ad
+                          adipisicing reprehenderit deserunt qui eu. Fugiat
+                          ipsum ipsum deserunt culpa aute sint do nostrud anim
+                          incididunt cillum culpa consequat. Excepteur qui ipsum
+                          aliquip consequat sint. Sit id mollit nulla mollit
+                          nostrud in ea officia proident. Irure nostrud pariatur
+                          mollit ad adipisicing reprehenderit deserunt qui eu.
                         </dd>
                       </div>
-                 
                     </dl>
                   </div>
                   <div>
@@ -250,7 +288,10 @@ export const ProposalInfo = () => {
                 <div className="bg-white shadow sm:rounded-lg sm:overflow-hidden">
                   <div className="divide-y divide-gray-200">
                     <div className="px-4 py-5 sm:px-6">
-                      <h2 id="notes-title" className="text-lg font-medium text-gray-900">
+                      <h2
+                        id="notes-title"
+                        className="text-lg font-medium text-gray-900"
+                      >
                         Comments
                       </h2>
                     </div>
@@ -268,7 +309,10 @@ export const ProposalInfo = () => {
                               </div>
                               <div>
                                 <div className="text-sm">
-                                  <a href="#" className="font-medium text-gray-900">
+                                  <a
+                                    href="#"
+                                    className="font-medium text-gray-900"
+                                  >
                                     {comment.name}
                                   </a>
                                 </div>
@@ -276,9 +320,16 @@ export const ProposalInfo = () => {
                                   <p>{comment.body}</p>
                                 </div>
                                 <div className="mt-2 text-sm space-x-2">
-                                  <span className="text-gray-500 font-medium">{comment.date}</span>{' '}
-                                  <span className="text-gray-500 font-medium">&middot;</span>{' '}
-                                  <button type="button" className="text-gray-900 font-medium">
+                                  <span className="text-gray-500 font-medium">
+                                    {comment.date}
+                                  </span>{" "}
+                                  <span className="text-gray-500 font-medium">
+                                    &middot;
+                                  </span>{" "}
+                                  <button
+                                    type="button"
+                                    className="text-gray-900 font-medium"
+                                  >
                                     Reply
                                   </button>
                                 </div>
@@ -292,7 +343,11 @@ export const ProposalInfo = () => {
                   <div className="bg-gray-50 px-4 py-6 sm:px-6">
                     <div className="flex space-x-3">
                       <div className="flex-shrink-0">
-                        <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
+                        <img
+                          className="h-10 w-10 rounded-full"
+                          src={user.imageUrl}
+                          alt=""
+                        />
                       </div>
                       <div className="min-w-0 flex-1">
                         <form action="#">
@@ -306,7 +361,7 @@ export const ProposalInfo = () => {
                               rows={3}
                               className="shadow-sm block w-full focus:ring-blue-500 focus:border-blue-500 sm:text-sm border border-gray-300 rounded-md"
                               placeholder="Add a note"
-                              defaultValue={''}
+                              defaultValue={""}
                             />
                           </div>
                           <div className="mt-3 flex items-center justify-between">
@@ -335,9 +390,15 @@ export const ProposalInfo = () => {
               </section>
             </div>
 
-            <section aria-labelledby="timeline-title" className="lg:col-start-3 lg:col-span-1">
+            <section
+              aria-labelledby="timeline-title"
+              className="lg:col-start-3 lg:col-span-1"
+            >
               <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-                <h2 id="timeline-title" className="text-lg font-medium text-gray-900">
+                <h2
+                  id="timeline-title"
+                  className="text-lg font-medium text-gray-900"
+                >
                   Votes
                 </h2>
 
@@ -358,23 +419,31 @@ export const ProposalInfo = () => {
                               <span
                                 className={classNames(
                                   item.type.bgColorClass,
-                                  'h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white'
+                                  "h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white"
                                 )}
                               >
-                                <item.type.icon className="w-5 h-5 text-white" aria-hidden="true" />
+                                <item.type.icon
+                                  className="w-5 h-5 text-white"
+                                  aria-hidden="true"
+                                />
                               </span>
                             </div>
                             <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
                               <div>
                                 <p className="text-sm text-gray-500">
-                                  {item.content}{' '}
-                                  <a href="#" className="font-medium text-gray-900">
+                                  {item.content}{" "}
+                                  <a
+                                    href="#"
+                                    className="font-medium text-gray-900"
+                                  >
                                     {item.target}
                                   </a>
                                 </p>
                               </div>
                               <div className="text-right text-sm whitespace-nowrap text-gray-500">
-                                <time dateTime={item.datetime}>{item.date}</time>
+                                <time dateTime={item.datetime}>
+                                  {item.date}
+                                </time>
                               </div>
                             </div>
                           </div>
@@ -397,5 +466,5 @@ export const ProposalInfo = () => {
         </main>
       </div>
     </>
-  )
-}
+  );
+};
