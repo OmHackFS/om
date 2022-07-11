@@ -8,6 +8,7 @@ import { ProposalsPage } from "./components/ProposalPage";
 import { ProposalsInputPage } from "./components/ProposalInputPage";
 import { ProposalInfoPage } from "./components/ProposalInfoPage";
 import { DataInputPage } from "./components/DataInputPage";
+import { ProofModal } from "./components/ProofModal";
 
 export function App(): ReactElement {
   return (
@@ -21,6 +22,7 @@ export function App(): ReactElement {
           <Route path="/dao_proposal_input" element={<ProposalsInputPage />} />
           <Route path="/dao_proposal_info/:proposalId" element={<ProposalInfoPage />} />
           <Route path="/dao_data_input" element={<DataInputPage />} />
+          <Route path="/modal" element={<ProofModal />} />
         </Routes>
       </BrowserRouter>
     </div>
