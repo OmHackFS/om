@@ -1,10 +1,13 @@
 import React from "react";
+import { useParams } from 'react-router-dom';
 import { Header } from "./Header";
 import { SubHeader } from "./SubHeader";
 import { DaoData } from "./DaoData";
 import { ProposalInfo } from "./ProposalInfo";
 
 export const ProposalInfoPage = () => {
+  const { proposalId } = useParams();
+
   return (
     <div>
       <div className="md:pl-64 flex flex-col flex-1">
@@ -36,10 +39,8 @@ export const ProposalInfoPage = () => {
 
         <main>
           <div className="py-1">
-  
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            <ProposalInfo/>
- 
+              <ProposalInfo proposalId={proposalId as string}/>
             </div>
           </div>
         </main>
