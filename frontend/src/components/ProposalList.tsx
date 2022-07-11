@@ -24,20 +24,24 @@ export const ProposalList = () => {
       </div>
       <div className="mt-8 flex flex-col justify-center items-center">
         {proposals.map((proposal) => (
-          <div className="max-w-sm overflow-hidden shadow-lg rounded-[3.5rem]">
-            <div className="flex justify-center p-4 mt-4">
-              <img
-                className="h-52 w-84 rounded-[3.5rem]"
-                src={proposal.image}
-                alt=""
-              />
+          <Link to={`/dao_proposal_info/${proposal.id}`}>
+            <div className="max-w-sm overflow-hidden shadow-lg rounded-[3.5rem]">
+              <div className="flex justify-center p-4 mt-4">
+                <img
+                  className="h-52 w-84 rounded-[3.5rem]"
+                  src={proposal.image}
+                  alt=""
+                />
+              </div>
+              <div className="px-6 py-4">
+                <div className="font-bold text-xl mb-2">{proposal.name}</div>
+                <p className="text-gray-700 text-base">
+                  {proposal.description}
+                </p>
+              </div>
+              <div className="px-6 flex flex-row"></div>
             </div>
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">{proposal.name}</div>
-              <p className="text-gray-700 text-base">{proposal.description}</p>
-            </div>
-            <div className="px-6 flex flex-row"></div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
