@@ -15,13 +15,7 @@ contract Om is SemaphoreCore, SemaphoreGroups {
 
     uint8 public treeDepth;
     IVerifier public verifier;
-
-    struct Group {
-        address admin;
-        uint256 members;
-        uint256 nextProposal;
-        mapping(uint256 => Proposal) proposals;
-    }
+    uint256 nextProposal;
 
     struct Proposal {
         uint256 id;
@@ -31,11 +25,12 @@ contract Om is SemaphoreCore, SemaphoreGroups {
         bool passed;
     }
 
-    mapping(uint256 => Group) public daoGroups;
+    mapping(uint256 => Proposal) public proposals;
 
     constructor(uint8 _treeDepth, IVerifier _verifier) {
         treeDepth = _treeDepth;
         verifier = _verifier;
+        nextProposal = 1;
     }
 
     function createDao(bytes32 daoName) public {
@@ -43,20 +38,10 @@ contract Om is SemaphoreCore, SemaphoreGroups {
 
         _createGroup(groupId, treeDepth, 0);
 
-        Group memory group;
-        group.admin = msg.sender;
-        group.nextProposal = 1;
-
-        daoGroups[groupId] = group;
-
         emit DaoCreated(groupId, daoName);
     }
 
     function addMember(uint256 groupId, uint256 identityCommitment) public {
-        require(
-            msg.sender == daoGroups[groupId].admin,
-            "Only group admin may add members"
-        );
         _addMember(groupId, identityCommitment);
     }
 
@@ -66,10 +51,6 @@ contract Om is SemaphoreCore, SemaphoreGroups {
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
-        require(
-            msg.sender == daoGroups[groupId].admin,
-            "Only group admin may remove members"
-        );
         _removeMember(
             groupId,
             identityCommitment,
