@@ -8,6 +8,8 @@ import "@semaphore-protocol/contracts/base/SemaphoreGroups.sol";
 
 contract Om is SemaphoreCore, SemaphoreGroups {
     event DaoCreated(uint256 indexed groupId, bytes32 daoName);
+    event MemberAdded(uint256 indexed groupId);
+    event MemberRemoved(uint256 indexed groupId);
     event VoteCast(uint256 indexed groupId, uint256 proposalId, bytes32 signal);
     event ProposalCreated(uint256 indexed groupId, bytes32 proposalName);
 
@@ -41,6 +43,20 @@ contract Om is SemaphoreCore, SemaphoreGroups {
 
     function addMember(uint256 groupId, uint256 identityCommitment) public {
         _addMember(groupId, identityCommitment);
+    }
+
+    function removeMember(
+        uint256 groupId,
+        uint256 identityCommitment,
+        uint256[] calldata proofSiblings,
+        uint8[] calldata proofPathIndices
+    ) public {
+        _removeMember(
+            groupId,
+            identityCommitment,
+            proofSiblings,
+            proofPathIndices
+        );
     }
 
     function createProposal(
