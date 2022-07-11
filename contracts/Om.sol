@@ -25,15 +25,13 @@ contract Om is SemaphoreCore, SemaphoreGroups {
 
     mapping(uint256 => Proposal) public proposals;
 
-    constructor(
-        uint8 _treeDepth,
-        IVerifier _verifier,
-        bytes32 daoName
-    ) {
+    constructor(uint8 _treeDepth, IVerifier _verifier) {
         treeDepth = _treeDepth;
         verifier = _verifier;
         nextProposal = 1;
+    }
 
+    function createDao(bytes32 daoName) public {
         uint256 groupId = hashDaoName(daoName);
 
         _createGroup(groupId, treeDepth, 0);
