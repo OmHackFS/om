@@ -13,6 +13,82 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "Ownable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Ownable__factory>;
+    getContractFactory(
+      name: "IVotes",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IVotes__factory>;
+    getContractFactory(
+      name: "Votes",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Votes__factory>;
+    getContractFactory(
+      name: "ERC721",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721__factory>;
+    getContractFactory(
+      name: "ERC721Votes",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721Votes__factory>;
+    getContractFactory(
+      name: "IERC721Metadata",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721Metadata__factory>;
+    getContractFactory(
+      name: "IERC721",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721__factory>;
+    getContractFactory(
+      name: "IERC721Receiver",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721Receiver__factory>;
+    getContractFactory(
+      name: "ERC165",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC165__factory>;
+    getContractFactory(
+      name: "IERC165",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC165__factory>;
+    getContractFactory(
+      name: "SemaphoreCore",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SemaphoreCore__factory>;
+    getContractFactory(
+      name: "SemaphoreGroups",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SemaphoreGroups__factory>;
+    getContractFactory(
+      name: "ISemaphoreCore",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ISemaphoreCore__factory>;
+    getContractFactory(
+      name: "ISemaphoreGroups",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ISemaphoreGroups__factory>;
+    getContractFactory(
+      name: "IVerifier",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IVerifier__factory>;
+    getContractFactory(
+      name: "Pairing",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Pairing__factory>;
+    getContractFactory(
+      name: "Verifier20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Verifier20__factory>;
+    getContractFactory(
+      name: "PoseidonT3",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.PoseidonT3__factory>;
+    getContractFactory(
+      name: "PoseidonT6",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.PoseidonT6__factory>;
+    getContractFactory(
       name: "AirBlock",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AirBlock__factory>;
@@ -24,7 +100,106 @@ declare module "hardhat/types/runtime" {
       name: "Om",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Om__factory>;
+    getContractFactory(
+      name: "OmSbToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OmSbToken__factory>;
 
+    getContractAt(
+      name: "Ownable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Ownable>;
+    getContractAt(
+      name: "IVotes",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IVotes>;
+    getContractAt(
+      name: "Votes",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Votes>;
+    getContractAt(
+      name: "ERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721>;
+    getContractAt(
+      name: "ERC721Votes",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721Votes>;
+    getContractAt(
+      name: "IERC721Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Metadata>;
+    getContractAt(
+      name: "IERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721>;
+    getContractAt(
+      name: "IERC721Receiver",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Receiver>;
+    getContractAt(
+      name: "ERC165",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC165>;
+    getContractAt(
+      name: "IERC165",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC165>;
+    getContractAt(
+      name: "SemaphoreCore",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SemaphoreCore>;
+    getContractAt(
+      name: "SemaphoreGroups",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SemaphoreGroups>;
+    getContractAt(
+      name: "ISemaphoreCore",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ISemaphoreCore>;
+    getContractAt(
+      name: "ISemaphoreGroups",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ISemaphoreGroups>;
+    getContractAt(
+      name: "IVerifier",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IVerifier>;
+    getContractAt(
+      name: "Pairing",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Pairing>;
+    getContractAt(
+      name: "Verifier20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Verifier20>;
+    getContractAt(
+      name: "PoseidonT3",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.PoseidonT3>;
+    getContractAt(
+      name: "PoseidonT6",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.PoseidonT6>;
     getContractAt(
       name: "AirBlock",
       address: string,
@@ -40,6 +215,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Om>;
+    getContractAt(
+      name: "OmSbToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OmSbToken>;
 
     // default types
     getContractFactory(
