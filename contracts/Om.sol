@@ -11,26 +11,35 @@ contract Om is SemaphoreCore, SemaphoreGroups {
     event MemberAdded(uint256 indexed groupId);
     event MemberRemoved(uint256 indexed groupId);
     event VoteCast(uint256 indexed groupId, uint256 proposalId, bytes32 signal);
-    event ProposalCreated(uint256 indexed groupId, bytes32 proposalName);
+    event ProposalCreated(
+        uint256 indexed groupId,
+        uint256 proposalId,
+        bytes32 proposalName
+    );
 
     uint8 public treeDepth;
     IVerifier public verifier;
-    uint256 nextProposal;
+
+    struct Group {
+        address admin;
+        uint256 members;
+        uint256 nextProposal;
+        uint256 votesToPass;
+    }
 
     struct Proposal {
-        uint256 id;
         uint deadline;
         uint256 votesUp;
         uint256 votesDown;
         bool passed;
     }
 
-    mapping(uint256 => Proposal) public proposals;
+    mapping(uint256 => Group) public daoGroups;
+    mapping(uint256 => mapping(uint256 => Proposal)) public proposalsPerGroup;
 
     constructor(uint8 _treeDepth, IVerifier _verifier) {
         treeDepth = _treeDepth;
         verifier = _verifier;
-        nextProposal = 1;
     }
 
     function createDao(bytes32 daoName) public {
@@ -38,11 +47,22 @@ contract Om is SemaphoreCore, SemaphoreGroups {
 
         _createGroup(groupId, treeDepth, 0);
 
+        Group memory group;
+        group.admin = msg.sender;
+        group.nextProposal = 1;
+
+        daoGroups[groupId] = group;
+
         emit DaoCreated(groupId, daoName);
     }
 
     function addMember(uint256 groupId, uint256 identityCommitment) public {
+        require(
+            msg.sender == daoGroups[groupId].admin,
+            "Only group admin may add members"
+        );
         _addMember(groupId, identityCommitment);
+        daoGroups[groupId].members++;
     }
 
     function removeMember(
@@ -51,12 +71,17 @@ contract Om is SemaphoreCore, SemaphoreGroups {
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
     ) public {
+        require(
+            msg.sender == daoGroups[groupId].admin,
+            "Only group admin may remove members"
+        );
         _removeMember(
             groupId,
             identityCommitment,
             proofSiblings,
             proofPathIndices
         );
+        daoGroups[groupId].members--;
     }
 
     function createProposal(
@@ -79,13 +104,12 @@ contract Om is SemaphoreCore, SemaphoreGroups {
         // _saveNullifierHash(nullifierHash);
 
         Proposal memory proposal;
-        proposal.id = nextProposal;
+        uint256 proposalId = daoGroups[groupId].nextProposal;
         proposal.deadline = block.number + 100;
+        proposalsPerGroup[groupId][proposalId] = proposal;
+        daoGroups[groupId].nextProposal++;
 
-        proposals[nextProposal] = proposal;
-        nextProposal++;
-
-        emit ProposalCreated(groupId, proposalName);
+        emit ProposalCreated(groupId, proposalId, proposalName);
     }
 
     function castVote(
@@ -101,7 +125,7 @@ contract Om is SemaphoreCore, SemaphoreGroups {
 
         _saveNullifierHash(nullifierHash);
 
-        // proposals[proposalId].votesUp++;
+        // save vote counts
 
         emit VoteCast(groupId, proposalId, vote);
     }
