@@ -1,10 +1,9 @@
 import { useState } from "react";
-// import { Link } from "react-router-dom";
-
+import Link from "next/link";
 const HEADERS = [
-  { name: "Proposals", active: true ,path: "/dao_proposal",id: "0" },
+  { name: "Proposals", active: true ,path: "/proposals_page",id: "0" },
   { name: "Memberships", active: false, path:"/dao_members", id: "1" },
-  { name: "Dao Data", active: false,path:"/dao_data", id: "2" },
+  { name: "Dao Data", active: false,path:"/dao_data_page", id: "2" },
   { name: "My Page", active: false,path:"/my_page", id: "3" },
 ];
 
@@ -23,7 +22,7 @@ export const SubHeader = () => {
             <div className="hidden lg:flex lg:space-x-8">
               {/* <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" --> */}
               {HEADERS.map((header) => (
-              // <Link to={header.path}>
+              <Link href={header.path}>
                     <span
                   onClick={() => handleSelectHeader(header.name)}
                   key={header.id}
@@ -36,7 +35,7 @@ export const SubHeader = () => {
                 >
                   {header.name}
                 </span>
-              // </Link>
+              </Link>
             
               ))}
             </div>

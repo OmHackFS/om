@@ -1,7 +1,8 @@
 import React from "react";
-import { Header } from "../components/Header";
-import { SubHeader } from "../components/SubHeader";
-import { ProposalList } from "../components/ProposalList";
+import { Header } from "../../components/Header";
+import { SubHeader } from "../../components/SubHeader";
+import { ProposalList } from "../../components/ProposalList";
+import Link from "next/link";
 
 export default function ProposalsPage() {
   return (

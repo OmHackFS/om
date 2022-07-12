@@ -1,9 +1,9 @@
 import React from "react";
-import { Header } from "../components/Header";
-import { SubHeader } from "../components/SubHeader";
-import { DataInput } from "../components/DataInput";
+import { Header } from "../../components/Header";
+import { SubHeader } from "../../components/SubHeader";
+import { DaoData } from "../../components/DaoData";
 
-export default function DataInputPage() {
+export default function DaoDataPage() {
   return (
     <div>
       <div className="md:pl-64 flex flex-col flex-1">
@@ -37,12 +37,13 @@ export default function DataInputPage() {
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mb-8">
               <h1 className="text-2xl font-semibold text-gray-900">
-                Data Input Page
+                Dao Data
               </h1>
             </div>
+            <SubHeader />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-         
-              <DataInput />
+            <DaoData/>
+ 
             </div>
           </div>
         </main>

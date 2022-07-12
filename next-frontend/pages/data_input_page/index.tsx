@@ -1,13 +1,9 @@
 import React from "react";
-// import { useParams } from 'react-router-dom';
-import { Header } from "../components/Header";
-import { SubHeader } from "../components/SubHeader";
-import { DaoData } from "../components/DaoData";
-import { ProposalInfo } from "../components/ProposalInfo";
+import { Header } from "../../components/Header";
+import { SubHeader } from "../../components/SubHeader";
+import { DataInput } from "../../components/DataInput";
 
-export default function ProposalInfoPage() {
-  const  proposalId  = 1
-
+export default function DataInputPage() {
   return (
     <div>
       <div className="md:pl-64 flex flex-col flex-1">
@@ -38,9 +34,15 @@ export default function ProposalInfoPage() {
         </div>
 
         <main>
-          <div className="py-1">
+          <div className="py-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mb-8">
+              <h1 className="text-2xl font-semibold text-gray-900">
+                Data Input Page
+              </h1>
+            </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              <ProposalInfo proposalId={proposalId as string}/>
+         
+              <DataInput />
             </div>
           </div>
         </main>

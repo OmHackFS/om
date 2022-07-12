@@ -4,7 +4,8 @@ import { SidebarNavigation } from '../components/SidebarNavigation'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <> <SidebarNavigation />
+    <> 
+      <SidebarNavigation />
        <Component {...pageProps} />
     </>
    
