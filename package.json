@@ -43,7 +43,7 @@
     "typescript": "^4.5.2"
   },
   "scripts": {
-    "build": "yarn && yarn global add hardhat && yarn hardhat compile && cd next-frontend && yarn && yarn build && cp -r build ../",
+    "build": "yarn && npx hardhat compile && cd next-frontend && yarn && yarn build && cp -r build ../",
     "lint:fix": "",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
