@@ -44,7 +44,7 @@ export default function Experiment() {
   const SemaphoreABI = Semaphore.abi;
   const SempahoreAddress ="0x99aAb52e60f40AAC0BFE53e003De847bBDbC9611";
   const provider = new ethers.providers.JsonRpcProvider("https://eth-goerli.g.alchemy.com/v2/HTnCRg0KxPt5aG7FCaMePEWGK1nRegjD");
-  const signer = new ethers.Wallet("e66c96225cd605559b10405b8c3acd03a43df3637f98a1ea60984e42e79dc015").connect(provider);
+  const signer = new ethers.Wallet("").connect(provider);
 
   const semaphoreContract = new ethers.Contract(SempahoreAddress,SemaphoreABI,signer);
 
