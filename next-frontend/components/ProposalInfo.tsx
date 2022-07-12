@@ -130,7 +130,7 @@ function classNames(...classes: any[]) {
 }
 
 type ProposalInfoProps = {
-  proposalId: string;
+  proposalId: number;
 };
 
 export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
