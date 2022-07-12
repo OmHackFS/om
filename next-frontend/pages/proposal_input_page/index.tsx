@@ -1,8 +1,8 @@
 import React from "react";
-import { Header } from "../components/Header";
-import { SubHeader } from "../components/SubHeader";
-import { DaoData } from "../components/DaoData";
-import { ProposalInput } from "../components/ProposalInput";
+import { Header } from "../../components/Header";
+import { SubHeader } from "../../components/SubHeader";
+import { DaoData } from "../../components/DaoData";
+import { ProposalInput } from "../../components/ProposalInput";
 
 export default function ProposalsInputPage() {
   return (

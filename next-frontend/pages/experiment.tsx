@@ -141,8 +141,13 @@ export default function Experiment() {
     // Default parameters: treeDepth = 20, zeroValue = BigInt(0).
 
     const group = new Group();
+
+
+
     console.log(group)
+
     group.addMember(identityCommitment);
+
     setGroup1(group);
     setGroup1Status("Created!");
   }
@@ -166,12 +171,12 @@ export default function Experiment() {
   }
 
   async function verifyProofGroup1(){
-   
     const verificationKey = await fetch("http://localhost:3000/semaphore.json").then(function(res) {
       return res.json();
     });
 
     const res = await verifyProof(verificationKey, group1Proof) // true or false.
+    
     const response = res.toString();
     setGroup1Verification(response);
 
