@@ -44,7 +44,7 @@
     "next": "^12.2.2"
   },
   "scripts": {
-    "build": "yarn && cd frontend-next && yarn && yarn build && cp -r build ../public",
+    "build": "yarn && yarn build",
     "lint:fix": "",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
