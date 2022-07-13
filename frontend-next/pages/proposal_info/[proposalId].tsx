@@ -4,9 +4,11 @@ import { Header } from "../../components/Header";
 import { SubHeader } from "../../components/SubHeader";
 import { DaoData } from "../../components/DaoData";
 import { ProposalInfo } from "../../components/ProposalInfo";
+import { useRouter } from 'next/router'
 
 export default function ProposalInfoPage() {
-  const  proposalId  = 1
+  const router = useRouter()
+  const { proposalId } = router.query
 
   return (
     <div>

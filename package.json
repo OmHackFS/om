@@ -44,7 +44,7 @@
     "next": "^12.2.2"
   },
   "scripts": {
-    "build": "yarn && yarn build",
+    "compile": "yarn && yarn hardhat compile",
     "lint:fix": "",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

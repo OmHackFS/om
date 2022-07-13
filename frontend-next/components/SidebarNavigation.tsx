@@ -1,6 +1,6 @@
 import { useState } from "react";
-// import { Link } from "react-router-dom";
-// import logo from "../logos/Om-logos_white.png";
+import Image from "next/image";
+import Link from "next/link";
 
 const TABS = [
   {
@@ -138,7 +138,14 @@ export const SidebarNavigation = () => {
             </div>
 
             <div className="flex-shrink-0 flex items-center px-4">
-              {/* <img className="h-24 w-auto" src={logo} alt="Om" /> */}
+              <Link href="/">
+                <Image
+                  src="/../public/Om-logos_white.png"
+                  alt="Logo"
+                  width={80}
+                  height={80}
+                />
+              </Link>
             </div>
             <div className="mt-5 flex-1 h-0 overflow-y-auto">
               <nav className="px-2 space-y-1">
@@ -167,7 +174,15 @@ export const SidebarNavigation = () => {
         {/* <!-- Sidebar component, swap this element with another sidebar if you like --> */}
         <div className="flex flex-col flex-grow pt-5 bg-indigo-700 overflow-y-auto">
           <div className="flex items-center flex-shrink-0 px-4">
-            {/* <img className="h-24 w-auto" src={logo} alt="Om" /> */}
+            <Link href="/">
+              <Image
+                className="cursor-pointer"
+                src="/../public/Om-logos_white.png"
+                alt="Logo"
+                width={80}
+                height={80}
+              />
+            </Link>
           </div>
           <div className="mt-5 flex-1 flex flex-col">
             <nav className="flex-1 px-2 pb-4 space-y-1">
