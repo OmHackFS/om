@@ -1,6 +1,13 @@
+import { useState } from "react";
 import { ProofModal } from "./ProofModal";
+import { DatePicker } from "./DatePicker";
 
 export const ProposalInput = () => {
+  const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
+
+  const handleShowProposalModal = () => setShowProposalModal(true);
+  const handleHideProposalModal = () => setShowProposalModal(false);
+
   return (
     <div className="space-y-6">
       <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
@@ -32,35 +39,11 @@ export const ProposalInput = () => {
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="first-name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Start Date
-                  </label>
-                  <input
-                    type="text"
-                    name="first-name"
-                    id="first-name"
-                    autoComplete="given-name"
-                    className="pt-5 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                  />
+                  <DatePicker labelText="Start Date" onSelect={() => {}} />
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="last-name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    End Date
-                  </label>
-                  <input
-                    type="text"
-                    name="last-name"
-                    id="last-name"
-                    autoComplete="family-name"
-                    className="pt-5 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                  />
+                <DatePicker labelText="End Date" onSelect={() => {}} />
                 </div>
 
                 <div className="col-span-6 sm:col-span-6">
@@ -75,7 +58,7 @@ export const ProposalInput = () => {
                       id="proposal-description"
                       name="proposal-description"
                       rows={3}
-                      className="text-center shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md pt-20 pb-20 align-center"
+                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full h-32 sm:text-sm border border-gray-300 rounded-md p-2"
                       placeholder="Proposal Information"
                       defaultValue={""}
                     />
@@ -118,7 +101,7 @@ export const ProposalInput = () => {
                     Upload a File
                   </label>
                   <div className="w-full mt-1 flex justify-center p-20 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                    <div className="space-y-1 text-center w-full">
+                    <div className="space-y-1 text-center w-full h-64 flex flex-col justify-center items-center">
                       <svg
                         className="mx-auto h-12 w-12 text-gray-400"
                         stroke="currentColor"
@@ -146,8 +129,8 @@ export const ProposalInput = () => {
                             className="sr-only"
                           />
                         </label>
-                        <p className="pl-1">or drag and drop</p>
                       </div>
+                      <p className="text-xs pl-1 text-gray-500 pt-4">or drag and drop</p>
                       <p className="text-xs text-gray-500">
                         PNG, JPG, GIF up to 10MB
                       </p>
@@ -308,11 +291,12 @@ export const ProposalInput = () => {
         <button
           type="submit"
           className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          onClick={handleShowProposalModal}
         >
           Propose
         </button>
       </div>
-      <ProofModal />
+      {showProposalModal ? <ProofModal /> : null}
     </div>
   );
 };
