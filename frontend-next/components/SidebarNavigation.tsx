@@ -140,7 +140,7 @@ export const SidebarNavigation = () => {
             <div className="flex-shrink-0 flex items-center px-4">
               <Link href="/">
                 <Image
-                  src="/../public/Om-logos_white.png"
+                  src="/public/Om-logos_white.png"
                   alt="Logo"
                   width={80}
                   height={80}
@@ -177,7 +177,7 @@ export const SidebarNavigation = () => {
             <Link href="/">
               <Image
                 className="cursor-pointer"
-                src="/../public/Om-logos_white.png"
+                src="/public/Om-logos_white.png"
                 alt="Logo"
                 width={80}
                 height={80}
