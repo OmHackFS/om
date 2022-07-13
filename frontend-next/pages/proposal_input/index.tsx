@@ -42,12 +42,11 @@ export default function ProposalsInputPage() {
               </h1>
             </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            <ProposalInput/>
- 
+              <ProposalInput />
             </div>
           </div>
         </main>
       </div>
     </div>
   );
-};
+}
