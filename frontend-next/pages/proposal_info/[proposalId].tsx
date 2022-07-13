@@ -1,5 +1,4 @@
 import React from "react";
-// import { useParams } from 'react-router-dom';
 import { Header } from "../../components/Header";
 import { SubHeader } from "../../components/SubHeader";
 import { DaoData } from "../../components/DaoData";
