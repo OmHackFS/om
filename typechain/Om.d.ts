@@ -21,21 +21,191 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface OmInterface extends ethers.utils.Interface {
   functions: {
-    "greet()": FunctionFragment;
-    "setGreeting(string)": FunctionFragment;
+    "addMember(uint256,uint256)": FunctionFragment;
+    "castVote(uint256,bytes32,uint256,uint256,uint256[8])": FunctionFragment;
+    "createDao(bytes32)": FunctionFragment;
+    "createProposal(bytes32,uint256,uint256,uint256[8])": FunctionFragment;
+    "daoGroups(uint256)": FunctionFragment;
+    "getDepth(uint256)": FunctionFragment;
+    "getNumberOfLeaves(uint256)": FunctionFragment;
+    "getRoot(uint256)": FunctionFragment;
+    "proposalsPerGroup(uint256,uint256)": FunctionFragment;
+    "removeMember(uint256,uint256,uint256[],uint8[])": FunctionFragment;
+    "treeDepth()": FunctionFragment;
+    "verifier()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "greet", values?: undefined): string;
-  encodeFunctionData(functionFragment: "setGreeting", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "addMember",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "castVote",
+    values: [
+      BigNumberish,
+      BytesLike,
+      BigNumberish,
+      BigNumberish,
+      [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createDao",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createProposal",
+    values: [
+      BytesLike,
+      BigNumberish,
+      BigNumberish,
+      [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "daoGroups",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getDepth",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getNumberOfLeaves",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getRoot",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "proposalsPerGroup",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "removeMember",
+    values: [BigNumberish, BigNumberish, BigNumberish[], BigNumberish[]]
+  ): string;
+  encodeFunctionData(functionFragment: "treeDepth", values?: undefined): string;
+  encodeFunctionData(functionFragment: "verifier", values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: "greet", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addMember", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "castVote", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "createDao", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setGreeting",
+    functionFragment: "createProposal",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "daoGroups", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getDepth", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getNumberOfLeaves",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getRoot", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "proposalsPerGroup",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "removeMember",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "treeDepth", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verifier", data: BytesLike): Result;
 
-  events: {};
+  events: {
+    "DaoCreated(uint256,bytes32)": EventFragment;
+    "GroupCreated(uint256,uint8,uint256)": EventFragment;
+    "MemberAdded(uint256)": EventFragment;
+    "MemberRemoved(uint256)": EventFragment;
+    "NullifierHashAdded(uint256)": EventFragment;
+    "ProposalCreated(uint256,uint256,bytes32)": EventFragment;
+    "VoteCast(uint256,uint256,bytes32)": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "DaoCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "GroupCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MemberAdded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MemberRemoved"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NullifierHashAdded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ProposalCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "VoteCast"): EventFragment;
 }
+
+export type DaoCreatedEvent = TypedEvent<
+  [BigNumber, string] & { groupId: BigNumber; daoName: string }
+>;
+
+export type GroupCreatedEvent = TypedEvent<
+  [BigNumber, number, BigNumber] & {
+    groupId: BigNumber;
+    depth: number;
+    zeroValue: BigNumber;
+  }
+>;
+
+export type MemberAdded_uint256_Event = TypedEvent<
+  [BigNumber] & { groupId: BigNumber }
+>;
+
+export type MemberAdded_uint256_uint256_uint256_Event = TypedEvent<
+  [BigNumber, BigNumber, BigNumber] & {
+    groupId: BigNumber;
+    identityCommitment: BigNumber;
+    root: BigNumber;
+  }
+>;
+
+export type MemberRemoved_uint256_Event = TypedEvent<
+  [BigNumber] & { groupId: BigNumber }
+>;
+
+export type MemberRemoved_uint256_uint256_uint256_Event = TypedEvent<
+  [BigNumber, BigNumber, BigNumber] & {
+    groupId: BigNumber;
+    identityCommitment: BigNumber;
+    root: BigNumber;
+  }
+>;
+
+export type NullifierHashAddedEvent = TypedEvent<
+  [BigNumber] & { nullifierHash: BigNumber }
+>;
+
+export type ProposalCreatedEvent = TypedEvent<
+  [BigNumber, BigNumber, string] & {
+    groupId: BigNumber;
+    proposalId: BigNumber;
+    proposalName: string;
+  }
+>;
+
+export type VoteCastEvent = TypedEvent<
+  [BigNumber, BigNumber, string] & {
+    groupId: BigNumber;
+    proposalId: BigNumber;
+    signal: string;
+  }
+>;
 
 export class Om extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -81,44 +251,566 @@ export class Om extends BaseContract {
   interface: OmInterface;
 
   functions: {
-    greet(overrides?: CallOverrides): Promise<[string]>;
-
-    setGreeting(
-      _greeting: string,
+    addMember(
+      groupId: BigNumberish,
+      identityCommitment: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    castVote(
+      proposalId: BigNumberish,
+      vote: BytesLike,
+      nullifierHash: BigNumberish,
+      groupId: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    createDao(
+      daoName: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    createProposal(
+      proposalName: BytesLike,
+      nullifierHash: BigNumberish,
+      groupId: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    daoGroups(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, BigNumber, BigNumber] & {
+        admin: string;
+        members: BigNumber;
+        nextProposal: BigNumber;
+        votesToPass: BigNumber;
+      }
+    >;
+
+    getDepth(
+      groupId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[number]>;
+
+    getNumberOfLeaves(
+      groupId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    getRoot(
+      groupId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    proposalsPerGroup(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber, boolean] & {
+        deadline: BigNumber;
+        votesUp: BigNumber;
+        votesDown: BigNumber;
+        passed: boolean;
+      }
+    >;
+
+    removeMember(
+      groupId: BigNumberish,
+      identityCommitment: BigNumberish,
+      proofSiblings: BigNumberish[],
+      proofPathIndices: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    treeDepth(overrides?: CallOverrides): Promise<[number]>;
+
+    verifier(overrides?: CallOverrides): Promise<[string]>;
   };
 
-  greet(overrides?: CallOverrides): Promise<string>;
-
-  setGreeting(
-    _greeting: string,
+  addMember(
+    groupId: BigNumberish,
+    identityCommitment: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  callStatic: {
-    greet(overrides?: CallOverrides): Promise<string>;
+  castVote(
+    proposalId: BigNumberish,
+    vote: BytesLike,
+    nullifierHash: BigNumberish,
+    groupId: BigNumberish,
+    proof: [
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish
+    ],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-    setGreeting(_greeting: string, overrides?: CallOverrides): Promise<void>;
+  createDao(
+    daoName: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  createProposal(
+    proposalName: BytesLike,
+    nullifierHash: BigNumberish,
+    groupId: BigNumberish,
+    proof: [
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish
+    ],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  daoGroups(
+    arg0: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, BigNumber, BigNumber, BigNumber] & {
+      admin: string;
+      members: BigNumber;
+      nextProposal: BigNumber;
+      votesToPass: BigNumber;
+    }
+  >;
+
+  getDepth(groupId: BigNumberish, overrides?: CallOverrides): Promise<number>;
+
+  getNumberOfLeaves(
+    groupId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getRoot(groupId: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+  proposalsPerGroup(
+    arg0: BigNumberish,
+    arg1: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber, boolean] & {
+      deadline: BigNumber;
+      votesUp: BigNumber;
+      votesDown: BigNumber;
+      passed: boolean;
+    }
+  >;
+
+  removeMember(
+    groupId: BigNumberish,
+    identityCommitment: BigNumberish,
+    proofSiblings: BigNumberish[],
+    proofPathIndices: BigNumberish[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  treeDepth(overrides?: CallOverrides): Promise<number>;
+
+  verifier(overrides?: CallOverrides): Promise<string>;
+
+  callStatic: {
+    addMember(
+      groupId: BigNumberish,
+      identityCommitment: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    castVote(
+      proposalId: BigNumberish,
+      vote: BytesLike,
+      nullifierHash: BigNumberish,
+      groupId: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    createDao(daoName: BytesLike, overrides?: CallOverrides): Promise<void>;
+
+    createProposal(
+      proposalName: BytesLike,
+      nullifierHash: BigNumberish,
+      groupId: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    daoGroups(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, BigNumber, BigNumber] & {
+        admin: string;
+        members: BigNumber;
+        nextProposal: BigNumber;
+        votesToPass: BigNumber;
+      }
+    >;
+
+    getDepth(groupId: BigNumberish, overrides?: CallOverrides): Promise<number>;
+
+    getNumberOfLeaves(
+      groupId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getRoot(
+      groupId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    proposalsPerGroup(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber, boolean] & {
+        deadline: BigNumber;
+        votesUp: BigNumber;
+        votesDown: BigNumber;
+        passed: boolean;
+      }
+    >;
+
+    removeMember(
+      groupId: BigNumberish,
+      identityCommitment: BigNumberish,
+      proofSiblings: BigNumberish[],
+      proofPathIndices: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    treeDepth(overrides?: CallOverrides): Promise<number>;
+
+    verifier(overrides?: CallOverrides): Promise<string>;
   };
 
-  filters: {};
+  filters: {
+    "DaoCreated(uint256,bytes32)"(
+      groupId?: BigNumberish | null,
+      daoName?: null
+    ): TypedEventFilter<
+      [BigNumber, string],
+      { groupId: BigNumber; daoName: string }
+    >;
+
+    DaoCreated(
+      groupId?: BigNumberish | null,
+      daoName?: null
+    ): TypedEventFilter<
+      [BigNumber, string],
+      { groupId: BigNumber; daoName: string }
+    >;
+
+    "GroupCreated(uint256,uint8,uint256)"(
+      groupId?: BigNumberish | null,
+      depth?: null,
+      zeroValue?: null
+    ): TypedEventFilter<
+      [BigNumber, number, BigNumber],
+      { groupId: BigNumber; depth: number; zeroValue: BigNumber }
+    >;
+
+    GroupCreated(
+      groupId?: BigNumberish | null,
+      depth?: null,
+      zeroValue?: null
+    ): TypedEventFilter<
+      [BigNumber, number, BigNumber],
+      { groupId: BigNumber; depth: number; zeroValue: BigNumber }
+    >;
+
+    "MemberAdded(uint256)"(
+      groupId?: BigNumberish | null
+    ): TypedEventFilter<[BigNumber], { groupId: BigNumber }>;
+
+    "MemberAdded(uint256,uint256,uint256)"(
+      groupId?: BigNumberish | null,
+      identityCommitment?: null,
+      root?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber, BigNumber],
+      { groupId: BigNumber; identityCommitment: BigNumber; root: BigNumber }
+    >;
+
+    "MemberRemoved(uint256)"(
+      groupId?: BigNumberish | null
+    ): TypedEventFilter<[BigNumber], { groupId: BigNumber }>;
+
+    "MemberRemoved(uint256,uint256,uint256)"(
+      groupId?: BigNumberish | null,
+      identityCommitment?: null,
+      root?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber, BigNumber],
+      { groupId: BigNumber; identityCommitment: BigNumber; root: BigNumber }
+    >;
+
+    "NullifierHashAdded(uint256)"(
+      nullifierHash?: null
+    ): TypedEventFilter<[BigNumber], { nullifierHash: BigNumber }>;
+
+    NullifierHashAdded(
+      nullifierHash?: null
+    ): TypedEventFilter<[BigNumber], { nullifierHash: BigNumber }>;
+
+    "ProposalCreated(uint256,uint256,bytes32)"(
+      groupId?: BigNumberish | null,
+      proposalId?: null,
+      proposalName?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber, string],
+      { groupId: BigNumber; proposalId: BigNumber; proposalName: string }
+    >;
+
+    ProposalCreated(
+      groupId?: BigNumberish | null,
+      proposalId?: null,
+      proposalName?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber, string],
+      { groupId: BigNumber; proposalId: BigNumber; proposalName: string }
+    >;
+
+    "VoteCast(uint256,uint256,bytes32)"(
+      groupId?: BigNumberish | null,
+      proposalId?: null,
+      signal?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber, string],
+      { groupId: BigNumber; proposalId: BigNumber; signal: string }
+    >;
+
+    VoteCast(
+      groupId?: BigNumberish | null,
+      proposalId?: null,
+      signal?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber, string],
+      { groupId: BigNumber; proposalId: BigNumber; signal: string }
+    >;
+  };
 
   estimateGas: {
-    greet(overrides?: CallOverrides): Promise<BigNumber>;
-
-    setGreeting(
-      _greeting: string,
+    addMember(
+      groupId: BigNumberish,
+      identityCommitment: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    castVote(
+      proposalId: BigNumberish,
+      vote: BytesLike,
+      nullifierHash: BigNumberish,
+      groupId: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    createDao(
+      daoName: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    createProposal(
+      proposalName: BytesLike,
+      nullifierHash: BigNumberish,
+      groupId: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    daoGroups(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getDepth(
+      groupId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getNumberOfLeaves(
+      groupId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getRoot(
+      groupId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    proposalsPerGroup(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    removeMember(
+      groupId: BigNumberish,
+      identityCommitment: BigNumberish,
+      proofSiblings: BigNumberish[],
+      proofPathIndices: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    treeDepth(overrides?: CallOverrides): Promise<BigNumber>;
+
+    verifier(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    greet(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    setGreeting(
-      _greeting: string,
+    addMember(
+      groupId: BigNumberish,
+      identityCommitment: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    castVote(
+      proposalId: BigNumberish,
+      vote: BytesLike,
+      nullifierHash: BigNumberish,
+      groupId: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    createDao(
+      daoName: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    createProposal(
+      proposalName: BytesLike,
+      nullifierHash: BigNumberish,
+      groupId: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    daoGroups(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getDepth(
+      groupId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getNumberOfLeaves(
+      groupId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getRoot(
+      groupId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    proposalsPerGroup(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    removeMember(
+      groupId: BigNumberish,
+      identityCommitment: BigNumberish,
+      proofSiblings: BigNumberish[],
+      proofPathIndices: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    treeDepth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    verifier(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }
