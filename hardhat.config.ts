@@ -7,14 +7,14 @@ import '@typechain/hardhat';
 import 'hardhat-gas-reporter';
 import 'solidity-coverage';
 
-import './tasks/deploy';
+// import './tasks/deploy';
 
 dotenv.config();
 
 const config: HardhatUserConfig = {
   solidity: '0.8.4',
   paths: {
-    artifacts: './frontend/src/artifacts'
+    artifacts: './frontend-next/artifacts'
   },
   networks: {
     hardhat: {

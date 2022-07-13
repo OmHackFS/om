@@ -1,0 +1,13 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/api/hello": "pages/api/hello.js",
+  "/dao_data_page": "pages/dao_data_page.html",
+  "/": "pages/index.html",
+  "/data_input_page": "pages/data_input_page.html",
+  "/proposal_info_page": "pages/proposal_info_page.html",
+  "/proposals_page": "pages/proposals_page.html",
+  "/proposal_input_page": "pages/proposal_input_page.html",
+  "/_document": "pages/_document.js",
+  "/404": "pages/404.html"
+}

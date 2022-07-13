@@ -1,115 +1,8 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/ericle/Projects/ChainShot/chainshot-final-project/contracts/Greeter.sol": {
-      "lastModificationDate": 1655589596335,
-      "contentHash": "54c28c84e5277b35b8c8329ce9755dae",
-      "sourceName": "contracts/Greeter.sol",
-      "solcConfig": {
-        "version": "0.8.4",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "hardhat/console.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "Greeter"
-      ]
-    },
-    "/Users/ericle/Projects/ChainShot/chainshot-final-project/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1655589938869,
-      "contentHash": "cc4777addd464ea56fa35b1c45df0591",
-      "sourceName": "hardhat/console.sol",
-      "solcConfig": {
-        "version": "0.8.4",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">=0.4.22 <0.9.0"
-      ],
-      "artifacts": [
-        "console"
-      ]
-    },
-    "/Users/ericle/Projects/ChainShot/chainshot-final-project/contracts/AirBlock.sol": {
-      "lastModificationDate": 1656294313804,
-      "contentHash": "a28a964e80b6c9e6964169371696be15",
-      "sourceName": "contracts/AirBlock.sol",
-      "solcConfig": {
-        "version": "0.8.4",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "AirBlock"
-      ]
-    },
     "/Users/ericle/Projects/HackFS/om/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1657663969932,
+      "lastModificationDate": 1657688382455,
       "contentHash": "cc4777addd464ea56fa35b1c45df0591",
       "sourceName": "hardhat/console.sol",
       "solcConfig": {
@@ -184,7 +77,7 @@
       ]
     },
     "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/interfaces/IVerifier.sol": {
-      "lastModificationDate": 1657506330047,
+      "lastModificationDate": 1657688383589,
       "contentHash": "47b3f60f5f66b5dc2171c65069aa613a",
       "sourceName": "@semaphore-protocol/contracts/interfaces/IVerifier.sol",
       "solcConfig": {
@@ -219,7 +112,7 @@
       ]
     },
     "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreCore.sol": {
-      "lastModificationDate": 1657506330046,
+      "lastModificationDate": 1657688383587,
       "contentHash": "2fedc7b412a294da55dc310bf57e5d33",
       "sourceName": "@semaphore-protocol/contracts/base/SemaphoreCore.sol",
       "solcConfig": {
@@ -257,7 +150,7 @@
       ]
     },
     "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreGroups.sol": {
-      "lastModificationDate": 1657506330046,
+      "lastModificationDate": 1657688383588,
       "contentHash": "5fa56788d80bc9b5079df66b08e6011f",
       "sourceName": "@semaphore-protocol/contracts/base/SemaphoreGroups.sol",
       "solcConfig": {
@@ -297,7 +190,7 @@
       ]
     },
     "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/interfaces/ISemaphoreCore.sol": {
-      "lastModificationDate": 1657506330046,
+      "lastModificationDate": 1657688383589,
       "contentHash": "f079ffeeed111ca1902c16ae9d700699",
       "sourceName": "@semaphore-protocol/contracts/interfaces/ISemaphoreCore.sol",
       "solcConfig": {
@@ -332,7 +225,7 @@
       ]
     },
     "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreConstants.sol": {
-      "lastModificationDate": 1657506330046,
+      "lastModificationDate": 1657688383587,
       "contentHash": "caba466e18c3dd31e4b888dc74e2665b",
       "sourceName": "@semaphore-protocol/contracts/base/SemaphoreConstants.sol",
       "solcConfig": {
@@ -365,7 +258,7 @@
       "artifacts": []
     },
     "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/interfaces/ISemaphoreGroups.sol": {
-      "lastModificationDate": 1657506330047,
+      "lastModificationDate": 1657688383589,
       "contentHash": "86706d107a94e2b45d895360a167f1b4",
       "sourceName": "@semaphore-protocol/contracts/interfaces/ISemaphoreGroups.sol",
       "solcConfig": {
@@ -400,7 +293,7 @@
       ]
     },
     "/Users/ericle/Projects/HackFS/om/node_modules/@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol": {
-      "lastModificationDate": 1657506330123,
+      "lastModificationDate": 1657688383874,
       "contentHash": "e9fd9c7db00afd5cc323d9d29d155e84",
       "sourceName": "@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol",
       "solcConfig": {
@@ -437,7 +330,7 @@
       ]
     },
     "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/utils/Context.sol": {
-      "lastModificationDate": 1657506330046,
+      "lastModificationDate": 1657688383557,
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
@@ -472,7 +365,7 @@
       ]
     },
     "/Users/ericle/Projects/HackFS/om/node_modules/@zk-kit/incremental-merkle-tree.sol/contracts/Hashes.sol": {
-      "lastModificationDate": 1657506330123,
+      "lastModificationDate": 1657688383874,
       "contentHash": "fd04704145cf2784b81cec317a522243",
       "sourceName": "@zk-kit/incremental-merkle-tree.sol/contracts/Hashes.sol",
       "solcConfig": {

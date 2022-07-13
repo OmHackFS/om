@@ -8,7 +8,6 @@ export type { ISemaphoreGroups } from "./ISemaphoreGroups";
 export type { IVerifier } from "./IVerifier";
 export type { PoseidonT3 } from "./PoseidonT3";
 export type { PoseidonT6 } from "./PoseidonT6";
-export type { AirBlock } from "./AirBlock";
 export type { Greeter } from "./Greeter";
 export type { Om } from "./Om";
 
@@ -19,6 +18,5 @@ export { ISemaphoreGroups__factory } from "./factories/ISemaphoreGroups__factory
 export { IVerifier__factory } from "./factories/IVerifier__factory";
 export { PoseidonT3__factory } from "./factories/PoseidonT3__factory";
 export { PoseidonT6__factory } from "./factories/PoseidonT6__factory";
-export { AirBlock__factory } from "./factories/AirBlock__factory";
 export { Greeter__factory } from "./factories/Greeter__factory";
 export { Om__factory } from "./factories/Om__factory";

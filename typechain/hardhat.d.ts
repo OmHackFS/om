@@ -41,10 +41,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.PoseidonT6__factory>;
     getContractFactory(
-      name: "AirBlock",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.AirBlock__factory>;
-    getContractFactory(
       name: "Greeter",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Greeter__factory>;
@@ -88,11 +84,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.PoseidonT6>;
-    getContractAt(
-      name: "AirBlock",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.AirBlock>;
     getContractAt(
       name: "Greeter",
       address: string,

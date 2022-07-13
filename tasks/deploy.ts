@@ -2,13 +2,13 @@ import '@nomiclabs/hardhat-waffle';
 import { task } from 'hardhat/config';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
-task('deploy', 'Deploy Greeter contract').setAction(
-  async (_, hre: HardhatRuntimeEnvironment): Promise<void> => {
-    const Greeter = await hre.ethers.getContractFactory('Greeter');
-    const greeter = await Greeter.deploy('Hello, Hardhat second time!');
+task('deploy', 'Deploy Om contract').setAction(
+  // async (_, hre: HardhatRuntimeEnvironment): Promise<void> => {
+  //   const Om = await hre.ethers.getContractFactory('Om');
+  //   // const om = await Om.deploy();
 
-    await greeter.deployed();
+  //   // await om.deployed();
 
-    console.log('Greeter deployed to:', greeter.address);
-  }
+  //   // console.log('Om deployed to:', om.address);
+  // }
 );
