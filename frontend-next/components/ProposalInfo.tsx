@@ -168,10 +168,10 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                   Proposal {proposalId} - Should Avatar Continue?
                 </h1>
                 <p className="text-sm font-medium text-gray-500">
-                  Applied by{" "}
+                  Applied by
                   <a href="#" className="text-gray-900">
                     Sub-Group 1
-                  </a>{" "}
+                  </a>
                   on <time dateTime="2020-08-25">August 25, 2020</time>
                 </p>
               </div>
