@@ -3,12 +3,12 @@ import { task } from 'hardhat/config';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 task('deploy', 'Deploy Om contract').setAction(
-  // async (_, hre: HardhatRuntimeEnvironment): Promise<void> => {
-  //   const Om = await hre.ethers.getContractFactory('Om');
-  //   // const om = await Om.deploy();
+  async (_, hre: HardhatRuntimeEnvironment): Promise<void> => {
+    // const Om = await hre.ethers.getContractFactory('Om');
+    // const om = await Om.deploy();
 
-  //   // await om.deployed();
+    // await om.deployed();
 
-  //   // console.log('Om deployed to:', om.address);
-  // }
+    // console.log('Om deployed to:', om.address);
+  }
 );
