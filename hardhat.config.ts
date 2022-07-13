@@ -14,7 +14,7 @@ dotenv.config();
 const config: HardhatUserConfig = {
   solidity: '0.8.4',
   paths: {
-    artifacts: './frontend/src/artifacts'
+    artifacts: './frontend-next/artifacts'
   },
   networks: {
     hardhat: {
