@@ -1,6 +1,6 @@
 const nextConfig = {
   reactStrictMode: true,
-  distDir: 'public',
+  // distDir: 'build',
   webpack: function (config, options) {
     if (!options.isServer) {
       config.resolve.fallback.fs = false;
