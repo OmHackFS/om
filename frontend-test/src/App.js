@@ -9,6 +9,7 @@ const client = axios.create({
 const App = () => {
 
   // App state variables
+  const [proposals, setProposals] = useState([]);
   const [items, setItems] = useState([]);
   const [showItemHeader, setShowItemHeader] = useState(false);
   // Form inputs
@@ -18,11 +19,16 @@ const App = () => {
   const [description, setDescription] = useState("");
   const [imageUri, setImageUri] = useState("");
 
+  async function getProposals() {
+    const response = await client.get('proposals');
+    setProposals(response.data);
+  }
+  
   async function getItems() {
-    const response = await client.get('items');
+    const response = await client.get('scr/screenplays');
     setItems(response.data);
     setShowItemHeader(true);
-  }
+  } 
 
   async function handleSubmit(e) {
     // Don't post to a new page
@@ -47,11 +53,34 @@ const App = () => {
     setShowItemHeader(false);
   }
 
+  function hex2a(hexx) {     
+    let hex = hexx.toString();
+    let str = '';     
+    for (var i = 0; i < hex.length; i += 2)         
+      str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));     
+    return str.replace(); 
+  }
+
   return (
     <div className="app">
     <h1>Data DAO (oh wow) 🤩</h1>
-    <h2 className="mb-4 mt-4">Upload file</h2>
-    
+    <h2 className="mt-4 mb-4">Proposals</h2>
+    <button className="btn btn-primary mt-4 mb-4" onClick={getProposals}>Get Proposals</button>
+    <div className="card-group">
+    {proposals.map((item) => {
+       return (                  
+            <div className="card mb-4" key={item.id} style={{maxWidth:'20rem'}}>
+              <div className="card-body">
+                <h5 className="card-title">{hex2a(item.proposalName)}</h5>
+                <p className="card-text">{item.startDate}</p>
+                <p className="card-text">{item.endDate}</p>      
+                <p className="card-text">{hex2a(item.fileUri)}</p>             
+              </div>              
+            </div>   
+       );
+    })}
+    </div>
+    <h2 className="mb-4 mt-4">Upload file</h2>    
     <form onSubmit={handleSubmit} style={{'width':'30rem'}}>
       <div className="mb-3">
         <input id="fileForUpload" type="file" className="form-control form-control-lg" onChange={(e) => {console.log(e.target.files[0]); setFileForUpload(e.target.files[0]);}} />
@@ -76,7 +105,7 @@ const App = () => {
     </form>
     
     <hr className="mt-4 mb-0" />
-    <button className="btn btn-primary mt-4" onClick={getItems}>Get Items</button>
+    <button className="btn btn-primary mt-4" onClick={getItems}>Get Screenplays</button>
     {showItemHeader && <h2 className="mt-4 mb-4">Screenplays 🎥</h2>}
     <div className="card-group">
     {items.map((item) => {

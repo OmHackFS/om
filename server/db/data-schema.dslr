@@ -1,0 +1,28 @@
+Table proposals {
+  id varchar [pk]
+  created_at datetime [default: `now()`]
+  title varchar  
+  start_date datetime [default: `now()`]
+  end_date datetime
+  description varchar
+  link varchar
+  funds_requested int
+}
+
+Table dd_med_sessions {
+  id varchar [pk]
+  created_at datetime [default: `now()`]
+  title varchar
+  start_date datetime
+  description varchar
+  doctor_id int [ref: > dd_med_doctors.id]
+}
+
+Table dd_med_doctors {
+  id varchar [pk]
+  created_at datetime [default: `now()`]
+  first_name varchar
+  last_name varchar
+  email varchar
+  phone varchar
+}
