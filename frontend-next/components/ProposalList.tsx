@@ -1,7 +1,25 @@
 import { proposals } from "./mocks/proposals";
 import Link from "next/link";
+import axios from "axios";
+import { useState } from 'react';
 
 export const ProposalList = () => {
+
+  const [proposals, setProposals] = useState([]);
+
+
+    const client = axios.create({
+      baseURL: "http://localhost:3030/"// "https://data-dao-api.vercel.app/" 
+    });
+  
+    async function getProposals() {
+      const response = await client.get('proposals');
+      setProposals(response.data);
+    }
+
+
+
+
   return (
     <div className="px-4 sm:px-6 lg:px-8 pt-7">
       <div className="sm:flex sm:items-center">
