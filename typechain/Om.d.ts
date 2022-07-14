@@ -138,7 +138,7 @@ interface OmInterface extends ethers.utils.Interface {
     "MemberAdded(uint256)": EventFragment;
     "MemberRemoved(uint256)": EventFragment;
     "NullifierHashAdded(uint256)": EventFragment;
-    "ProposalCreated(uint256,uint256,bytes32)": EventFragment;
+    "ProposalCreated(uint256,uint256,bytes32,uint256,uint256,bytes32)": EventFragment;
     "VoteCast(uint256,uint256,bytes32)": EventFragment;
   };
 
@@ -192,10 +192,13 @@ export type NullifierHashAddedEvent = TypedEvent<
 >;
 
 export type ProposalCreatedEvent = TypedEvent<
-  [BigNumber, BigNumber, string] & {
+  [BigNumber, BigNumber, string, BigNumber, BigNumber, string] & {
     groupId: BigNumber;
     proposalId: BigNumber;
     proposalName: string;
+    startDate: BigNumber;
+    endDate: BigNumber;
+    fileUri: string;
   }
 >;
 
@@ -605,22 +608,42 @@ export class Om extends BaseContract {
       nullifierHash?: null
     ): TypedEventFilter<[BigNumber], { nullifierHash: BigNumber }>;
 
-    "ProposalCreated(uint256,uint256,bytes32)"(
+    "ProposalCreated(uint256,uint256,bytes32,uint256,uint256,bytes32)"(
       groupId?: BigNumberish | null,
       proposalId?: null,
-      proposalName?: null
+      proposalName?: null,
+      startDate?: null,
+      endDate?: null,
+      fileUri?: null
     ): TypedEventFilter<
-      [BigNumber, BigNumber, string],
-      { groupId: BigNumber; proposalId: BigNumber; proposalName: string }
+      [BigNumber, BigNumber, string, BigNumber, BigNumber, string],
+      {
+        groupId: BigNumber;
+        proposalId: BigNumber;
+        proposalName: string;
+        startDate: BigNumber;
+        endDate: BigNumber;
+        fileUri: string;
+      }
     >;
 
     ProposalCreated(
       groupId?: BigNumberish | null,
       proposalId?: null,
-      proposalName?: null
+      proposalName?: null,
+      startDate?: null,
+      endDate?: null,
+      fileUri?: null
     ): TypedEventFilter<
-      [BigNumber, BigNumber, string],
-      { groupId: BigNumber; proposalId: BigNumber; proposalName: string }
+      [BigNumber, BigNumber, string, BigNumber, BigNumber, string],
+      {
+        groupId: BigNumber;
+        proposalId: BigNumber;
+        proposalName: string;
+        startDate: BigNumber;
+        endDate: BigNumber;
+        fileUri: string;
+      }
     >;
 
     "VoteCast(uint256,uint256,bytes32)"(

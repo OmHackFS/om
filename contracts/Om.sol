@@ -45,6 +45,14 @@ contract Om is SemaphoreCore, SemaphoreGroups {
         verifier = _verifier;
     }
 
+    modifier onlyAdmin(uint256 groupId) {
+        require(
+            daoGroups[groupId].admin == msg.sender,
+            "Only group administrator can call this function."
+        );
+        _;
+    }
+
     function createDao(bytes32 daoName) public {
         uint256 groupId = hashDaoName(daoName);
 
@@ -59,11 +67,10 @@ contract Om is SemaphoreCore, SemaphoreGroups {
         emit DaoCreated(groupId, daoName);
     }
 
-    function addMember(uint256 groupId, uint256 identityCommitment) public {
-        require(
-            msg.sender == daoGroups[groupId].admin,
-            "Only group admin may add members"
-        );
+    function addMember(uint256 groupId, uint256 identityCommitment)
+        public
+        onlyAdmin(groupId)
+    {
         _addMember(groupId, identityCommitment);
         daoGroups[groupId].members++;
     }
@@ -73,11 +80,7 @@ contract Om is SemaphoreCore, SemaphoreGroups {
         uint256 identityCommitment,
         uint256[] calldata proofSiblings,
         uint8[] calldata proofPathIndices
-    ) public {
-        require(
-            msg.sender == daoGroups[groupId].admin,
-            "Only group admin may remove members"
-        );
+    ) public onlyAdmin(groupId) {
         _removeMember(
             groupId,
             identityCommitment,
@@ -113,11 +116,18 @@ contract Om is SemaphoreCore, SemaphoreGroups {
         daoGroups[groupId].nextProposal++;
 
         // Temporary variables (needed to emit full event)
-        bytes32 fileUri = "http://example.ipfs"; 
+        bytes32 fileUri = "http://example.ipfs";
         uint256 startDate = block.timestamp;
         uint256 endDate = startDate + 3 days;
 
-        emit ProposalCreated(groupId, proposalId, proposalName, startDate, endDate, fileUri);
+        emit ProposalCreated(
+            groupId,
+            proposalId,
+            proposalName,
+            startDate,
+            endDate,
+            fileUri
+        );
     }
 
     function castVote(
