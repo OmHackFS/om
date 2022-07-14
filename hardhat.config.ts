@@ -9,7 +9,7 @@ import 'solidity-coverage';
 
 import './tasks/deploy';
 
-import 'hardhat-dependency-compiler';
+// import 'hardhat-dependency-compiler';
 
 dotenv.config();
 
@@ -43,10 +43,10 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY
   }, 
-  dependencyCompiler: {
-    /** Allows Hardhat to compile the external Verifier.sol contract. */
-    paths: ["@semaphore-protocol/contracts/verifiers/Verifier20.sol"]
-},
+//   dependencyCompiler: {
+//     /** Allows Hardhat to compile the external Verifier.sol contract. */
+//     paths: ["@semaphore-protocol/contracts/verifiers/Verifier20.sol"]
+// },
 };
 
 export default config;
