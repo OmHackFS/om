@@ -14,7 +14,10 @@ contract Om is SemaphoreCore, SemaphoreGroups {
     event ProposalCreated(
         uint256 indexed groupId,
         uint256 proposalId,
-        bytes32 proposalName
+        bytes32 proposalName,
+        uint256 startDate,
+        uint256 endDate,
+        bytes32 fileUri
     );
 
     uint8 public treeDepth;
@@ -109,7 +112,12 @@ contract Om is SemaphoreCore, SemaphoreGroups {
         proposalsPerGroup[groupId][proposalId] = proposal;
         daoGroups[groupId].nextProposal++;
 
-        emit ProposalCreated(groupId, proposalId, proposalName);
+        // Temporary variables (needed to emit full event)
+        bytes32 fileUri = "http://example.ipfs"; 
+        uint256 startDate = block.timestamp;
+        uint256 endDate = startDate + 3 days;
+
+        emit ProposalCreated(groupId, proposalId, proposalName, startDate, endDate, fileUri);
     }
 
     function castVote(

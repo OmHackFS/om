@@ -5,8 +5,17 @@ import express from 'express';
 import cors from "cors"; 
 import { Web3Storage, File, getFilesFromPath } from 'web3.storage';
 import uploadFile from './upload.js';
+import { createClient } from '@urql/core';
+import pkg from '@apollo/client';
+const { ApolloClient, InMemoryCache, HttpLink, gql } = pkg;
+import fetch from 'cross-fetch';
 
-const DATABASE_FILE_PATH = './database.json';
+const GRAPH_API_URL = 'https://api.thegraph.com/subgraphs/name/richwarner/om-mumbai';
+const DB_DD_MED_DOCTORS = './db/dd_med_doctors.json';
+const DB_DD_MED_SESSIONS = './db/dd_med_sessions.json';
+const DB_DD_SCR_SCREENPLAYS = './db/dd_scr_screenplays.json';
+// const DB_PROPOSALS = './db/proposals.json';
+
 const PORT = process.env.PORT || 3030; // default port to listen
 
 // Initialize server
@@ -17,18 +26,90 @@ const app = express();
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true })); // app.use(express.json());
 
-// app.get('/', (req, res) => {
-//   const randomId = `${Math.random()}`.slice(2);
-//   const path = `item/${randomId}`;
-//   res.setHeader('Content-Type', 'text/html');
-//   res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-//   res.end(`Hello! Fetch one item: <a href="${path}">${path}</a>`);
-// });
+// Get all proposals
+app.get('/proposals', async (req, res) => {
+    const eventQuery = `{ 
+        proposalCreatedEvents { 
+            id 
+            count 
+            groupId 
+            proposalId 
+            proposalName 
+            startDate 
+            endDate 
+            fileUri 
+        }}`;
+    let data = "";
+    const client = new ApolloClient({
+        link: new HttpLink({uri: GRAPH_API_URL, fetch}),
+        cache: new InMemoryCache(),
+    })
+    try {
+      const result = await client.query({ query: gql(eventQuery) });
+      data = result.data.proposalCreatedEvents;
+    } catch (err) {
+      console.log(err);
+    } 
+    res.json(data);
+}); 
 
-// Get all items in the database
-app.get('/items', (req, res) => {
-    const database = JSON.parse(fs.readFileSync(DATABASE_FILE_PATH));
-    res.json(database);
+// Get all votes
+app.get('/votes', async (req, res) => {
+    const eventQuery = `{
+        voteCastEvents {
+            id
+            count
+            groupId
+            proposalId
+            signal
+      }}`;
+      let data = "";
+      const client = new ApolloClient({
+          link: new HttpLink({uri: GRAPH_API_URL, fetch}),
+          cache: new InMemoryCache(),
+      })
+      try {
+        const result = await client.query({ query: gql(eventQuery) });
+        data = result.data.voteCastEvents;
+      } catch (err) {
+        console.log(err);
+      } 
+      res.json(data)
+});
+
+// Get all doctors in medical category
+app.get('/med/doctors', (req, res) => {
+    const data = JSON.parse(fs.readFileSync(DB_DD_MED_DOCTORS));
+    res.json(data);
+});
+
+// Get all sessions in medical category, with doctor data joined
+app.get('/med/sessions', (req, res) => {
+    const sessions = JSON.parse(fs.readFileSync(DB_DD_MED_SESSIONS));
+    res.json(sessions);
+    const doctors = JSON.parse(fs.readFileSync(DB_DD_MED_DOCTORS));
+    // Map doctor data to medical session
+    const data = sessions.map( session => {
+        console.log(doctors.find(doctor => {doctor.id === session.doctor_id;}));
+        const matched = doctors.find(doctor => {console.log(doctor.id); console.log(session.doctor_id); console.log(doctor.id === session.doctor_id); doctor.id === session.doctor_id;});
+        console.log(matched);
+        if(matched) return {...session, ...matched};
+        else return null;
+    });
+    res.json(data);
+});
+
+// Get all screenplays in screenplay category
+app.get('/scr/screenplays', (req, res) => {
+    const data = JSON.parse(fs.readFileSync(DB_DD_SCR_SCREENPLAYS));
+    res.json(data);
+});
+
+// Get proposal by id
+app.get('/proposal/:id', (req, res) => {
+    const { id } = req.params;
+    const data = JSON.parse(fs.readFileSync(DB_PROPOSALS));
+    res.json(getObjectById(data, id));
   });
 
 // Not yet implemented
@@ -37,9 +118,9 @@ app.get('/item/:itemId', (req, res) => {
   res.json({ itemId });
 });
 
-// Add an item: Push the file to web.storage, 
+// Add a screenplay: Push the file to web.storage, 
 //   grab the cid, and then add the item and metadata to our internal database
-app.post("/item", async function (req, res) {
+app.post("/screenplay", async function (req, res) {
     
     // Handle file upload using multer library
     try {
@@ -110,6 +191,11 @@ app.post("/item", async function (req, res) {
     
     res.send(`Item saved with id: ${newId}`); 
 });
+
+// Helper functions
+function getObjectById(objects, id) {
+    return objects.find(item => item.id === id);
+}
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`);

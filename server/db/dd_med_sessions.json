@@ -1,0 +1,18 @@
+[
+  {
+    "id": "5933a2f4-0928-40ab-9cf6-f028d6e512b8",
+    "created_at": 1657643300238,
+    "title": "Covid test",
+    "start_date": 1657643300238,
+    "description": "Tested patient Silva Costa for covid with negative result",
+    "doctor_id": "5934b2f4-0928-40ab-9cf6-f028d6e512b3"
+  },
+  {
+    "id": "3033a2f4-0928-40ab-9cf6-f028d6e512b0",
+    "created_at": 1657643604219,
+    "title": "Diabetes screening",
+    "start_date": 1657643604208,
+    "description": "Screened patient Santos Gomes for Type II diabetes.",
+    "doctor_id": "5934b2f4-0928-40ab-9cf6-f028d6e512b3"
+  }
+]
