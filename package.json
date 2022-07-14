@@ -34,14 +34,14 @@
     "ethers": "^5.0.0",
     "hardhat": "^2.10.0",
     "hardhat-gas-reporter": "^1.0.4",
+    "next": "^12.2.2",
     "prettier": "^2.3.2",
     "prettier-plugin-solidity": "^1.0.0-beta.13",
     "solhint": "^3.3.6",
     "solidity-coverage": "^0.7.16",
     "ts-node": "^10.1.0",
     "typechain": "^5.1.2",
-    "typescript": "^4.5.2",
-    "next": "^12.2.2"
+    "typescript": "^4.5.2"
   },
   "scripts": {
     "compile": "yarn && yarn hardhat compile",
