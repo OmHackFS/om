@@ -106,11 +106,41 @@ app.get('/scr/screenplays', (req, res) => {
 });
 
 // Get proposal by id
-app.get('/proposal/:id', (req, res) => {
+
+app.get('/proposal/:id', async (req, res) => {
     const { id } = req.params;
-    const data = JSON.parse(fs.readFileSync(DB_PROPOSALS));
+    const eventQuery = `{ 
+        proposalCreatedEvents { 
+            id 
+            count 
+            groupId 
+            proposalId 
+            proposalName 
+            startDate 
+            endDate 
+            fileUri 
+        }}`;
+
+    let data = "";
+    const client = new ApolloClient({
+        link: new HttpLink({uri: GRAPH_API_URL, fetch}),
+        cache: new InMemoryCache(),
+    })
+    try {
+      const result = await client.query({ query: gql(eventQuery) });
+      data = result.data.proposalCreatedEvents;
+    } catch (err) {
+      console.log(err);
+    } 
     res.json(getObjectById(data, id));
-  });
+}); 
+
+   
+// app.get('/proposal/:id', (req, res) => {
+//     const { id } = req.params;
+//     const data = JSON.parse(fs.readFileSync(DB_PROPOSALS));
+//     res.json(getObjectById(data, id));
+//   });
 
 // Not yet implemented
 app.get('/item/:itemId', (req, res) => {
