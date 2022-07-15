@@ -84,7 +84,7 @@ export const GenerateProofBody = () => {
 
   return (
     <div className="flex flex-col mb-20">
-      <div className="w-full h-64">
+      <div className="h-64 max-w-lg overflow-x-auto">
         <div>Trapdoor: </div>
         <p>{trapdoor?.toString()}</p>
         <div className="pt-2">Nullifier: </div>

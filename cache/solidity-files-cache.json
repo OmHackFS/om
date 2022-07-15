@@ -1,8 +1,41 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/Colleen/Documents/chainshot/om/contracts/Om.sol": {
-      "lastModificationDate": 1657819071716,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreConstants.sol": {
+      "lastModificationDate": 1657688383587,
+      "contentHash": "caba466e18c3dd31e4b888dc74e2665b",
+      "sourceName": "@semaphore-protocol/contracts/base/SemaphoreConstants.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": []
+    },
+    "/Users/ericle/Projects/HackFS/om/contracts/Om.sol": {
+      "lastModificationDate": 1657860869705,
       "contentHash": "b352aa8881a1ae67e9bf4e321cd5b7b4",
       "sourceName": "contracts/Om.sol",
       "solcConfig": {
@@ -41,8 +74,8 @@
         "Om"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1657816610269,
+    "/Users/ericle/Projects/HackFS/om/node_modules/hardhat/console.sol": {
+      "lastModificationDate": 1657688382455,
       "contentHash": "cc4777addd464ea56fa35b1c45df0591",
       "sourceName": "hardhat/console.sol",
       "solcConfig": {
@@ -76,8 +109,8 @@
         "console"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@semaphore-protocol/contracts/interfaces/IVerifier.sol": {
-      "lastModificationDate": 1657818117689,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/interfaces/IVerifier.sol": {
+      "lastModificationDate": 1657688383589,
       "contentHash": "47b3f60f5f66b5dc2171c65069aa613a",
       "sourceName": "@semaphore-protocol/contracts/interfaces/IVerifier.sol",
       "solcConfig": {
@@ -111,8 +144,8 @@
         "IVerifier"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreCore.sol": {
-      "lastModificationDate": 1657818117619,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreCore.sol": {
+      "lastModificationDate": 1657688383587,
       "contentHash": "2fedc7b412a294da55dc310bf57e5d33",
       "sourceName": "@semaphore-protocol/contracts/base/SemaphoreCore.sol",
       "solcConfig": {
@@ -149,8 +182,8 @@
         "SemaphoreCore"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreGroups.sol": {
-      "lastModificationDate": 1657818117609,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreGroups.sol": {
+      "lastModificationDate": 1657688383588,
       "contentHash": "5fa56788d80bc9b5079df66b08e6011f",
       "sourceName": "@semaphore-protocol/contracts/base/SemaphoreGroups.sol",
       "solcConfig": {
@@ -189,8 +222,8 @@
         "SemaphoreGroups"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@semaphore-protocol/contracts/interfaces/ISemaphoreCore.sol": {
-      "lastModificationDate": 1657818117661,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/interfaces/ISemaphoreCore.sol": {
+      "lastModificationDate": 1657688383589,
       "contentHash": "f079ffeeed111ca1902c16ae9d700699",
       "sourceName": "@semaphore-protocol/contracts/interfaces/ISemaphoreCore.sol",
       "solcConfig": {
@@ -224,41 +257,8 @@
         "ISemaphoreCore"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreConstants.sol": {
-      "lastModificationDate": 1657818117624,
-      "contentHash": "caba466e18c3dd31e4b888dc74e2665b",
-      "sourceName": "@semaphore-protocol/contracts/base/SemaphoreConstants.sol",
-      "solcConfig": {
-        "version": "0.8.4",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.4"
-      ],
-      "artifacts": []
-    },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@semaphore-protocol/contracts/interfaces/ISemaphoreGroups.sol": {
-      "lastModificationDate": 1657818117675,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/interfaces/ISemaphoreGroups.sol": {
+      "lastModificationDate": 1657688383589,
       "contentHash": "86706d107a94e2b45d895360a167f1b4",
       "sourceName": "@semaphore-protocol/contracts/interfaces/ISemaphoreGroups.sol",
       "solcConfig": {
@@ -292,8 +292,8 @@
         "ISemaphoreGroups"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol": {
-      "lastModificationDate": 1657815149549,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol": {
+      "lastModificationDate": 1657688383874,
       "contentHash": "e9fd9c7db00afd5cc323d9d29d155e84",
       "sourceName": "@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol",
       "solcConfig": {
@@ -329,8 +329,8 @@
         "IncrementalBinaryTree"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/utils/Context.sol": {
-      "lastModificationDate": 1657815149538,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/utils/Context.sol": {
+      "lastModificationDate": 1657688383557,
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
@@ -364,8 +364,8 @@
         "Context"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@zk-kit/incremental-merkle-tree.sol/contracts/Hashes.sol": {
-      "lastModificationDate": 1657815149548,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@zk-kit/incremental-merkle-tree.sol/contracts/Hashes.sol": {
+      "lastModificationDate": 1657688383874,
       "contentHash": "fd04704145cf2784b81cec317a522243",
       "sourceName": "@zk-kit/incremental-merkle-tree.sol/contracts/Hashes.sol",
       "solcConfig": {
@@ -400,8 +400,8 @@
         "PoseidonT6"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/governance/utils/Votes.sol": {
-      "lastModificationDate": 1657815149814,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/governance/utils/Votes.sol": {
+      "lastModificationDate": 1657688386325,
       "contentHash": "33fb580069b232a436ee825012df574d",
       "sourceName": "@openzeppelin/contracts/governance/utils/Votes.sol",
       "solcConfig": {
@@ -441,8 +441,8 @@
         "Votes"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/utils/Counters.sol": {
-      "lastModificationDate": 1657815149539,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/utils/Counters.sol": {
+      "lastModificationDate": 1657688383557,
       "contentHash": "74654e3ae5d7f39555055dfe244dab7a",
       "sourceName": "@openzeppelin/contracts/utils/Counters.sol",
       "solcConfig": {
@@ -476,8 +476,8 @@
         "Counters"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/utils/Checkpoints.sol": {
-      "lastModificationDate": 1657815149534,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/utils/Checkpoints.sol": {
+      "lastModificationDate": 1657688383557,
       "contentHash": "6986896416b1f89cb9ddd3bafe0bf8d1",
       "sourceName": "@openzeppelin/contracts/utils/Checkpoints.sol",
       "solcConfig": {
@@ -514,8 +514,8 @@
         "Checkpoints"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol": {
-      "lastModificationDate": 1657815149541,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol": {
+      "lastModificationDate": 1657688386327,
       "contentHash": "161aae4dc1450371d0f324488f66a9cf",
       "sourceName": "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol",
       "solcConfig": {
@@ -551,8 +551,8 @@
         "EIP712"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/governance/utils/IVotes.sol": {
-      "lastModificationDate": 1657815149812,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/governance/utils/IVotes.sol": {
+      "lastModificationDate": 1657688386325,
       "contentHash": "a036d40989f21d08bb990e68d0088fa1",
       "sourceName": "@openzeppelin/contracts/governance/utils/IVotes.sol",
       "solcConfig": {
@@ -586,8 +586,8 @@
         "IVotes"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/utils/math/Math.sol": {
-      "lastModificationDate": 1657815149556,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/utils/math/Math.sol": {
+      "lastModificationDate": 1657688386326,
       "contentHash": "fb23b534599db16bb969dc6afcdc4261",
       "sourceName": "@openzeppelin/contracts/utils/math/Math.sol",
       "solcConfig": {
@@ -621,8 +621,8 @@
         "Math"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol": {
-      "lastModificationDate": 1657815149558,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol": {
+      "lastModificationDate": 1657688386326,
       "contentHash": "64e3f111253497ba40c2ad9bdf48a191",
       "sourceName": "@openzeppelin/contracts/utils/math/SafeCast.sol",
       "solcConfig": {
@@ -656,8 +656,8 @@
         "SafeCast"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/utils/cryptography/ECDSA.sol": {
-      "lastModificationDate": 1657815149542,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/utils/cryptography/ECDSA.sol": {
+      "lastModificationDate": 1657688386326,
       "contentHash": "1dfb7cf7c7e2edae73403d50a59cc967",
       "sourceName": "@openzeppelin/contracts/utils/cryptography/ECDSA.sol",
       "solcConfig": {
@@ -693,8 +693,8 @@
         "ECDSA"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
-      "lastModificationDate": 1657815149567,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
+      "lastModificationDate": 1657688383558,
       "contentHash": "cf46906c4035f51639a22265066a9e78",
       "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
       "solcConfig": {
@@ -728,8 +728,8 @@
         "Strings"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
-      "lastModificationDate": 1657815149637,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
+      "lastModificationDate": 1657688386345,
       "contentHash": "79ff1a7eb801a525aa315fb7a679eede",
       "sourceName": "@openzeppelin/contracts/token/ERC721/ERC721.sol",
       "solcConfig": {
@@ -771,8 +771,8 @@
         "ERC721"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
-      "lastModificationDate": 1657815149642,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
+      "lastModificationDate": 1657688386345,
       "contentHash": "ec99d946db3685a3630554aa6055bd7f",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
       "solcConfig": {
@@ -808,8 +808,8 @@
         "IERC721"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
-      "lastModificationDate": 1657815149644,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
+      "lastModificationDate": 1657688386345,
       "contentHash": "c22d4395e33763de693fd440c6fd10e1",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol",
       "solcConfig": {
@@ -843,8 +843,8 @@
         "IERC721Receiver"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
-      "lastModificationDate": 1657815149635,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
+      "lastModificationDate": 1657688388416,
       "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
       "solcConfig": {
@@ -880,8 +880,8 @@
         "IERC721Metadata"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/utils/Address.sol": {
-      "lastModificationDate": 1657815149525,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/utils/Address.sol": {
+      "lastModificationDate": 1657688383557,
       "contentHash": "c476b3895a94798b88a4bb97399e6dfe",
       "sourceName": "@openzeppelin/contracts/utils/Address.sol",
       "solcConfig": {
@@ -915,8 +915,8 @@
         "Address"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
-      "lastModificationDate": 1657815149546,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
+      "lastModificationDate": 1657688386345,
       "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
       "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
       "solcConfig": {
@@ -952,8 +952,8 @@
         "ERC165"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
-      "lastModificationDate": 1657815149551,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
+      "lastModificationDate": 1657688386346,
       "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
       "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
       "solcConfig": {
@@ -987,8 +987,8 @@
         "IERC165"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/token/ERC721/extensions/draft-ERC721Votes.sol": {
-      "lastModificationDate": 1657815149627,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/token/ERC721/extensions/draft-ERC721Votes.sol": {
+      "lastModificationDate": 1657688388417,
       "contentHash": "393b6576742f451e365d603310c83adf",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/draft-ERC721Votes.sol",
       "solcConfig": {
@@ -1025,8 +1025,8 @@
         "ERC721Votes"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/contracts/OmSbToken.sol": {
-      "lastModificationDate": 1657815104665,
+    "/Users/ericle/Projects/HackFS/om/contracts/OmSbToken.sol": {
+      "lastModificationDate": 1657860418096,
       "contentHash": "ec2eee0e3326c1ab0def65fece6337e9",
       "sourceName": "contracts/OmSbToken.sol",
       "solcConfig": {
@@ -1066,8 +1066,8 @@
         "OmSbToken"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
-      "lastModificationDate": 1657815149523,
+    "/Users/ericle/Projects/HackFS/om/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
+      "lastModificationDate": 1657688383555,
       "contentHash": "e436cea06129be2c73cda4b1acc848b5",
       "sourceName": "@openzeppelin/contracts/access/Ownable.sol",
       "solcConfig": {
@@ -1103,9 +1103,9 @@
         "Ownable"
       ]
     },
-    "/Users/Colleen/Documents/chainshot/om/contracts/OmVoting.sol": {
-      "lastModificationDate": 1657816552013,
-      "contentHash": "2c17fc8bc07212ba4610b632d994d577",
+    "/Users/ericle/Projects/HackFS/om/contracts/OmVoting.sol": {
+      "lastModificationDate": 1657860869705,
+      "contentHash": "00bf76938c2e243ed5f1377fbee85c98",
       "sourceName": "contracts/OmVoting.sol",
       "solcConfig": {
         "version": "0.8.4",

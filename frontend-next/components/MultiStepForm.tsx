@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { GenerateProofBody } from "./GenerateProofBody";
+import { SelectWalletBody } from "./SelectWalletBody";
+import { SendTransactionBody } from "./SendTransactionBody";
 
 export const MultiStepForm = () => {
   const [formStep, setFormStep] = useState(0);
@@ -54,6 +56,7 @@ export const MultiStepForm = () => {
                     <section>
                       <div className="flex flex-wrap mx-auto mb-5">
                         <a
+                          onClick={() => setFormStep(0)}
                           className={`${
                             formStep === 0
                               ? "text-indigo-500 bg-gray-100 border-indigo-500"
@@ -78,6 +81,7 @@ export const MultiStepForm = () => {
                         </a>
 
                         <a
+                          onClick={() => setFormStep(1)}
                           className={`${
                             formStep === 1
                               ? "text-indigo-500 bg-gray-100 border-indigo-500"
@@ -101,6 +105,7 @@ export const MultiStepForm = () => {
                           2. Select Wallet
                         </a>
                         <a
+                          onClick={() => setFormStep(2)}
                           className={`${
                             formStep === 2
                               ? "text-indigo-500 bg-gray-100 border-indigo-500"
@@ -125,7 +130,9 @@ export const MultiStepForm = () => {
                         </a>
                       </div>
 
-                      <GenerateProofBody />
+                      {formStep === 0 ? <GenerateProofBody /> : null}
+                      {formStep === 1 ? <SelectWalletBody /> : null}
+                      {formStep === 2 ? <SendTransactionBody /> : null}
                     </section>
 
                     <div className="flex items-center justify-between">
@@ -162,6 +169,8 @@ export const MultiStepForm = () => {
                       </button>
                       <button
                         className="
+                        inline-flex
+                        items-center
                       px-6
                       py-2
                       text-sm text-white
@@ -170,10 +179,25 @@ export const MultiStepForm = () => {
                       outline-none
                       hover:bg-indigo-600
                       ring-indigo-300
+                      gap-x-1
                     "
                         onClick={handleClickNext}
                       >
                         Next
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
+                        </svg>
                       </button>
                     </div>
                   </form>
