@@ -2,23 +2,18 @@ import { useState } from "react";
 import { Identity } from "@semaphore-protocol/identity";
 import { Group } from "@semaphore-protocol/group";
 import Semaphore from "../pages/utils/Semaphore.json";
-import {
-    generateProof,
-  verifyProof,
-  packToSolidityProof,
-} from "@semaphore-protocol/proof";
-// import generateProof from "@semaphore-protocol/proof";
+const semaphoreProof = require("@semaphore-protocol/proof");
 import ethUtil from "ethereumjs-util";
 import sigUtil from "@metamask/eth-sig-util";
 import { ethers } from "ethers";
 
-
-const depth = 32;
+const depth = 20;
 const admin = "0xd770134156f9aB742fDB4561A684187f733A9586";
-const signal = "Hello ZK";
+const signal = "proposal_1";
 const signalBytes32 = ethers.utils.formatBytes32String(signal);
 const groupId = 7579;
 let zeroValue = 0;
+const { generateProof, packToSolidityProof } = semaphoreProof;
 
 export const GenerateProofBody = () => {
   const [identity, setIdentity] = useState<any>();
@@ -27,7 +22,7 @@ export const GenerateProofBody = () => {
   const [identityCommitment, setIdentityCommitment] = useState<bigint>();
 
   const [group1, setGroup1] = useState<any>();
-  const [group2, setGroup2] = useState("");
+  const [group2, setGroup2] = useState<any>();
 
   const [group1Proof, setGroup1Proof] = useState("");
   const [group1Status, setGroup1Status] = useState("");
@@ -46,11 +41,6 @@ export const GenerateProofBody = () => {
     const newNullifier = newIdentity.getNullifier();
     const newIdentityCommitment = newIdentity.generateCommitment();
 
-    console.log(newIdentity);
-    console.log(newTrapdoor);
-    console.log(newNullifier);
-    console.log(newIdentityCommitment);
-
     setIdentity(newIdentity);
     setTrapdoor(newTrapdoor);
     setNullifier(newNullifier);
@@ -58,38 +48,38 @@ export const GenerateProofBody = () => {
 
     // 2. Create new group
     // https://semaphore.appliedzkp.org/docs/guides/groups
-    const group = new Group(depth);
-
-    console.log(group);
+    const newGroup = new Group();
 
     // Add members to an off-chain group
     // https://semaphore.appliedzkp.org/docs/guides/groups#add-members-to-an-off-chain-group
-    group && group.addMember(identityCommitment as any);
+    newGroup.addMember(newIdentityCommitment);
 
-    setGroup1(group);
-    setGroup1Status("Created!");
+    await setGroup1(newGroup);
+    await setGroup1Status("Created!");
 
     // 3. Generate a proof off-chain
-    const externalNullifier = group1 && group1.root;
+    const externalNullifier = newGroup && newGroup.root;
 
-    // const fullProof = await generateProof(
-    //   identity as Identity,
-    //   group1 as Group,
-    //   externalNullifier,
-    //   signal,
-    //   {
-    //     zkeyFilePath: "/semaphore.zkey",
-    //     wasmFilePath: "/semaphore.wasm",
-    //   }
-    // );
+    const { proof, publicSignals } = await generateProof(
+      newIdentity as any,
+      newGroup as any,
+      externalNullifier,
+      signal,
+      {
+        zkeyFilePath:
+          "http://www.trusted-setup-pse.org/semaphore/20/semaphore.zkey",
+        wasmFilePath:
+          "http://www.trusted-setup-pse.org/semaphore/20/semaphore.wasm",
+      }
+    );
 
-    // const { nullifierHash } = fullProof.publicSignals
-    // const solidityProof = packToSolidityProof(fullProof.proof);
+    const { nullifierHash } = publicSignals
+    const solidityProof = packToSolidityProof(proof);
 
-    // setGroup1Proof(fullProof as any);
-    // setGroup1NullifierHash(nullifierHash);
-    // setGroup1SolidityProof(solidityProof as any);
-    // setGroup1ExternalNullifier(externalNullifier);
+    setGroup1Proof(proof as any);
+    setGroup1NullifierHash(nullifierHash);
+    setGroup1SolidityProof(solidityProof as any);
+    setGroup1ExternalNullifier(externalNullifier as any);
   };
 
   return (
