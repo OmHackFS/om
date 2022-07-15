@@ -78,25 +78,25 @@ export const SendTransactionBody = () => {
     setIdTrapdoor(IdTrapdoor as any)
   };
 
-  const storeNftStorageToken = async () => {
-    console.log("nftStorage ");
+//   const storeNftStorageToken = async () => {
+//     console.log("nftStorage ");
 
-    const NFT_STORAGE_TOKEN =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDIzZDg1OTczYUU3ZTI1RTdlMTNEZEUwZDhmQzIwMzgwQTQ0NDc4NUIiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1NzU4Mzg2OTU5MywibmFtZSI6IkhhY2tGUyJ9.ldx5AlCgYy2cGrgXOpTPVd2xA68SHcU4_of9MsNmEIw";
-    const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
-    const IPFSdata = new Blob([encryptedIdTrapdoor as any]);
-    const cid = await client.storeBlob(IPFSdata);
+//     const NFT_STORAGE_TOKEN =
+//       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDIzZDg1OTczYUU3ZTI1RTdlMTNEZEUwZDhmQzIwMzgwQTQ0NDc4NUIiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1NzU4Mzg2OTU5MywibmFtZSI6IkhhY2tGUyJ9.ldx5AlCgYy2cGrgXOpTPVd2xA68SHcU4_of9MsNmEIw";
+//     const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
+//     const IPFSdata = new Blob([encryptedIdTrapdoor as any]);
+//     const cid = await client.storeBlob(IPFSdata);
 
-    const dataFromIPFS = await fetch(`https://ipfs.io/ipfs/${cid}`);
+//     const dataFromIPFS = await fetch(`https://ipfs.io/ipfs/${cid}`);
 
-    console.log("IPFS Address");
-    console.log(cid);
-    console.log(idTrapdoor);
-    console.log(encryptedIdTrapdoor);
+//     console.log("IPFS Address");
+//     console.log(cid);
+//     console.log(idTrapdoor);
+//     console.log(encryptedIdTrapdoor);
 
-    console.log("Data Fetched from IPFS");
-    console.log(dataFromIPFS);
-  }
+//     console.log("Data Fetched from IPFS");
+//     console.log(dataFromIPFS);
+//   }
 
   const handleDecryptData = async (e: any) => {
     e.preventDefault();
