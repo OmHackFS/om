@@ -110,7 +110,7 @@ app.get('/scr/screenplays', (req, res) => {
 app.get('/proposal/:id', async (req, res) => {
     const { id } = req.params;
     const eventQuery = `{ 
-        proposalCreatedEvents { 
+        proposalCreatedEvents(where: {id: "${id}"}) { 
             id 
             count 
             groupId 
