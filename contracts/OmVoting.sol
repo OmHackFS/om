@@ -74,7 +74,10 @@ contract OmVoting {
         string calldata _question,
         string calldata _ipfsURI
     ) external {
-        require(membersPerGroup[groupId][msg.sender]);
+        require(
+            membersPerGroup[groupId][msg.sender],
+            "Address is not a member of this group"
+        );
 
         uint256 proposalId = daoGroups[groupId].nextProposal;
 
@@ -97,7 +100,10 @@ contract OmVoting {
         uint proposalId,
         bool support
     ) external {
-        require(membersPerGroup[groupId][msg.sender]);
+        require(
+            membersPerGroup[groupId][msg.sender],
+            "Address is not a member of this group"
+        );
         Proposal storage proposal = proposalsPerGroup[groupId][proposalId];
 
         // leaving out the vote tracking for now bc semaphore will prevent double-spend

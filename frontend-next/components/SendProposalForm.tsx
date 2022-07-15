@@ -30,7 +30,7 @@ export const MultiStepForm = () => {
     const contractAddress = "0x9aeece36a264e03c6906d543a1d9ca4fed1418e0"
     const contractABI = "";
 
-    const contract = new ethers.Contract(contractABI,contractAddress,account);
+    const contract = new ethers.Contract(contractABI,contractAddress,account as any);
 
   }
 
@@ -52,7 +52,7 @@ export const MultiStepForm = () => {
           </h2>
 
           <p className="max-w-screen-md mx-auto text-center text-gray-500 md:text-lg">
-            Through the Zero Knowladge Verification your Identity will stay
+            Through the Zero Knowledge Verification your Identity will stay
             Private
           </p>
         </div>
