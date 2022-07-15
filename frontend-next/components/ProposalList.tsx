@@ -1,24 +1,19 @@
 import { proposals } from "./mocks/proposals";
 import Link from "next/link";
 import axios from "axios";
-import { useState } from 'react';
+import { useState } from "react";
 
 export const ProposalList = () => {
-
   const [proposals, setProposals] = useState([]);
 
+  const client = axios.create({
+    baseURL: "http://localhost:3030/", // "https://data-dao-api.vercel.app/"
+  });
 
-    const client = axios.create({
-      baseURL: "http://localhost:3030/"// "https://data-dao-api.vercel.app/" 
-    });
-  
-    async function getProposals() {
-      const response = await client.get('proposals');
-      setProposals(response.data);
-    }
-
-
-
+  async function getProposals() {
+    const response = await client.get("proposals");
+    setProposals(response.data);
+  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 pt-7">
@@ -92,7 +87,7 @@ export const ProposalList = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {proposals.map((person) => (
+                  {proposals.map((person: any) => (
                     <tr key={person.email}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                         <div className="flex items-center">
@@ -106,7 +101,7 @@ export const ProposalList = () => {
                           <div className="ml-4">
                             <div className="font-medium text-gray-900">
                               {/* <Link to={`/dao_proposal_info/${person.id}`}> */}
-                                {person.name}
+                              {person.name}
                               {/* </Link> */}
                             </div>
                             <div className="text-gray-500">{person.email}</div>
