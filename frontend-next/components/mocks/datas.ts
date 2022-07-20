@@ -1,4 +1,4 @@
-export const plans = [
+export const data = [
   {
     id: 1,
     name: 'Avatar 3 Scripts',

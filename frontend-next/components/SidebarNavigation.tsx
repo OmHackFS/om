@@ -23,10 +23,11 @@ const TABS = [
         />
       </svg>
     ),
+    path: "/"
   },
   {
     id: "1",
-    name: "My Page",
+    name: "Proposals",
     active: false,
     logo: (
       <svg
@@ -44,6 +45,7 @@ const TABS = [
         />
       </svg>
     ),
+    path: "/proposals"
   },
   {
     id: "2",
@@ -64,6 +66,7 @@ const TABS = [
         />
       </svg>
     ),
+    path: "/dao_data"
   },
 ];
 
@@ -76,7 +79,6 @@ export const SidebarNavigation = () => {
 
   return (
     <div>
-      {/* <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. --> */}
       <div className="relative z-40 md:hidden" role="dialog" aria-modal="true">
         {/* <!--
             Off-canvas menu backdrop, show/hide based on off-canvas menu state.
@@ -188,18 +190,20 @@ export const SidebarNavigation = () => {
             <nav className="flex-1 px-2 pb-4 space-y-1">
               {/* <!-- Current: "bg-indigo-800 text-white", Default: "text-indigo-100 hover:bg-indigo-600" --> */}
               {TABS.map((tab) => (
-                <span
-                  key={tab.name}
-                  onClick={() => handleSelectTab(tab.name)}
-                  className={`cursor-pointer ${
-                    activeTab === tab.name
-                      ? "bg-indigo-800 text-white"
-                      : "text-indigo-100"
-                  } hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md`}
-                >
-                  {tab.logo}
-                  {tab.name}
-                </span>
+              <Link href={tab.path}>
+                  <span
+                    key={tab.name}
+                    onClick={() => handleSelectTab(tab.name)}
+                    className={`cursor-pointer ${
+                      activeTab === tab.name
+                        ? "bg-indigo-800 text-white"
+                        : "text-indigo-100"
+                    } hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md`}
+                  >
+                    {tab.logo}
+                    {tab.name}
+                  </span>
+                </Link>
               ))}
             </nav>
           </div>
