@@ -4,7 +4,7 @@ import { Web3ReactProvider } from "@web3-react/core";
 import { SidebarNavigation } from "../components/SidebarNavigation";
 import { getProvider } from "../utils/provider";
 
-const MyApp = ({ Component, pageProps, router, err }: AppProps) => {
+const MyApp = ({ Component, pageProps, router }: AppProps) => {
   const isLoginScreen = router.pathname === "/";
 
   return (

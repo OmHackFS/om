@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "@headlessui/react": "^1.6.4",
     "@heroicons/react": "^1.0.6",
     "@metamask/eth-sig-util": "^4.0.1",

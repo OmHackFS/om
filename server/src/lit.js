@@ -117,6 +117,8 @@
 //   export default new Lit()
 
 import LitJsSdk from "lit-js-sdk/build/index.node.js";
+import { DID } from 'dids'
+import { Integration } from 'lit-ceramic-sdk'
 
 const CHAIN = "ethereum";
 const ACCESS_CONTROL_CONDITIONS = [
@@ -156,7 +158,6 @@ const ACCESS_CONTROL_CONDITIONS = [
     },
   },
 ];
-
 // Get the authSig from some wallet
 const AUTH_SIG = {
   sig: "0x39a3d6f2bedb5ef51442069d3c721596328ef50f81a3a0c0339c2acaade8bd721fea5cce0dc4acb6958cd40fddd680fb35c1fbd07fa95c7e657f5e6f154ed7fc1b",
@@ -165,6 +166,11 @@ const AUTH_SIG = {
     "I am creating an account to use Lit Protocol at 2022-01-10T20:47:35.692Z",
   address: "0xfff175c14a299ef7027da0d348f438e154880ccd",
 };
+
+let litCeramicIntegration = new Integration('https://ceramic-clay.3boxlabs.com', 'polygon')
+let streamID = 'kjzl6cwe1jw1479rnblkk5u43ivxkuo29i4efdx1e7hk94qrhjl0d4u0dyys1au' // test data
+
+
 
 async function litStore(resourceBaseUrl, resourcePath) {
 
@@ -175,6 +181,8 @@ async function litStore(resourceBaseUrl, resourcePath) {
     role: "",
     extraData: "",
   };
+
+  app.locals.litNodeClient.
 
   await app.locals.litNodeClient.saveSigningCondition({
     ACCESS_CONTROL_CONDITIONS,
