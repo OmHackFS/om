@@ -8,38 +8,37 @@ import "@openzeppelin/contracts/token/ERC721/extensions/draft-ERC721Votes.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract OmSbToken is ERC721, Ownable, EIP712, ERC721Votes {
-    using Counters for Counters.Counter;
+  using Counters for Counters.Counter;
 
-    Counters.Counter private _tokenIdCounter;
+  Counters.Counter private _tokenIdCounter;
 
-    mapping(uint256 => string) public identityData;
+  mapping(uint256 => string) public identityData;
 
-    constructor() ERC721("OmSbIdentity", "OSI") EIP712("OmSbIdentity", "1") {}
+  constructor() ERC721("OmSbIdentity", "OSI") EIP712("OmSbIdentity", "1") {}
 
-    function safeMint(address to, string memory _identityData) public onlyOwner {
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
-        identityData[tokenId] = _identityData;
+  function safeMint(address to, string memory _identityData) public onlyOwner {
+    uint256 tokenId = _tokenIdCounter.current();
+    _tokenIdCounter.increment();
+    _safeMint(to, tokenId);
+    identityData[tokenId] = _identityData;
+  }
 
-    }
+  // The following functions are overrides required by Solidity.
 
-    // The following functions are overrides required by Solidity.
+  function _afterTokenTransfer(
+    address from,
+    address to,
+    uint256 tokenId
+  ) internal override(ERC721, ERC721Votes) {
+    super._afterTokenTransfer(from, to, tokenId);
+  }
 
-    function _afterTokenTransfer(address from, address to, uint256 tokenId)
-        internal
-        override(ERC721, ERC721Votes)
-    {
-        super._afterTokenTransfer(from, to, tokenId);
-    }
-
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
-    internal
-    override(ERC721) {
-        require(from == address(0), "Err: token is SOUL BOUND");
-        super._beforeTokenTransfer(from, to, tokenId);
-    }
-
-
+  function _beforeTokenTransfer(
+    address from,
+    address to,
+    uint256 tokenId
+  ) internal override(ERC721) {
+    require(from == address(0), "Err: token is SOUL BOUND");
+    super._beforeTokenTransfer(from, to, tokenId);
+  }
 }
-    

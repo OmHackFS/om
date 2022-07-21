@@ -53,45 +53,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
-      name: "SemaphoreCore",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SemaphoreCore__factory>;
-    getContractFactory(
-      name: "SemaphoreGroups",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SemaphoreGroups__factory>;
-    getContractFactory(
-      name: "ISemaphoreCore",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ISemaphoreCore__factory>;
-    getContractFactory(
-      name: "ISemaphoreGroups",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ISemaphoreGroups__factory>;
-    getContractFactory(
-      name: "IVerifier",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IVerifier__factory>;
-    getContractFactory(
-      name: "PoseidonT3",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.PoseidonT3__factory>;
-    getContractFactory(
-      name: "PoseidonT6",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.PoseidonT6__factory>;
-    getContractFactory(
-      name: "Om",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Om__factory>;
-    getContractFactory(
       name: "OmSbToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OmSbToken__factory>;
-    getContractFactory(
-      name: "OmVoting",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.OmVoting__factory>;
 
     getContractAt(
       name: "Ownable",
@@ -144,55 +108,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
     getContractAt(
-      name: "SemaphoreCore",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SemaphoreCore>;
-    getContractAt(
-      name: "SemaphoreGroups",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SemaphoreGroups>;
-    getContractAt(
-      name: "ISemaphoreCore",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ISemaphoreCore>;
-    getContractAt(
-      name: "ISemaphoreGroups",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ISemaphoreGroups>;
-    getContractAt(
-      name: "IVerifier",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IVerifier>;
-    getContractAt(
-      name: "PoseidonT3",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.PoseidonT3>;
-    getContractAt(
-      name: "PoseidonT6",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.PoseidonT6>;
-    getContractAt(
-      name: "Om",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Om>;
-    getContractAt(
       name: "OmSbToken",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.OmSbToken>;
-    getContractAt(
-      name: "OmVoting",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.OmVoting>;
 
     // default types
     getContractFactory(
