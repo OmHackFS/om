@@ -1,20 +1,10 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
+import { ProofModal } from "./ProofModal";
+import { useState } from "react";
+
 export const DataInput = () => {
+  const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
+
+  const handleShowProposalModal = () => setShowProposalModal(true);
     return (
       <div className="space-y-6">
        
@@ -161,62 +151,6 @@ export const DataInput = () => {
             <div className="mt-5 md:mt-0 md:col-span-2">
               <form className="space-y-6" action="#" method="POST">
                 <fieldset>
-                  <legend className="sr-only">By Email</legend>
-                  <div className="text-base font-medium text-gray-900" aria-hidden="true">
-                    Proposal Type
-                  </div>
-                  <div className="mt-4 space-y-4">
-                    <div className="flex items-start">
-                      <div className="h-5 flex items-center">
-                        <input
-                          id="comments"
-                          name="comments"
-                          type="checkbox"
-                          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                        />
-                      </div>
-                      <div className="ml-3 text-sm">
-                        <label htmlFor="comments" className="font-medium text-gray-700">
-                          Public
-                        </label>
-                        <p className="text-gray-500">Propose publicly</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start">
-                      <div className="flex items-center h-5">
-                        <input
-                          id="candidates"
-                          name="candidates"
-                          type="checkbox"
-                          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                        />
-                      </div>
-                      <div className="ml-3 text-sm">
-                        <label htmlFor="candidates" className="font-medium text-gray-700">
-                          Private
-                        </label>
-                        <p className="text-gray-500">Propose privately</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start">
-                      <div className="flex items-center h-5">
-                        <input
-                          id="offers"
-                          name="offers"
-                          type="checkbox"
-                          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                        />
-                      </div>
-                      <div className="ml-3 text-sm">
-                        <label htmlFor="offers" className="font-medium text-gray-700">
-                          Other
-                        </label>
-                        <p className="text-gray-500">Other type os Proposal</p>
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
-                <fieldset>
                   <legend className="contents text-base font-medium text-gray-900">Select Group.</legend>
                   <p className="text-sm text-gray-500">If private, select from which Sub-Group you would like to propose from.</p>
                   <div className="mt-4 space-y-4">
@@ -270,10 +204,12 @@ export const DataInput = () => {
           <button
             type="submit"
             className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            onClick={handleShowProposalModal}
           >
-            Propose
+            Add Data
           </button>
         </div>
+        {showProposalModal ? <ProofModal /> : null}
       </div>
     )
   }

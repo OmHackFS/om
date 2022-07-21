@@ -13,32 +13,16 @@ import {
 } from "@heroicons/react/solid";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { proposalsList } from "./mocks/proposals";
+import { ProofModal } from "./ProofModal";
+import { useState } from "react";
+
 const user = {
   name: "Whitney Francis",
   email: "whitney@example.com",
   imageUrl:
     "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80",
 };
-const navigation = [
-  { name: "Dashboard", href: "#" },
-  { name: "Jobs", href: "#" },
-  { name: "Applicants", href: "#" },
-  { name: "Company", href: "#" },
-];
-const breadcrumbs = [
-  { name: "Jobs", href: "#", current: false },
-  { name: "Front End Developer", href: "#", current: false },
-  { name: "Applicants", href: "#", current: true },
-];
-const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
-const attachments = [
-  { name: "resume_front_end_developer.pdf", href: "#" },
-  { name: "coverletter_front_end_developer.pdf", href: "#" },
-];
+
 const eventTypes = {
   applied: { icon: UserIcon, bgColorClass: "bg-gray-400" },
   advanced: { icon: ThumbUpIcon, bgColorClass: "bg-blue-500" },
@@ -119,6 +103,9 @@ type ProposalInfoProps = {
 };
 
 export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
+  const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
+
+  const handleShowProposalModal = () => setShowProposalModal(true);
 
   const id = Number(proposalId);
   return (
@@ -422,10 +409,12 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                   <button
                     type="button"
                     className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    onClick={handleShowProposalModal}
                   >
                     Vote
                   </button>
                 </div>
+                {showProposalModal ? <ProofModal /> : null}
               </div>
             </section>
           </div>

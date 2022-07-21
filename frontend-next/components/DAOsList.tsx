@@ -5,7 +5,7 @@ export const DAOsList = () => {
   return (
     <div className="flex flex-row flex-wrap gap-4">
       {daos.map((dao) => (
-        <Link href={`/proposal_info/${dao.id}`}>
+        <Link href={`/proposals`}>
           <div className="max-w-sm overflow-hidden shadow-lg rounded-[3.5rem] cursor-pointer">
             <div className="flex justify-center p-4 mt-4">
               <img className="max-h-56 rounded-[3.5rem]" src={dao.img} alt="" />
