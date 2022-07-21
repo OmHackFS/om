@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ConnectWalletButton } from "./ConnectWalletButton";
+import { CreateIdentityButton } from "./CreateIdentityButton";
 
 export const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -39,7 +39,7 @@ export const Header = () => {
         </form>
       </div>
       <div className="ml-4 flex items-center md:ml-6 gap-4">
-        <ConnectWalletButton />
+        <CreateIdentityButton />
         <button
           type="button"
           className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
