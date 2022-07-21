@@ -3,6 +3,7 @@ import { Identity } from "@semaphore-protocol/identity";
 import { Group } from "@semaphore-protocol/group";
 import Semaphore from "../pages/utils/Semaphore.json";
 const semaphoreProof = require("@semaphore-protocol/proof");
+const { verifyProof } = require("@semaphore-protocol/proof")
 import ethUtil from "ethereumjs-util";
 import sigUtil from "@metamask/eth-sig-util";
 import { ethers } from "ethers";
@@ -31,37 +32,34 @@ export const GenerateProofBody = () => {
   const [group1NullifierHash, setGroup1NullifierHash] = useState<any>();
   const [group1SolidityProof, setGroup1SolidityProof] = useState("");
 
+  const [offChainVerification,setOffChainVerification] =useState<any>();
+
   const handleClickGenerateProof = async (e: any) => {
     e.preventDefault();
 
     // 1. Create new identity, trapdoor, nullifier and identityCommitment
     // https://semaphore.appliedzkp.org/docs/guides/identities
-    const newIdentity = new Identity();
-    const newTrapdoor = newIdentity.getTrapdoor();
-    const newNullifier = newIdentity.getNullifier();
-    const newIdentityCommitment = newIdentity.generateCommitment();
+    // const newIdentity = new Identity();
+    const idCommitment = identity.generateCommitment();
 
-    setIdentity(newIdentity);
-    setTrapdoor(newTrapdoor);
-    setNullifier(newNullifier);
-    setIdentityCommitment(newIdentityCommitment);
-
+ 
     // 2. Create new group
     // https://semaphore.appliedzkp.org/docs/guides/groups
     const newGroup = new Group();
 
     // Add members to an off-chain group
     // https://semaphore.appliedzkp.org/docs/guides/groups#add-members-to-an-off-chain-group
-    newGroup.addMember(newIdentityCommitment);
+    newGroup.addMember(idCommitment);
 
     await setGroup1(newGroup);
+    console.log(newGroup);
     await setGroup1Status("Created!");
 
     // 3. Generate a proof off-chain
     const externalNullifier = newGroup && newGroup.root;
 
-    const { proof, publicSignals } = await generateProof(
-      newIdentity as any,
+    const fullProof = await generateProof(
+      identity as any,
       newGroup as any,
       externalNullifier,
       signal,
@@ -73,27 +71,128 @@ export const GenerateProofBody = () => {
       }
     );
 
-    const { nullifierHash } = publicSignals
-    const solidityProof = packToSolidityProof(proof);
+    const { nullifierHash } = fullProof.publicSignals
+    const solidityProof = packToSolidityProof(fullProof.proof);
+    console.log("Proof");
+    console.log(fullProof.proof)
+    console.log("solidityProof");
+    console.log(solidityProof)
 
-    setGroup1Proof(proof as any);
+    setGroup1Proof(fullProof as any);
     setGroup1NullifierHash(nullifierHash);
     setGroup1SolidityProof(solidityProof as any);
     setGroup1ExternalNullifier(externalNullifier as any);
   };
 
+  const handleDecryptId = async (e:any) => {
+    e.preventDefault();
+    const accounts = await (window as any).ethereum.request({
+      method:'eth_requestAccounts',
+    });
+
+    const account = accounts[0];
+    const signer =  (new ethers.providers.Web3Provider((window as any).ethereum)).getSigner()
+    const contractAddress = "0x2F67c135Dac3F28f4f65Ee57913CAb0A5cd00D14";
+    const contractAbi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"approved","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"delegator","type":"address"},{"indexed":true,"internalType":"address","name":"fromDelegate","type":"address"},{"indexed":true,"internalType":"address","name":"toDelegate","type":"address"}],"name":"DelegateChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"delegate","type":"address"},{"indexed":false,"internalType":"uint256","name":"previousBalance","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"newBalance","type":"uint256"}],"name":"DelegateVotesChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[],"name":"DOMAIN_SEPARATOR","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"approve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"delegatee","type":"address"}],"name":"delegate","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"delegatee","type":"address"},{"internalType":"uint256","name":"nonce","type":"uint256"},{"internalType":"uint256","name":"expiry","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"delegateBySig","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"delegates","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getApproved","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"blockNumber","type":"uint256"}],"name":"getPastTotalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"uint256","name":"blockNumber","type":"uint256"}],"name":"getPastVotes","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"getVotes","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"identityData","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"operator","type":"address"}],"name":"isApprovedForAll","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"nonces","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"string","name":"_identityData","type":"string"}],"name":"safeMint","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"transferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"}]
+    const contract = new ethers.Contract(contractAddress,contractAbi,signer);
+    const idHash = await contract.identityData(1);
+    console.log(idHash);
+
+    const decryptedMessage = await (window as any).ethereum.request({
+      method: "eth_decrypt",
+      params: [idHash, account],
+    });
+
+    const jsonMessage = JSON.parse(decryptedMessage);
+    console.log(jsonMessage)
+    
+    console.log(jsonMessage.newId);
+
+    const idClass = new Identity(jsonMessage.newId);
+
+    const newTrapdoor = idClass.getTrapdoor();
+    const newNullifier = idClass.getNullifier();
+    const newIdentityCommitment = idClass.generateCommitment();
+
+    // setIdentity(newIdentity);
+    setTrapdoor(newTrapdoor);
+    setNullifier(newNullifier);
+    setIdentityCommitment(newIdentityCommitment);
+
+
+    setIdentity(idClass);
+    console.log(idClass)
+
+
+
+  }
+
+    const handleVerifyProofOffChain = async (e:any) =>{
+      e.preventDefault();
+      console.log("Verification Called")
+
+   
+
+      const externalNullifier = group1.root;
+      const signal = "Hello Zk"
+
+      const fullProof = await generateProof(
+        identity as any,
+        group1 as any,
+        externalNullifier,
+        signal,
+        {
+          zkeyFilePath:
+            "http://www.trusted-setup-pse.org/semaphore/20/semaphore.zkey",
+          wasmFilePath:
+            "http://www.trusted-setup-pse.org/semaphore/20/semaphore.wasm",
+        }
+      );
+
+   
+    const verificationKey = await fetch("http://localhost:3001/semaphore.json").then(function(res) {
+      return res.json();
+    });
+    console.log("data fetched");
+    console.log(verificationKey);
+
+    // console.log("group1Proof");
+    // console.log(group1Proof);
+
+    const res = await verifyProof(verificationKey, fullProof) // true or false.
+    const response = res.toString();
+    console.log("Waiting Response")
+    setOffChainVerification(response);
+
+    console.log(response);
+
+  }
+
   return (
-    <div className="flex flex-col mb-20">
-      <div className="h-64 max-w-lg overflow-x-auto">
+    <div className="flex flex-col mb-1">
+      <div className="max-w-lg overflow-x-auto mb-5">
         <div>Trapdoor: </div>
         <p>{trapdoor?.toString()}</p>
         <div className="pt-2">Nullifier: </div>
         <p>{nullifier?.toString()}</p>
         <div className="pt-2">Identity Commitment: </div>
-        <p>{identityCommitment?.toString()}</p>
+        <p className="pt-2 mb-5">{identityCommitment?.toString()}</p>
       </div>
       <button
         className="px-6 py-2
+                text-sm text-white
+                bg-indigo-500
+                rounded-lg
+                outline-none
+                hover:bg-indigo-600
+                ring-indigo-300
+            "
+        onClick={handleDecryptId}
+      >
+        Decrypt Id
+      </button>
+      <button
+        className="mt-5 px-6 py-2
                 text-sm text-white
                 bg-indigo-500
                 rounded-lg
@@ -105,6 +204,20 @@ export const GenerateProofBody = () => {
       >
         Generate Proof
       </button>
+      <button
+        className="mt-5 px-6 py-2
+                text-sm text-white
+                bg-indigo-500
+                rounded-lg
+                outline-none
+                hover:bg-indigo-600
+                ring-indigo-300
+            "
+        onClick={handleVerifyProofOffChain}
+      >
+        Off Chain Verification
+      </button>
+      <p>{offChainVerification}</p>
     </div>
   );
 };

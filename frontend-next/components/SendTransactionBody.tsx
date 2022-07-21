@@ -27,8 +27,10 @@ export const SendTransactionBody = () => {
 
   const [signer, setSigner] = useState<Signer>();
   const [signerAddr, setSignerAddr] = useState<string | null>(null);
-  const [encryptedIdTrapdoor, setEncryptedIdTrapdoor] = useState();
-  const [idTrapdoor, setIdTrapdoor] = useState();
+  const [encryptedIdData, setEncryptedIdData] = useState();
+  const [idData, setIdData] = useState();
+  const [message,setMessage] = useState();
+  
 
   const OmSbTokenContract = useMemo(() => {
     return new ethers.Contract(sbContractAddr, OmSbToken.abi, signer);
@@ -48,25 +50,44 @@ export const SendTransactionBody = () => {
   const handleEncryptData = async (e: any) => {
     e.preventDefault();
 
+    const accounts = await (window as any).ethereum.request({
+      method:'eth_requestAccounts',
+    });
+    const account1 = accounts[0];
+
     const newId = new Identity();
     const IdTrapdoor = newId.getTrapdoor();
     const IdNullifer = newId.getNullifier();
     const IdCommitment = newId.generateCommitment();
 
+    const idData = {
+      newId: newId.toString(),
+      IdTrapdoor: IdTrapdoor.toString(),
+      IdNullifer: IdNullifer.toString(),
+      IdCommitment: IdCommitment.toString(),
+    }
+
+    const stringIdData = JSON.stringify(idData);
+
+
     const encryptionPublicKey = await (window as any).ethereum.request({
       method: "eth_getEncryptionPublicKey",
-      params: [account],
+      params: [account1],
     });
 
-    console.log("encryptionPublicKey ", encryptionPublicKey, ethUtil);
-    console.log("data ", IdTrapdoor.toString());
+    // console.log("encryptionPublicKey ", encryptionPublicKey, ethUtil);
+    // console.log("data ", idData.toString());
+    // console.log("idData2")
+    // console.log(idData2)
+    // console.log("idData3")
+    // console.log(idData3)
 
-    const newEncryptedIdTrapdoor = ethUtil.bufferToHex(
+    const newEncryptedIdData = ethUtil.bufferToHex(
       Buffer.from(
         JSON.stringify(
           sigUtil.encrypt({
             publicKey: encryptionPublicKey,
-            data: IdTrapdoor.toString(),
+            data: stringIdData,
             version: "x25519-xsalsa20-poly1305",
           })
         ),
@@ -74,8 +95,11 @@ export const SendTransactionBody = () => {
       )
     );
 
-    setEncryptedIdTrapdoor(newEncryptedIdTrapdoor as any);
-    setIdTrapdoor(IdTrapdoor as any)
+    setEncryptedIdData(newEncryptedIdData as any);
+    console.log("Encrypted Data Hash");      
+    console.log(newEncryptedIdData);
+    console.log("Encrypted Data Id");      
+    console.log(stringIdData);
   };
 
 //   const storeNftStorageToken = async () => {
@@ -98,15 +122,38 @@ export const SendTransactionBody = () => {
 //     console.log(dataFromIPFS);
 //   }
 
+  async function connectWallet(){
+    const accounts = await (window as any).ethereum.request({
+      method:'eth_requestAccounts',
+    });
+    const address = accounts[0];
+    setSigner(address);
+
+  }
+
   const handleDecryptData = async (e: any) => {
     e.preventDefault();
 
+    const accounts = await (window as any).ethereum.request({
+      method:'eth_requestAccounts',
+    });
+    const account1 = accounts[0];
+
     const decryptedMessage = await (window as any).ethereum.request({
       method: "eth_decrypt",
-      params: [encryptedIdTrapdoor, account],
+      params: [encryptedIdData, account1],
     });
+    const stringMessage =decryptedMessage.toString()
+    const jsonMessage = JSON.parse(decryptedMessage);
+    setMessage(stringMessage);
+    // const stringMessage2 =decryptedMessage.json();
+
     console.log("Decrypted Message");
     console.log(decryptedMessage);
+    console.log("IdTrapdoor");
+    const idTest = jsonMessage.IdTrapdoor;
+    console.log(parseInt(idTest));
+
   };
 
   const handleMintToken = async (e: any) => {
@@ -122,9 +169,11 @@ export const SendTransactionBody = () => {
   console.log("context ", context);
   return (
     <div className="flex flex-col">
+      <button onClick={connectWallet}>Connect Wallet</button>
       <button onClick={handleEncryptData} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Encrypt data</button>
       <button onClick={handleDecryptData} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Decrypt data</button>
       <button onClick={handleMintToken} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Mint Token</button>
+      <p>{encryptedIdData}</p>
     </div>
   );
 };
