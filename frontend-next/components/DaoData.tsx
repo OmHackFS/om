@@ -1,71 +1,5 @@
-
-const plans = [
-    {
-      id: 1,
-      name: 'Avatar 3 Scripts',
-      size: '15 Mbs',
-      uploaded_by: 'Group 1',
-      upload_date: '12/12/2022',
-      properties: '7',
-      isCurrent: false,
-    },
-    {
-      id: 2,
-      name: 'Elvis New Album Music Files',
-      size: '1 GB',
-      uploaded_by: 'Group 1',
-      upload_date: '12/12/2022',
-      properties: '5',
-      isCurrent: true,
-    },
-    {
-      id: 3,
-      name: 'Avatar 3 Scripts',
-      size: '15 Mbs',
-      uploaded_by: 'Group 1',
-      upload_date: '12/12/2022',
-      properties: '7',
-      isCurrent: false,
-    },
-    {
-      id: 4,
-      name: 'Elvis New Album Music Files',
-      size: '1 GB',
-      uploaded_by: 'Group 1',
-      upload_date: '12/12/2022',
-      properties: '5',
-      isCurrent: true,
-    },
-    {
-      id: 5,
-      name: 'Elvis New Album Music Files',
-      size: '1 GB',
-      uploaded_by: 'Group 1',
-      upload_date: '12/12/2022',
-      properties: '5',
-      isCurrent: true,
-    },
-    {
-      id: 6,
-      name: 'Elvis New Album Music Files',
-      size: '1 GB',
-      uploaded_by: 'Group 1',
-      upload_date: '12/12/2022',
-      properties: '5',
-      isCurrent: true,
-    },
-    {
-      id: 7,
-      name: 'Elvis New Album Music Files',
-      size: '1 GB',
-      uploaded_by: 'Group 1',
-      upload_date: '12/12/2022',
-      properties: '5',
-      isCurrent: true,
-    },
-
-    
-  ]
+import Link from 'next/link'
+import {data} from './mocks/datas'
   
   function classNames(...classes : any[]) {
     return classes.filter(Boolean).join(' ')
@@ -82,14 +16,14 @@ const plans = [
             </p>
           </div>
           <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-            {/* <Link to="/dao_data_input"> */}
+            <Link href="/data_input">
               <button
                 type="button"
                 className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
               >
                 Add Data
               </button>
-            {/* </Link> */}
+            </Link>
            
           </div>
         </div>
@@ -127,7 +61,7 @@ const plans = [
               </tr>
             </thead>
             <tbody>
-              {plans.map((plan, planIdx) => (
+              {data.map((plan, planIdx) => (
                 <tr key={plan.id}>
                   <td
                     className={classNames(

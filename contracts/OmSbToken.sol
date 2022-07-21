@@ -12,12 +12,16 @@ contract OmSbToken is ERC721, Ownable, EIP712, ERC721Votes {
 
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("OmSbToken", "MTK") EIP712("OmSbToken", "1") {}
+    mapping(uint256 => string) public identityData;
 
-    function safeMint(address to) public onlyOwner {
+    constructor() ERC721("OmSbIdentity", "OSI") EIP712("OmSbIdentity", "1") {}
+
+    function safeMint(address to, string memory _identityData) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
+        identityData[tokenId] = _identityData;
+
     }
 
     // The following functions are overrides required by Solidity.

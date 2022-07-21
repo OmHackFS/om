@@ -1,19 +1,4 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
+
 import { Fragment } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
 import {
@@ -27,6 +12,9 @@ import {
   UserIcon,
 } from "@heroicons/react/solid";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { proposalsList } from "./mocks/proposals";
+import { ProofModal } from "./ProofModal";
+import { useState } from "react";
 
 const user = {
   name: "Whitney Francis",
@@ -34,26 +22,7 @@ const user = {
   imageUrl:
     "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80",
 };
-const navigation = [
-  { name: "Dashboard", href: "#" },
-  { name: "Jobs", href: "#" },
-  { name: "Applicants", href: "#" },
-  { name: "Company", href: "#" },
-];
-const breadcrumbs = [
-  { name: "Jobs", href: "#", current: false },
-  { name: "Front End Developer", href: "#", current: false },
-  { name: "Applicants", href: "#", current: true },
-];
-const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
-const attachments = [
-  { name: "resume_front_end_developer.pdf", href: "#" },
-  { name: "coverletter_front_end_developer.pdf", href: "#" },
-];
+
 const eventTypes = {
   applied: { icon: UserIcon, bgColorClass: "bg-gray-400" },
   advanced: { icon: ThumbUpIcon, bgColorClass: "bg-blue-500" },
@@ -130,10 +99,15 @@ function classNames(...classes: any[]) {
 }
 
 type ProposalInfoProps = {
-  proposalId: string | string[] | undefined;
+  proposalId: any;
 };
 
 export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
+  const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
+
+  const handleShowProposalModal = () => setShowProposalModal(true);
+
+  const id = Number(proposalId);
   return (
     <>
       {/*
@@ -165,14 +139,13 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  Proposal {proposalId} - Should Avatar Continue?
+                  Proposal {proposalId} - {proposalsList[1].title}
                 </h1>
                 <p className="text-sm font-medium text-gray-500">
                   Applied by
-                  <a href="#" className="text-gray-900">
-                    Sub-Group 1
-                  </a>
-                  on <time dateTime="2020-08-25">August 25, 2020</time>
+      
+                  {proposalsList[1].group}
+                 
                 </p>
               </div>
             </div>
@@ -188,7 +161,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                       id="applicant-information-title"
                       className="text-lg leading-6 font-medium text-gray-900"
                     >
-                      Proposal Title
+                      {proposalsList[1].title}
                     </h2>
                     <p className="mt-1 max-w-2xl text-sm text-gray-500">
                       Personal details and application.
@@ -201,7 +174,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           Proposed By
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          Sub Group1
+                        {proposalsList[1].group}
                         </dd>
                       </div>
 
@@ -217,7 +190,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           Start Date
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          15/07/2022
+                        {proposalsList[1].startDate}
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
@@ -225,7 +198,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           End Date
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          30/07/2022
+                        {proposalsList[1].endDate}
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
@@ -240,34 +213,14 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                         <dt className="text-sm font-medium text-gray-500">
                           Proposal Links
                         </dt>
-                        <dd className="mt-1 text-sm text-gray-900">Linktree</dd>
+                        <dd className="mt-1 text-sm text-gray-900">{proposalsList[1].link}</dd>
                       </div>
                       <div className="sm:col-span-2">
                         <dt className="text-sm font-medium text-gray-500">
                           Proposal Details
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          Fugiat ipsum ipsum deserunt culpa aute sint do nostrud
-                          anim incididunt cillum culpa consequat. Excepteur qui
-                          ipsum aliquip consequat sint. Sit id mollit nulla
-                          mollit nostrud in ea officia proident. Irure nostrud
-                          pariatur mollit ad adipisicing reprehenderit deserunt
-                          qui eu. Fugiat ipsum ipsum deserunt culpa aute sint do
-                          nostrud anim incididunt cillum culpa consequat.
-                          Excepteur qui ipsum aliquip consequat sint. Sit id
-                          mollit nulla mollit nostrud in ea officia proident.
-                          Irure nostrud pariatur mollit ad adipisicing
-                          reprehenderit deserunt qui eu. Fugiat ipsum ipsum
-                          deserunt culpa aute sint do nostrud anim incididunt
-                          cillum culpa consequat. Excepteur qui ipsum aliquip
-                          consequat sint. Sit id mollit nulla mollit nostrud in
-                          ea officia proident. Irure nostrud pariatur mollit ad
-                          adipisicing reprehenderit deserunt qui eu. Fugiat
-                          ipsum ipsum deserunt culpa aute sint do nostrud anim
-                          incididunt cillum culpa consequat. Excepteur qui ipsum
-                          aliquip consequat sint. Sit id mollit nulla mollit
-                          nostrud in ea officia proident. Irure nostrud pariatur
-                          mollit ad adipisicing reprehenderit deserunt qui eu.
+                        {proposalsList[1].description}
                         </dd>
                       </div>
                     </dl>
@@ -456,10 +409,12 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                   <button
                     type="button"
                     className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    onClick={handleShowProposalModal}
                   >
                     Vote
                   </button>
                 </div>
+                {showProposalModal ? <ProofModal /> : null}
               </div>
             </section>
           </div>
