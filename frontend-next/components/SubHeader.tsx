@@ -2,9 +2,8 @@ import { useState } from "react";
 import Link from "next/link";
 const HEADERS = [
   { name: "Proposals", active: true ,path: "/proposals",id: "0" },
-  { name: "Memberships", active: false, path:"/dao_members", id: "1" },
   { name: "Dao Data", active: false,path:"/dao_data", id: "2" },
-  { name: "My Page", active: false,path:"/my_page", id: "3" },
+  { name: "Groups Settings", active: false,path:"/my_page", id: "3" },
 ];
 
 export const SubHeader = () => {

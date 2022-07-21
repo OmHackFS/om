@@ -5,7 +5,7 @@ export const DAOsList = () => {
   return (
     <div className="flex flex-row flex-wrap gap-4">
       {daos.map((dao) => (
-        <Link href={`/proposal_info/${dao.id}`}>
+        <Link href={`/proposals`}>
           <div className="max-w-sm overflow-hidden shadow-lg rounded-[3.5rem] cursor-pointer">
             <div className="flex justify-center p-4 mt-4">
               <img className="max-h-56 rounded-[3.5rem]" src={dao.img} alt="" />
@@ -40,8 +40,8 @@ export const DAOsList = () => {
                   stroke-width="2"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
                   />
                 </svg>
@@ -54,11 +54,11 @@ export const DAOsList = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  stroke-width="2"
+                  strokeWidth="2"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>

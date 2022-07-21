@@ -24,14 +24,17 @@ export const MultiStepForm = () => {
     e.preventDefault();
   };
 
-  function sendProposal(){
-    const accounts = "Get Account"
-    const account = ""
-    const contractAddress = "0x9aeece36a264e03c6906d543a1d9ca4fed1418e0"
+  function sendProposal() {
+    const accounts = "Get Account";
+    const account = "";
+    const contractAddress = "0x9aeece36a264e03c6906d543a1d9ca4fed1418e0";
     const contractABI = "";
 
-    const contract = new ethers.Contract(contractABI,contractAddress,account as any);
-
+    const contract = new ethers.Contract(
+      contractABI,
+      contractAddress,
+      account as any
+    );
   }
 
   return (
@@ -135,9 +138,8 @@ export const MultiStepForm = () => {
                           3. Send Transaction
                         </a>
                       </div>
-
-                      </section>
-                      <button onClick={sendProposal}>Send Proposal Tx</button>
+                    </section>
+                    <button onClick={sendProposal}>Send Proposal Tx</button>
 
                     <div className="flex items-center justify-between">
                       <button
@@ -163,9 +165,9 @@ export const MultiStepForm = () => {
                           stroke="currentColor"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             d="M10 19l-7-7m0 0l7-7m-7 7h18"
                           />
                         </svg>

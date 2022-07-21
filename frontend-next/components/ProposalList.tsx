@@ -1,10 +1,12 @@
-import { proposals } from "./mocks/proposals";
+import { proposalsList } from "./mocks/proposals";
 import Link from "next/link";
 import axios from "axios";
 import { useState } from "react";
 
 export const ProposalList = () => {
-  const [proposals, setProposals] = useState([]);
+
+  
+  const [proposals, setProposals] = useState(proposalsList);
 
   const client = axios.create({
     baseURL: "http://localhost:3030/", // "https://data-dao-api.vercel.app/"
@@ -25,7 +27,7 @@ export const ProposalList = () => {
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <Link href="/proposal_input_page">
+          <Link href="/proposal_input">
             <button
               type="button"
               className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
@@ -88,6 +90,7 @@ export const ProposalList = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {proposals.map((person: any) => (
+                    <Link href={`/proposal_info/${person.id}`}>
                     <tr key={person.email}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                         <div className="flex items-center">
@@ -100,9 +103,7 @@ export const ProposalList = () => {
                           </div>
                           <div className="ml-4">
                             <div className="font-medium text-gray-900">
-                              {/* <Link to={`/dao_proposal_info/${person.id}`}> */}
                               {person.name}
-                              {/* </Link> */}
                             </div>
                             <div className="text-gray-500">{person.email}</div>
                           </div>
@@ -136,6 +137,7 @@ export const ProposalList = () => {
                         </a>
                       </td>
                     </tr>
+                    </Link>
                   ))}
                 </tbody>
               </table>
