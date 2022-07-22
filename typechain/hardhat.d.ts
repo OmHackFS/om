@@ -81,6 +81,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.PoseidonT6__factory>;
     getContractFactory(
+      name: "OmContract",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OmContract__factory>;
+    getContractFactory(
       name: "Om",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Om__factory>;
@@ -178,6 +182,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.PoseidonT6>;
+    getContractAt(
+      name: "OmContract",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OmContract>;
     getContractAt(
       name: "Om",
       address: string,
