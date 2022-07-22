@@ -21,13 +21,46 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
+      "imports": [
+        "hardhat/console.sol",
+        "@semaphore-protocol/contracts/interfaces/IVerifier.sol",
+        "@semaphore-protocol/contracts/base/SemaphoreCore.sol",
+        "@semaphore-protocol/contracts/base/SemaphoreGroups.sol"
+      ],
+      "versionPragmas": ["^0.8.4"],
+      "artifacts": ["Om"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/hardhat/console.sol": {
+      "lastModificationDate": 1658387831992,
+      "contentHash": "cc4777addd464ea56fa35b1c45df0591",
+      "sourceName": "hardhat/console.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+<<<<<<< HEAD
       "imports": [
         "hardhat/console.sol",
         "@semaphore-protocol/contracts/interfaces/IVerifier.sol",
@@ -115,6 +148,15 @@
       "lastModificationDate": 1658387833984,
       "contentHash": "2fedc7b412a294da55dc310bf57e5d33",
       "sourceName": "@semaphore-protocol/contracts/base/SemaphoreCore.sol",
+=======
+      "imports": [],
+      "versionPragmas": [">=0.4.22 <0.9.0"],
+      "artifacts": ["console"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@semaphore-protocol/contracts/interfaces/IVerifier.sol": {
+      "lastModificationDate": 1658387833985,
+      "contentHash": "47b3f60f5f66b5dc2171c65069aa613a",
+      "sourceName": "@semaphore-protocol/contracts/interfaces/IVerifier.sol",
       "solcConfig": {
         "version": "0.8.4",
         "settings": {
@@ -131,6 +173,161 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.4"],
+      "artifacts": ["IVerifier"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreCore.sol": {
+      "lastModificationDate": 1658387833984,
+      "contentHash": "2fedc7b412a294da55dc310bf57e5d33",
+      "sourceName": "@semaphore-protocol/contracts/base/SemaphoreCore.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../interfaces/ISemaphoreCore.sol",
+        "../interfaces/IVerifier.sol"
+      ],
+      "versionPragmas": ["^0.8.4"],
+      "artifacts": ["SemaphoreCore"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreGroups.sol": {
+      "lastModificationDate": 1658387833984,
+      "contentHash": "5fa56788d80bc9b5079df66b08e6011f",
+      "sourceName": "@semaphore-protocol/contracts/base/SemaphoreGroups.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./SemaphoreConstants.sol",
+        "../interfaces/ISemaphoreGroups.sol",
+        "@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol",
+        "@openzeppelin/contracts/utils/Context.sol"
+      ],
+      "versionPragmas": ["^0.8.4"],
+      "artifacts": ["SemaphoreGroups"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@semaphore-protocol/contracts/interfaces/ISemaphoreCore.sol": {
+      "lastModificationDate": 1658387833984,
+      "contentHash": "f079ffeeed111ca1902c16ae9d700699",
+      "sourceName": "@semaphore-protocol/contracts/interfaces/ISemaphoreCore.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.4"],
+      "artifacts": ["ISemaphoreCore"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreConstants.sol": {
+      "lastModificationDate": 1658387833984,
+      "contentHash": "caba466e18c3dd31e4b888dc74e2665b",
+      "sourceName": "@semaphore-protocol/contracts/base/SemaphoreConstants.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.4"],
+      "artifacts": []
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@semaphore-protocol/contracts/interfaces/ISemaphoreGroups.sol": {
+      "lastModificationDate": 1658387833984,
+      "contentHash": "86706d107a94e2b45d895360a167f1b4",
+      "sourceName": "@semaphore-protocol/contracts/interfaces/ISemaphoreGroups.sol",
+>>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+<<<<<<< HEAD
               "": [
                 "ast"
               ]
@@ -212,11 +409,15 @@
               "": [
                 "ast"
               ]
+=======
+              "": ["ast"]
+>>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
             }
           }
         }
       },
       "imports": [],
+<<<<<<< HEAD
       "versionPragmas": [
         "^0.8.4"
       ],
@@ -291,11 +492,16 @@
       "artifacts": [
         "ISemaphoreGroups"
       ]
+=======
+      "versionPragmas": ["^0.8.4"],
+      "artifacts": ["ISemaphoreGroups"]
+>>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
     },
     "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol": {
       "lastModificationDate": 1658387834334,
       "contentHash": "e9fd9c7db00afd5cc323d9d29d155e84",
       "sourceName": "@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol",
+<<<<<<< HEAD
       "solcConfig": {
         "version": "0.8.4",
         "settings": {
@@ -1029,6 +1235,8 @@
       "lastModificationDate": 1658498612409,
       "contentHash": "0c8b0a8d664f0abcb9180b9d69337e90",
       "sourceName": "contracts/OmSbToken.sol",
+=======
+>>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
       "solcConfig": {
         "version": "0.8.4",
         "settings": {
@@ -1045,13 +1253,12 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
+<<<<<<< HEAD
       "imports": [
         "@openzeppelin/contracts/token/ERC721/ERC721.sol",
         "@openzeppelin/contracts/access/Ownable.sol",
@@ -1066,6 +1273,612 @@
         "OmSbToken"
       ]
     },
+=======
+      "imports": ["./Hashes.sol"],
+      "versionPragmas": ["^0.8.4"],
+      "artifacts": ["IncrementalBinaryTree"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/utils/Context.sol": {
+      "lastModificationDate": 1658387833592,
+      "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
+      "sourceName": "@openzeppelin/contracts/utils/Context.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["Context"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@zk-kit/incremental-merkle-tree.sol/contracts/Hashes.sol": {
+      "lastModificationDate": 1658387834334,
+      "contentHash": "fd04704145cf2784b81cec317a522243",
+      "sourceName": "@zk-kit/incremental-merkle-tree.sol/contracts/Hashes.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.4"],
+      "artifacts": ["PoseidonT3", "PoseidonT6"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/governance/utils/Votes.sol": {
+      "lastModificationDate": 1658387837263,
+      "contentHash": "33fb580069b232a436ee825012df574d",
+      "sourceName": "@openzeppelin/contracts/governance/utils/Votes.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../utils/Context.sol",
+        "../../utils/Counters.sol",
+        "../../utils/Checkpoints.sol",
+        "../../utils/cryptography/draft-EIP712.sol",
+        "./IVotes.sol"
+      ],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["Votes"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/utils/Counters.sol": {
+      "lastModificationDate": 1658387833593,
+      "contentHash": "74654e3ae5d7f39555055dfe244dab7a",
+      "sourceName": "@openzeppelin/contracts/utils/Counters.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["Counters"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/utils/Checkpoints.sol": {
+      "lastModificationDate": 1658387833592,
+      "contentHash": "6986896416b1f89cb9ddd3bafe0bf8d1",
+      "sourceName": "@openzeppelin/contracts/utils/Checkpoints.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": ["./math/Math.sol", "./math/SafeCast.sol"],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["Checkpoints"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol": {
+      "lastModificationDate": 1658387837271,
+      "contentHash": "161aae4dc1450371d0f324488f66a9cf",
+      "sourceName": "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": ["./ECDSA.sol"],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["EIP712"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/governance/utils/IVotes.sol": {
+      "lastModificationDate": 1658387837263,
+      "contentHash": "a036d40989f21d08bb990e68d0088fa1",
+      "sourceName": "@openzeppelin/contracts/governance/utils/IVotes.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["IVotes"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/utils/math/Math.sol": {
+      "lastModificationDate": 1658387837271,
+      "contentHash": "fb23b534599db16bb969dc6afcdc4261",
+      "sourceName": "@openzeppelin/contracts/utils/math/Math.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["Math"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol": {
+      "lastModificationDate": 1658387837271,
+      "contentHash": "64e3f111253497ba40c2ad9bdf48a191",
+      "sourceName": "@openzeppelin/contracts/utils/math/SafeCast.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["SafeCast"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/utils/cryptography/ECDSA.sol": {
+      "lastModificationDate": 1658387837270,
+      "contentHash": "1dfb7cf7c7e2edae73403d50a59cc967",
+      "sourceName": "@openzeppelin/contracts/utils/cryptography/ECDSA.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": ["../Strings.sol"],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["ECDSA"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
+      "lastModificationDate": 1658387833593,
+      "contentHash": "cf46906c4035f51639a22265066a9e78",
+      "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["Strings"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
+      "lastModificationDate": 1658387837269,
+      "contentHash": "79ff1a7eb801a525aa315fb7a679eede",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/ERC721.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC721.sol",
+        "./IERC721Receiver.sol",
+        "./extensions/IERC721Metadata.sol",
+        "../../utils/Address.sol",
+        "../../utils/Context.sol",
+        "../../utils/Strings.sol",
+        "../../utils/introspection/ERC165.sol"
+      ],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["ERC721"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
+      "lastModificationDate": 1658387837271,
+      "contentHash": "ec99d946db3685a3630554aa6055bd7f",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": ["../../utils/introspection/IERC165.sol"],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["IERC721"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
+      "lastModificationDate": 1658387837270,
+      "contentHash": "c22d4395e33763de693fd440c6fd10e1",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["IERC721Receiver"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
+      "lastModificationDate": 1658387839663,
+      "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": ["../IERC721.sol"],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["IERC721Metadata"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/utils/Address.sol": {
+      "lastModificationDate": 1658387833592,
+      "contentHash": "c476b3895a94798b88a4bb97399e6dfe",
+      "sourceName": "@openzeppelin/contracts/utils/Address.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.1"],
+      "artifacts": ["Address"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
+      "lastModificationDate": 1658387837273,
+      "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
+      "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": ["./IERC165.sol"],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["ERC165"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
+      "lastModificationDate": 1658387837274,
+      "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
+      "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["IERC165"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/token/ERC721/extensions/draft-ERC721Votes.sol": {
+      "lastModificationDate": 1658387839663,
+      "contentHash": "393b6576742f451e365d603310c83adf",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/draft-ERC721Votes.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": ["../ERC721.sol", "../../../governance/utils/Votes.sol"],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["ERC721Votes"]
+    },
+    "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/contracts/OmSbToken.sol": {
+      "lastModificationDate": 1658498612409,
+      "contentHash": "0c8b0a8d664f0abcb9180b9d69337e90",
+      "sourceName": "contracts/OmSbToken.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC721/ERC721.sol",
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol",
+        "@openzeppelin/contracts/token/ERC721/extensions/draft-ERC721Votes.sol",
+        "@openzeppelin/contracts/utils/Counters.sol"
+      ],
+      "versionPragmas": ["^0.8.4"],
+      "artifacts": ["OmSbToken"]
+    },
+>>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
     "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
       "lastModificationDate": 1658387833580,
       "contentHash": "e436cea06129be2c73cda4b1acc848b5",
@@ -1086,13 +1899,18 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
+<<<<<<< HEAD
               "": [
                 "ast"
               ]
+=======
+              "": ["ast"]
+>>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
             }
           }
         }
       },
+<<<<<<< HEAD
       "imports": [
         "../utils/Context.sol"
       ],
@@ -1102,6 +1920,11 @@
       "artifacts": [
         "Ownable"
       ]
+=======
+      "imports": ["../utils/Context.sol"],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["Ownable"]
+>>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
     },
     "/Users/danilowoohyungkim/108-Dapps-1/19.Om-HackFs/om/contracts/OmVoting.sol": {
       "lastModificationDate": 1658439915341,
@@ -1123,20 +1946,23 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
       "imports": [],
+<<<<<<< HEAD
       "versionPragmas": [
         "^0.8.4"
       ],
       "artifacts": [
         "OmVoting"
       ]
+=======
+      "versionPragmas": ["^0.8.4"],
+      "artifacts": ["OmVoting"]
+>>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
     }
   }
 }

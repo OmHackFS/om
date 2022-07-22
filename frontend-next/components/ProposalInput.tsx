@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ProofModalProposal } from "./ProofModalProposal";
 import { DatePicker } from "./DatePicker";
+import backEnd from "../backend/OmData";
 
 export const ProposalInput = () => {
   const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
@@ -8,18 +9,20 @@ export const ProposalInput = () => {
   const [startDateInput, setStartDateInput] = useState<any>();
   const [endDateInput, setEndDateInput] = useState<any>();
   const [descriptionInput, setDescriptionInput] = useState<any>();
-  const [fundRequestInput, setFundsRequestInput] = useState<any>();
+  const [fundsRequestedInput, setFundsRequestedInput] = useState<any>();
   const [linkInput, setLinkInput] = useState<any>();
-
+  const [fileInput, setFileInput] = useState<any>();
+  const [subGroup, setSubGroup] = useState();
 
   const [groupInput, setGroupInput] = useState<any>();
 
-  function checkInputs() {
-    const fullProposal={
+  const handleSubmit = async () => {
+    const proposal = {
       title: titleInput,
-      startDate: startDateInput,
-      endDate: endDateInput,
+      startDate: startDateInput, // Widget isn't working, this is always null
+      endDate: endDateInput, // Widget isn't working, this is always null
       description: descriptionInput,
+<<<<<<< HEAD
       fundRequest: fundRequestInput,
       linkInput: linkInput
     }
@@ -31,10 +34,23 @@ export const ProposalInput = () => {
 
 
 
+=======
+      fundsRequested: fundsRequestedInput,
+      link: linkInput,
+      file: fileInput,
+    };
+>>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
 
+    const proposalUri = await backEnd.addProposal(proposal);
+    console.log("Proposal added: ", proposalUri);
+  };
 
   const handleShowProposalModal = () => setShowProposalModal(true);
   const handleHideProposalModal = () => setShowProposalModal(false);
+
+  const handleSubGroupChange = (e: any) => {
+    setSubGroup(e.target.value);
+  };
 
   return (
     <div className="space-y-6">
@@ -60,38 +76,51 @@ export const ProposalInput = () => {
                   </label>
                   <input
                     type="text"
-                    name="proposal-title"
-                    id="proposal-title"
+                    name="titleInput"
+                    id="titleInput"
+                    value={titleInput}
                     autoComplete="proposal"
                     onChange={(e) => setTitleInput(e.target.value)}
-                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md pt-2 pb-2 text-10xl"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md pt-2 pb-2 text-10xl"
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-3">
-                  <DatePicker labelText="Start Date" onSelect={() => {}} />
+                  <DatePicker
+                    id="startDateInput"
+                    name="startDateInput"
+                    value={startDateInput}
+                    labelText="Start Date"
+                    onSelect={setStartDateInput}
+                  />
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
-                <DatePicker labelText="End Date" onSelect={() => {}} />
+                  <DatePicker
+                    id="endDateInput"
+                    name="endDateInput"
+                    value={endDateInput}
+                    labelText="End Date"
+                    onSelect={setEndDateInput}
+                  />
                 </div>
 
                 <div className="col-span-6 sm:col-span-6">
                   <label
-                    htmlFor="about"
+                    htmlFor="descriptionInput"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Proposal Description
                   </label>
                   <div className="mt-1">
                     <textarea
-                      id="proposal-description"
-                      name="proposal-description"
+                      id="descriptionInput"
+                      name="descriptionInput"
+                      value={descriptionInput}
                       rows={3}
                       className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full h-32 border border-gray-300 rounded-md p-2 text-10xl"
-                      placeholder="Proposal Information"
+                      placeholder="Proposal Description"
                       defaultValue={""}
                       onChange={(e) => setDescriptionInput(e.target.value)}
-
                     />
                   </div>
                 </div>
@@ -105,32 +134,43 @@ export const ProposalInput = () => {
                   </label>
                   <input
                     type="text"
-                    name="street-address"
-                    id="street-address"
-                    autoComplete="street-address"
+                    name="linkInput"
+                    id="linkInput"
+                    value={linkInput}
+                    autoComplete="linkInput"
                     className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-10xl border-gray-300 rounded-md"
                     onChange={(e) => setLinkInput(e.target.value)}
-
                   />
                 </div>
                 <div className="col-span-6">
                   <label
-                    htmlFor="street-address"
+                    htmlFor="fundsRequestedInput"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Funds Requested
                   </label>
                   <input
                     type="text"
-                    name="street-address"
-                    id="street-address"
-                    autoComplete="street-address"
+                    name="fundsRequestedInput"
+                    id="fundsRequestedInput"
+                    value={fundsRequestedInput}
+                    autoComplete="fundsRequestedInput"
                     className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-10xl border-gray-300 rounded-md"
-                    onChange={(e) => setFundsRequestInput(e.target.value)}
-
+                    onChange={(e) => setFundsRequestedInput(e.target.value)}
                   />
                 </div>
 
+                <div>
+                  <input
+                    id="fileInput"
+                    type="file"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0])
+                        setFileInput(e.target.files[0]);
+                    }}
+                  />
+                </div>
+                {/* File upload widget below needs some work to get it working. Created one above temporarily. */}
                 <div className="col-span-6">
                   <label className="block text-sm font-medium text-gray-700">
                     Upload a File
@@ -153,19 +193,22 @@ export const ProposalInput = () => {
                       </svg>
                       <div className="flex text-sm text-gray-600 w-full">
                         <label
-                          htmlFor="file-upload"
+                          htmlFor="fileForUpload"
                           className="w-full relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                         >
                           <span>Upload a file</span>
                           <input
-                            id="file-upload"
-                            name="file-upload"
+                            id="fileInput"
+                            name="fileInput"
                             type="file"
+                            onChange={(e) => setFileInput(e.target.value)}
                             className="sr-only"
                           />
                         </label>
                       </div>
-                      <p className="text-xs pl-1 text-gray-500 pt-4">or drag and drop</p>
+                      <p className="text-xs pl-1 text-gray-500 pt-4">
+                        or drag and drop
+                      </p>
                       <p className="text-xs text-gray-500">
                         PNG, JPG, GIF up to 10MB
                       </p>
@@ -190,7 +233,6 @@ export const ProposalInput = () => {
           </div>
           <div className="mt-5 md:mt-0 md:col-span-2">
             <form className="space-y-6" action="#" method="POST">
-             
               <fieldset>
                 <legend className="contents text-base font-medium text-gray-900">
                   Select Group.
@@ -199,11 +241,14 @@ export const ProposalInput = () => {
                   If private, select from which Sub-Group you would like to
                   propose from.
                 </p>
-                <div className="mt-4 space-y-4">
+                <div
+                  className="mt-4 space-y-4"
+                  onChange={(e) => handleSubGroupChange(e)}
+                >
                   <div className="flex items-center">
                     <input
-                      id="push-everything"
-                      name="push-notifications"
+                      value="group-1"
+                      name="sub-group"
                       type="radio"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                     />
@@ -216,8 +261,8 @@ export const ProposalInput = () => {
                   </div>
                   <div className="flex items-center">
                     <input
-                      id="push-email"
-                      name="push-notifications"
+                      value="group-2"
+                      name="sub-group"
                       type="radio"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                     />
@@ -230,8 +275,8 @@ export const ProposalInput = () => {
                   </div>
                   <div className="flex items-center">
                     <input
-                      id="push-nothing"
-                      name="push-notifications"
+                      value="group-3"
+                      name="sub-group"
                       type="radio"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                     />
@@ -266,12 +311,26 @@ export const ProposalInput = () => {
         <button
           type="submit"
           className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          onClick={checkInputs}
+          onClick={handleSubmit}
         >
-          CheckInputs
+          Submit Proposal
         </button>
       </div>
+<<<<<<< HEAD
       {showProposalModal ? <ProofModalProposal /> : null}
+=======
+      {showProposalModal ? (
+        <ProofModalProposal
+          group={subGroup}
+          title={titleInput}
+          startDate={startDateInput}
+          endDate={endDateInput}
+          description={descriptionInput}
+          fundRequest={fundsRequestedInput}
+          linkInput={linkInput}
+        />
+      ) : null}
+>>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
     </div>
   );
 };

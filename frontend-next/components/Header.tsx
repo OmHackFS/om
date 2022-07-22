@@ -1,10 +1,54 @@
-import { useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { useWeb3React } from "@web3-react/core";
+import { Identity } from "@semaphore-protocol/identity";
+import { Group } from "@semaphore-protocol/group";
+import Semaphore from "../pages/utils/Semaphore.json";
+import * as ethUtil from "ethereumjs-util";
+import * as sigUtil from "@metamask/eth-sig-util";
+// const { Blob } =  require('nft.storage');
+// import * as nftStorage from "nft.storage";
+import { ethers, Signer } from "ethers";
 import { CreateIdentityButton } from "./CreateIdentityButton";
+import { sbContractAddr } from "../contracts";
+import OmSbToken from "../artifacts/contracts/OmSbToken.sol/OmSbToken.json";
+
+import { AbstractConnector } from "@web3-react/abstract-connector";
+import { Provider } from "../utils/provider";
+import { injected } from "../utils/connectors";
 
 export const Header = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
+  const context = useWeb3React<Provider>();
+  const { activate, active, account, library } = context;
 
-  const handleToggleDropdown = () => setShowDropdown(!showDropdown);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [signer, setSigner] = useState<Signer>();
+  const [signerAddr, setSignerAddr] = useState<string | null>(null);
+  const [tokenId, setTokenId] = useState();
+
+  const OmSbTokenContract = useMemo(() => {
+    return new ethers.Contract(sbContractAddr, OmSbToken.abi, signer);
+  }, [signer]);
+
+  useEffect((): void => {
+    if (!library) {
+      setSigner(undefined);
+      return;
+    }
+
+    const signer = library.getSigner();
+    setSigner(signer);
+    signer.getAddress().then(setSignerAddr);
+
+    account &&
+      OmSbTokenContract.connect(signer as any)
+        .balanceOf(account)
+        .then((tokenId: any) => {
+          setTokenId(tokenId.toNumber());
+        });
+    // console.log("sbToken ", sbToken);
+  }, [library]);
+
+  const handleToggleDropdown = () => setShowDropdown((show) => !show);
 
   return (
     <div className="flex-1 px-4 flex justify-between">
@@ -39,7 +83,9 @@ export const Header = () => {
         </form>
       </div>
       <div className="ml-4 flex items-center md:ml-6 gap-4">
-        <CreateIdentityButton />
+        {/* <CreateIdentityButton /> */}
+        <p>Address: {signerAddr}</p>
+        Soulbound TokenID: {tokenId}
         <button
           type="button"
           className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -62,7 +108,6 @@ export const Header = () => {
             />
           </svg>
         </button>
-
         {/* <!-- Profile dropdown --> */}
         <div className="ml-3 relative">
           <div>
@@ -75,11 +120,20 @@ export const Header = () => {
               aria-haspopup="true"
             >
               <span className="sr-only">Open user menu</span>
-              <img
-                className="h-8 w-8 rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
             </button>
           </div>
 

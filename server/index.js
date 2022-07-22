@@ -4,17 +4,18 @@ import { v4 as uuid } from 'uuid';
 import express from 'express';
 import cors from "cors"; 
 import { Web3Storage, File, getFilesFromPath } from 'web3.storage';
-import uploadFile from './upload.js';
+import uploadFile from './src/upload.js';
 import { createClient } from '@urql/core';
 import pkg from '@apollo/client';
 const { ApolloClient, InMemoryCache, HttpLink, gql } = pkg;
 import fetch from 'cross-fetch';
+import lit from "./src/lit.js";
 
 const GRAPH_API_URL = 'https://api.thegraph.com/subgraphs/name/richwarner/om-mumbai';
 const DB_DD_MED_DOCTORS = './db/dd_med_doctors.json';
 const DB_DD_MED_SESSIONS = './db/dd_med_sessions.json';
 const DB_DD_SCR_SCREENPLAYS = './db/dd_scr_screenplays.json';
-// const DB_PROPOSALS = './db/proposals.json';
+// const DB_PROPOSALS = './db/proposals.json'; 
 
 const PORT = process.env.PORT || 3030; // default port to listen
 
@@ -23,7 +24,7 @@ const corsOptions = {
     origin: process.env.HTTP_ORIGIN || "http://localhost:3000"
 };
 const app = express();
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); 
 app.use(express.urlencoded({ extended: true })); // app.use(express.json());
 
 // Get all proposals

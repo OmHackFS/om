@@ -24,7 +24,7 @@ interface OmInterface extends ethers.utils.Interface {
     "addMember(uint256,uint256)": FunctionFragment;
     "castVote(uint256,bytes32,uint256,uint256,uint256[8])": FunctionFragment;
     "createDao(bytes32)": FunctionFragment;
-    "createProposal(bytes32,uint256,uint256,uint256[8])": FunctionFragment;
+    "createProposal(bytes32,bytes32,uint256,uint256,uint256,bytes32,uint256,uint256[8])": FunctionFragment;
     "daoGroups(uint256)": FunctionFragment;
     "getDepth(uint256)": FunctionFragment;
     "getNumberOfLeaves(uint256)": FunctionFragment;
@@ -66,7 +66,11 @@ interface OmInterface extends ethers.utils.Interface {
     functionFragment: "createProposal",
     values: [
       BytesLike,
+      BytesLike,
       BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BytesLike,
       BigNumberish,
       [
         BigNumberish,
@@ -138,7 +142,7 @@ interface OmInterface extends ethers.utils.Interface {
     "MemberAdded(uint256)": EventFragment;
     "MemberRemoved(uint256)": EventFragment;
     "NullifierHashAdded(uint256)": EventFragment;
-    "ProposalCreated(uint256,uint256,bytes32,uint256,uint256,bytes32)": EventFragment;
+    "ProposalCreated(uint256,uint256,bytes32,bytes32,uint256,uint256,bytes32)": EventFragment;
     "VoteCast(uint256,uint256,bytes32)": EventFragment;
   };
 
@@ -192,10 +196,11 @@ export type NullifierHashAddedEvent = TypedEvent<
 >;
 
 export type ProposalCreatedEvent = TypedEvent<
-  [BigNumber, BigNumber, string, BigNumber, BigNumber, string] & {
+  [BigNumber, BigNumber, string, string, BigNumber, BigNumber, string] & {
     groupId: BigNumber;
     proposalId: BigNumber;
     proposalName: string;
+    proposalDescription: string;
     startDate: BigNumber;
     endDate: BigNumber;
     fileUri: string;
@@ -285,7 +290,11 @@ export class Om extends BaseContract {
 
     createProposal(
       proposalName: BytesLike,
+      proposalDescription: BytesLike,
+      startDate: BigNumberish,
+      endDate: BigNumberish,
       nullifierHash: BigNumberish,
+      fileUri: BytesLike,
       groupId: BigNumberish,
       proof: [
         BigNumberish,
@@ -384,7 +393,11 @@ export class Om extends BaseContract {
 
   createProposal(
     proposalName: BytesLike,
+    proposalDescription: BytesLike,
+    startDate: BigNumberish,
+    endDate: BigNumberish,
     nullifierHash: BigNumberish,
+    fileUri: BytesLike,
     groupId: BigNumberish,
     proof: [
       BigNumberish,
@@ -474,7 +487,11 @@ export class Om extends BaseContract {
 
     createProposal(
       proposalName: BytesLike,
+      proposalDescription: BytesLike,
+      startDate: BigNumberish,
+      endDate: BigNumberish,
       nullifierHash: BigNumberish,
+      fileUri: BytesLike,
       groupId: BigNumberish,
       proof: [
         BigNumberish,
@@ -608,19 +625,21 @@ export class Om extends BaseContract {
       nullifierHash?: null
     ): TypedEventFilter<[BigNumber], { nullifierHash: BigNumber }>;
 
-    "ProposalCreated(uint256,uint256,bytes32,uint256,uint256,bytes32)"(
+    "ProposalCreated(uint256,uint256,bytes32,bytes32,uint256,uint256,bytes32)"(
       groupId?: BigNumberish | null,
       proposalId?: null,
       proposalName?: null,
+      proposalDescription?: null,
       startDate?: null,
       endDate?: null,
       fileUri?: null
     ): TypedEventFilter<
-      [BigNumber, BigNumber, string, BigNumber, BigNumber, string],
+      [BigNumber, BigNumber, string, string, BigNumber, BigNumber, string],
       {
         groupId: BigNumber;
         proposalId: BigNumber;
         proposalName: string;
+        proposalDescription: string;
         startDate: BigNumber;
         endDate: BigNumber;
         fileUri: string;
@@ -631,15 +650,17 @@ export class Om extends BaseContract {
       groupId?: BigNumberish | null,
       proposalId?: null,
       proposalName?: null,
+      proposalDescription?: null,
       startDate?: null,
       endDate?: null,
       fileUri?: null
     ): TypedEventFilter<
-      [BigNumber, BigNumber, string, BigNumber, BigNumber, string],
+      [BigNumber, BigNumber, string, string, BigNumber, BigNumber, string],
       {
         groupId: BigNumber;
         proposalId: BigNumber;
         proposalName: string;
+        proposalDescription: string;
         startDate: BigNumber;
         endDate: BigNumber;
         fileUri: string;
@@ -697,7 +718,11 @@ export class Om extends BaseContract {
 
     createProposal(
       proposalName: BytesLike,
+      proposalDescription: BytesLike,
+      startDate: BigNumberish,
+      endDate: BigNumberish,
       nullifierHash: BigNumberish,
+      fileUri: BytesLike,
       groupId: BigNumberish,
       proof: [
         BigNumberish,
@@ -783,7 +808,11 @@ export class Om extends BaseContract {
 
     createProposal(
       proposalName: BytesLike,
+      proposalDescription: BytesLike,
+      startDate: BigNumberish,
+      endDate: BigNumberish,
       nullifierHash: BigNumberish,
+      fileUri: BytesLike,
       groupId: BigNumberish,
       proof: [
         BigNumberish,

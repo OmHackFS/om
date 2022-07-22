@@ -15,7 +15,7 @@ import OmSbToken from "../artifacts/contracts/OmSbToken.sol/OmSbToken.json";
 // import {IPFS} from 'ipfs';
 // import * as fs from 'fs';
 
-const sbContractAddr = "0x4d5351452099a195415437d3EC9b69a87523cffb";
+import { sbContractAddr } from "../contracts";
 
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import { Provider } from "../utils/provider";
@@ -24,8 +24,6 @@ import { injected } from "../utils/connectors";
 export const CreateIdentityScreen = () => {
   const context = useWeb3React<Provider>();
   const { activate, active, account, library } = context;
-
-  console.log("account ", account);
 
   const [signer, setSigner] = useState<Signer>();
   const [signerAddr, setSignerAddr] = useState<string | null>(null);
@@ -48,11 +46,12 @@ export const CreateIdentityScreen = () => {
     setSigner(signer);
     signer.getAddress().then(setSignerAddr);
 
-    OmSbTokenContract.connect(signer as any)
-      .balanceOf(account)
-      .then((tokenId: any) => {
-        setTokenId(tokenId.toNumber());
-      });
+    account &&
+      OmSbTokenContract.connect(signer as any)
+        .balanceOf(account)
+        .then((tokenId: any) => {
+          setTokenId(tokenId.toNumber());
+        });
 
     // console.log("sbToken ", sbToken);
   }, [library]);
@@ -115,11 +114,11 @@ export const CreateIdentityScreen = () => {
 
   console.log("tokenId ", tokenId);
 
-  const hasSbToken = tokenId !== 0;
+  const hasSbToken = !!tokenId && tokenId !== 0;
 
   return (
     <div className="flex items-center justify-center flex-1">
-      {!hasSbToken ? (
+      {!hasSbToken && active ? (
         <button
           onClick={handleCreateIdentity}
           className="h-16 w-64 inline-flex
@@ -190,6 +189,25 @@ export const CreateIdentityScreen = () => {
             />
           </svg>
           Soulbound tokenId: {tokenId}
+        </div>
+      ) : null}
+      {!active ? (
+        <div className="h-16 items-center inline-flex mt-2 justify-center rounded-md border border-transparent bg-gray-100 px-3 py-2 text-sm font-medium text-black-900 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 pr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            />
+          </svg>
+          Please connect your wallet
         </div>
       ) : null}
     </div>
