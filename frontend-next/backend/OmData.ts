@@ -1,14 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink, gql } from '@apollo/client';
-import { Web3Storage, File, getFilesFromPath } from 'web3.storage';
-import { DID } from 'dids'
-import { Integration } from 'lit-ceramic-sdk'
-import { isCompositeType } from 'graphql';
-
-// declare global {
-//   interface Window {
-//     did?: DID
-//   }
-// }
+import { Web3Storage, File, getFilesFromPath } from 'web3.storage'; // @mehulagg/web3.storage
+// import { DID } from 'dids'
+// import { Integration } from 'lit-ceramic-integration-sdk'  // '@litelliott/lit-ceramic-integration'
 
 class OmData {
 
@@ -17,18 +10,17 @@ class OmData {
     // private litCeramicIntegration = new Integration('https://ceramic-clay.3boxlabs.com', 'polygon')
     // private streamID = 'kjzl6cwe1jw1479rnblkk5u43ivxkuo29i4efdx1e7hk94qrhjl0d4u0dyys1au' // test data
     
-    // Fetch all proposals from subgraph
+    // Fetch all proposals created from subgraph
     async getProposals() {
         const eventQuery = `{ 
-            proposalCreatedEvents { 
+            proposalCreateds(first: 1000) { 
                 id 
-                count 
-                groupId 
-                proposalId 
-                proposalName 
-                startDate 
-                endDate 
-                fileUri 
+                groupId
+                description
+                proposalId
+                startDate
+                endDate
+                fileUri
             }}`;
         let data = "";
         const client = new ApolloClient({
@@ -37,7 +29,76 @@ class OmData {
         })
         try {
           const result = await client.query({ query: gql(eventQuery) });
-          data = result.data.proposalCreatedEvents;
+          data = result.data.proposalCreateds;
+        } catch (err) {
+          console.log(err);
+        } 
+        return data;
+    }
+
+    // Fetch all data added events from subgraph
+    async getDataAddedEvents() {
+        const eventQuery = `{ 
+            dataAddeds(first: 1000) {
+                id
+                dataId
+                owner
+                dateAdded
+              }}`;
+        let data = "";
+        const client = new ApolloClient({
+            link: new HttpLink({uri: this.graphApiUrl, fetch}),
+            cache: new InMemoryCache(),
+        })
+        try {
+          const result = await client.query({ query: gql(eventQuery) });
+          data = result.data.dataAddeds;
+        } catch (err) {
+          console.log(err);
+        } 
+        return data;
+    }
+
+    // Fetch all group created events from subgraph
+    async getGroupCreatedEvents() {
+        const eventQuery = `{ 
+            groupCreateds(first:1000) {
+                id
+                groupId
+                depth
+                zeroValue
+              }}`;
+        let data = "";
+        const client = new ApolloClient({
+            link: new HttpLink({uri: this.graphApiUrl, fetch}),
+            cache: new InMemoryCache(),
+        })
+        try {
+          const result = await client.query({ query: gql(eventQuery) });
+          data = result.data.groupCreateds;
+        } catch (err) {
+          console.log(err);
+        } 
+        return data;
+    }
+
+    // Fetch all members added to a given group from subgraph
+    async getMembersAddedByGroup(groupId: number) {
+        const eventQuery = `{ 
+            memberAddeds(where: {groupId: ${groupId}}) {
+                id
+                groupId
+                identityCommitment
+                root
+              }}`;
+        let data = "";
+        const client = new ApolloClient({
+            link: new HttpLink({uri: this.graphApiUrl, fetch}),
+            cache: new InMemoryCache(),
+        })
+        try {
+          const result = await client.query({ query: gql(eventQuery) });
+          data = result.data.memberAddeds;
         } catch (err) {
           console.log(err);
         } 
@@ -49,7 +110,7 @@ class OmData {
     async addProposal(proposal: any) {
         
         // Add documents to permanent storage on web3.storage
-        const web3StorageClient = new Web3Storage({ token: this.web3StorageApiToken });
+        const web3StorageClient = new Web3Storage({ token: this.web3StorageApiToken, endpoint: new URL("https://api.web3.storage") });
         const documentFileArray = [proposal.file];
         const documentCid = await web3StorageClient.put(documentFileArray, { wrapWithDirectory: false })
 
@@ -65,35 +126,6 @@ class OmData {
         // console.log("Added proposal: ", proposalUri)
 
         return proposalUri       
-    }
-
-    // Upload a proposal file to web3.storage and return the URI
-    async uploadProposalFile(file: any) {
-        file = file;
-    }
-
-    // Fetch all votes from subgraph
-    async getVotes() {
-        const eventQuery = `{
-            voteCastEvents {
-                id
-                count
-                groupId
-                proposalId
-                signal
-          }}`;
-          let data = "";
-          const client = new ApolloClient({
-              link: new HttpLink({uri: this.GRAPH_API_URL, fetch}),
-              cache: new InMemoryCache(),
-          })
-          try {
-            const result = await client.query({ query: gql(eventQuery) });
-            data = result.data.voteCastEvents;
-          } catch (err) {
-            console.log(err);
-          } 
-          return data;
     }
 
     // Fetch and decrypt all screenplays from storage in Lit/Ceramic
@@ -172,11 +204,6 @@ class OmData {
         // const streamId = await this.litCeramicIntegration.encryptAndWrite(screenplay, evmContractConditions, 'evmContractConditions')
 
         // console.log("Stream ID: ", streamId)
-
-    }
-
-    // Upload screenplay file that will be encrypted and stored in Lit/Ceramic
-    async uploadScreenplayFile(file: any) {
 
     }
 
