@@ -1,8 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink, gql } from '@apollo/client';
-import { Web3Storage, File, getFilesFromPath } from 'web3.storage';
-import { DID } from 'dids'
-import { Integration } from 'lit-ceramic-sdk'
-import { isCompositeType } from 'graphql';
+import { Web3Storage, File, getFilesFromPath } from 'web3.storage'; // @mehulagg/web3.storage
+// import { DID } from 'dids'
+// import { Integration } from 'lit-ceramic-integration-sdk'  // '@litelliott/lit-ceramic-integration'
 
 class OmData {
 
@@ -111,7 +110,7 @@ class OmData {
     async addProposal(proposal: any) {
         
         // Add documents to permanent storage on web3.storage
-        const web3StorageClient = new Web3Storage({ token: this.web3StorageApiToken });
+        const web3StorageClient = new Web3Storage({ token: this.web3StorageApiToken, endpoint: new URL("https://api.web3.storage") });
         const documentFileArray = [proposal.file];
         const documentCid = await web3StorageClient.put(documentFileArray, { wrapWithDirectory: false })
 

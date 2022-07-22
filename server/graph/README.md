@@ -6,3 +6,5 @@ https://thegraph.com/hosted-service/subgraph/richwarner/om-mumbai?selected=playg
 https://api.thegraph.com/subgraphs/name/richwarner/om-mumbai
 
 Add startBlock: 20000000 under abi in subgraph.yaml
+
+graph init --product hosted-service --from-contract 0xB726794A462d89b7B082249BF202F12b385470B3 --network mumbai om-mumbai --index-events
