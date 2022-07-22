@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { ProofModal } from "./ProofModal";
+import { ProofModalProposal } from "./ProofModalProposal";
 import { DatePicker } from "./DatePicker";
-import  backEnd  from "../backend/OmData"
+import backEnd from "../backend/OmData";
 
 export const ProposalInput = () => {
   const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
@@ -9,7 +9,7 @@ export const ProposalInput = () => {
   const [startDateInput, setStartDateInput] = useState<any>();
   const [endDateInput, setEndDateInput] = useState<any>();
   const [descriptionInput, setDescriptionInput] = useState<any>();
-  const [fundsRequestedInput, setFundsRequestedInput] = useState<any>();  
+  const [fundsRequestedInput, setFundsRequestedInput] = useState<any>();
   const [linkInput, setLinkInput] = useState<any>();
   const [fileInput, setFileInput] = useState<any>();
   const [subGroup, setSubGroup] = useState();
@@ -17,7 +17,6 @@ export const ProposalInput = () => {
   const [groupInput, setGroupInput] = useState<any>();
 
   const handleSubmit = async () => {
-    
     const proposal = {
       title: titleInput,
       startDate: startDateInput, // Widget isn't working, this is always null
@@ -82,12 +81,13 @@ export const ProposalInput = () => {
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
-                  <DatePicker 
+                  <DatePicker
                     id="endDateInput"
                     name="endDateInput"
                     value={endDateInput}
-                    labelText="End Date" 
-                    onSelect={setEndDateInput} />
+                    labelText="End Date"
+                    onSelect={setEndDateInput}
+                  />
                 </div>
 
                 <div className="col-span-6 sm:col-span-6">
@@ -147,7 +147,14 @@ export const ProposalInput = () => {
                 </div>
 
                 <div>
-                  <input id="fileInput" type="file" onChange={(e) => {if(e.target.files && e.target.files[0]) setFileInput(e.target.files[0]);}} />
+                  <input
+                    id="fileInput"
+                    type="file"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0])
+                        setFileInput(e.target.files[0]);
+                    }}
+                  />
                 </div>
                 {/* File upload widget below needs some work to get it working. Created one above temporarily. */}
                 <div className="col-span-6">
@@ -169,7 +176,7 @@ export const ProposalInput = () => {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
-                      </svg>                      
+                      </svg>
                       <div className="flex text-sm text-gray-600 w-full">
                         <label
                           htmlFor="fileForUpload"
@@ -182,7 +189,7 @@ export const ProposalInput = () => {
                             type="file"
                             onChange={(e) => setFileInput(e.target.value)}
                             className="sr-only"
-                          />                          
+                          />
                         </label>
                       </div>
                       <p className="text-xs pl-1 text-gray-500 pt-4">
@@ -296,7 +303,7 @@ export const ProposalInput = () => {
         </button>
       </div>
       {showProposalModal ? (
-        <ProofModal
+        <ProofModalProposal
           group={subGroup}
           title={titleInput}
           startDate={startDateInput}
