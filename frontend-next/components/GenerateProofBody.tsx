@@ -38,7 +38,7 @@ export const GenerateProofBody = () => {
     e.preventDefault();
 
     // 2. Create new group
-    // https://semaphore.appliedzkp.org/docs/guides/groups
+    // https://semaphore.appliedzkp.org/docs/guides/groups=
     const idCommitment = identity.generateCommitment();
     const newGroup = new Group();
     newGroup.addMember(idCommitment);
@@ -522,6 +522,1180 @@ export const GenerateProofBody = () => {
     setOffChainVerification(response);
 
     console.log(response);
+  };
+
+  const handleVerifyProofOnChain = async (e: any) => {
+    e.preventDefault();
+    console.log("On Chain Verification Called");
+
+    const externalNullifier = group1.root;
+
+    const omContractAddress = "0xD7dea4c1Db94852Db2fBD323690f8cD39904b091";
+    const omContractAbi = [
+      {
+        inputs: [
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "contractAddress",
+                type: "address",
+              },
+              { internalType: "uint8", name: "merkleTreeDepth", type: "uint8" },
+            ],
+            internalType: "struct OmContract.Verifier[]",
+            name: "_verifiers",
+            type: "tuple[]",
+          },
+        ],
+        stateMutability: "nonpayable",
+        type: "constructor",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "bytes32",
+            name: "daoName",
+            type: "bytes32",
+          },
+        ],
+        name: "DaoCreated",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "dataId",
+            type: "uint256",
+          },
+          {
+            indexed: true,
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "dateAdded",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "string",
+            name: "IpfsURI",
+            type: "string",
+          },
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+        ],
+        name: "DataAdded",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "address",
+            name: "admin",
+            type: "address",
+          },
+        ],
+        name: "GroupCreated",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint8",
+            name: "depth",
+            type: "uint8",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "zeroValue",
+            type: "uint256",
+          },
+        ],
+        name: "GroupCreated",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "memberID",
+            type: "uint256",
+          },
+        ],
+        name: "MemberAdded",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "identityCommitment",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "root",
+            type: "uint256",
+          },
+        ],
+        name: "MemberAdded",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+        ],
+        name: "MemberRemoved",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "identityCommitment",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "root",
+            type: "uint256",
+          },
+        ],
+        name: "MemberRemoved",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "nullifierHash",
+            type: "uint256",
+          },
+        ],
+        name: "NullifierHashAdded",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "bytes32",
+            name: "signal",
+            type: "bytes32",
+          },
+        ],
+        name: "ProofVerified",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "proposalId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "address",
+            name: "coordinator",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "startDate",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "endDate",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "string",
+            name: "fileUri",
+            type: "string",
+          },
+        ],
+        name: "ProposalCreated",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "proposalId",
+            type: "uint256",
+          },
+          {
+            indexed: true,
+            internalType: "bytes32",
+            name: "vote",
+            type: "bytes32",
+          },
+        ],
+        name: "VoteCast",
+        type: "event",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        name: "ProposalList",
+        outputs: [
+          { internalType: "address", name: "coordinator", type: "address" },
+          { internalType: "uint256", name: "yesCount", type: "uint256" },
+          { internalType: "uint256", name: "noCount", type: "uint256" },
+          { internalType: "uint256", name: "StartDate", type: "uint256" },
+          { internalType: "uint256", name: "EndDate", type: "uint256" },
+          { internalType: "string", name: "IpfsURI", type: "string" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+          { internalType: "bytes32", name: "signal", type: "bytes32" },
+          { internalType: "uint256", name: "nullifierHash", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "externalNullifier",
+            type: "uint256",
+          },
+          { internalType: "uint256[8]", name: "proof", type: "uint256[8]" },
+        ],
+        name: "accessData",
+        outputs: [{ internalType: "bool", name: "", type: "bool" }],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "string", name: "IpfsURI", type: "string" },
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+          { internalType: "bytes32", name: "signal", type: "bytes32" },
+          { internalType: "uint256", name: "nullifierHash", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "externalNullifier",
+            type: "uint256",
+          },
+          { internalType: "uint256[8]", name: "proof", type: "uint256[8]" },
+        ],
+        name: "addData",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "identityCommitment",
+            type: "uint256",
+          },
+        ],
+        name: "addMember",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        name: "canGroupAddData",
+        outputs: [{ internalType: "bool", name: "", type: "bool" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        name: "canGroupPropose",
+        outputs: [{ internalType: "bool", name: "", type: "bool" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "bytes32", name: "vote", type: "bytes32" },
+          { internalType: "uint256", name: "nullifierHash", type: "uint256" },
+          { internalType: "uint256", name: "pollId", type: "uint256" },
+          { internalType: "uint256[8]", name: "proof", type: "uint256[8]" },
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+        ],
+        name: "castVote",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint8", name: "depth", type: "uint8" },
+          { internalType: "uint256", name: "zeroValue", type: "uint256" },
+          { internalType: "address", name: "admin", type: "address" },
+          { internalType: "bool", name: "canPropose", type: "bool" },
+          { internalType: "bool", name: "canAddData", type: "bool" },
+        ],
+        name: "createGroup",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "address", name: "coordinator", type: "address" },
+          { internalType: "uint256", name: "startDate", type: "uint256" },
+          { internalType: "uint256", name: "endDate", type: "uint256" },
+          { internalType: "string", name: "proposalURI", type: "string" },
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+          { internalType: "bytes32", name: "signal", type: "bytes32" },
+          { internalType: "uint256", name: "nullifierHash", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "externalNullifier",
+            type: "uint256",
+          },
+          { internalType: "uint256[8]", name: "proof", type: "uint256[8]" },
+        ],
+        name: "createProposal",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "dataFileCounter",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        name: "dataList",
+        outputs: [
+          { internalType: "uint256", name: "dataId", type: "uint256" },
+          { internalType: "address", name: "dataOwner", type: "address" },
+          { internalType: "uint256", name: "addedDate", type: "uint256" },
+          { internalType: "string", name: "IpfsURI", type: "string" },
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "groupId", type: "uint256" }],
+        name: "getDepth",
+        outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "groupId", type: "uint256" }],
+        name: "getNumberOfLeaves",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "groupId", type: "uint256" }],
+        name: "getRoot",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        name: "groupAdmins",
+        outputs: [{ internalType: "address", name: "", type: "address" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint256", name: "", type: "uint256" },
+          { internalType: "uint256", name: "", type: "uint256" },
+        ],
+        name: "groupMembership",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "owner",
+        outputs: [{ internalType: "address", name: "", type: "address" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "proposalCounter",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "identityCommitment",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256[]",
+            name: "proofSiblings",
+            type: "uint256[]",
+          },
+          {
+            internalType: "uint8[]",
+            name: "proofPathIndices",
+            type: "uint8[]",
+          },
+        ],
+        name: "removeMember",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+        name: "verifiers",
+        outputs: [
+          { internalType: "contract IVerifier", name: "", type: "address" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+          { internalType: "bytes32", name: "signal", type: "bytes32" },
+          { internalType: "uint256", name: "nullifierHash", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "externalNullifier",
+            type: "uint256",
+          },
+          { internalType: "uint256[8]", name: "proof", type: "uint256[8]" },
+        ],
+        name: "verifyProof",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ];
+    const signer = new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    ).getSigner();
+    const omContract = new ethers.Contract(
+      omContractAddress,
+      omContractAbi,
+      signer
+    );
+    // const signer2 =  (new ethers.providers.Web3Provider((window as any).ethereum)).getSigner()
+
+    const checkMembership = await omContract.verifyProof(
+      1,
+      signalBytes32,
+      group1NullifierHash,
+      group1ExternalNullifier,
+      group1SolidityProof,
+      { gasLimit: 1500000 }
+    );
+    const tx = await checkMembership.wait();
+
+    console.log(tx);
+  };
+
+  const handleCreateProposalOnChain = async (e: any) => {
+    e.preventDefault();
+    console.log("On Chain Verification Called");
+
+    // const externalNullifier = group1.root;
+
+    const omContractAddress = "0xD7dea4c1Db94852Db2fBD323690f8cD39904b091";
+    const omContractAbi = [
+      {
+        inputs: [
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "contractAddress",
+                type: "address",
+              },
+              { internalType: "uint8", name: "merkleTreeDepth", type: "uint8" },
+            ],
+            internalType: "struct OmContract.Verifier[]",
+            name: "_verifiers",
+            type: "tuple[]",
+          },
+        ],
+        stateMutability: "nonpayable",
+        type: "constructor",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "bytes32",
+            name: "daoName",
+            type: "bytes32",
+          },
+        ],
+        name: "DaoCreated",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "dataId",
+            type: "uint256",
+          },
+          {
+            indexed: true,
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "dateAdded",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "string",
+            name: "IpfsURI",
+            type: "string",
+          },
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+        ],
+        name: "DataAdded",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "address",
+            name: "admin",
+            type: "address",
+          },
+        ],
+        name: "GroupCreated",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint8",
+            name: "depth",
+            type: "uint8",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "zeroValue",
+            type: "uint256",
+          },
+        ],
+        name: "GroupCreated",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "memberID",
+            type: "uint256",
+          },
+        ],
+        name: "MemberAdded",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "identityCommitment",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "root",
+            type: "uint256",
+          },
+        ],
+        name: "MemberAdded",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+        ],
+        name: "MemberRemoved",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "identityCommitment",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "root",
+            type: "uint256",
+          },
+        ],
+        name: "MemberRemoved",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "nullifierHash",
+            type: "uint256",
+          },
+        ],
+        name: "NullifierHashAdded",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "bytes32",
+            name: "signal",
+            type: "bytes32",
+          },
+        ],
+        name: "ProofVerified",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "proposalId",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "address",
+            name: "coordinator",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "startDate",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "endDate",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "string",
+            name: "fileUri",
+            type: "string",
+          },
+        ],
+        name: "ProposalCreated",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "groupId",
+            type: "uint256",
+          },
+          {
+            indexed: true,
+            internalType: "uint256",
+            name: "proposalId",
+            type: "uint256",
+          },
+          {
+            indexed: true,
+            internalType: "bytes32",
+            name: "vote",
+            type: "bytes32",
+          },
+        ],
+        name: "VoteCast",
+        type: "event",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        name: "ProposalList",
+        outputs: [
+          { internalType: "address", name: "coordinator", type: "address" },
+          { internalType: "uint256", name: "yesCount", type: "uint256" },
+          { internalType: "uint256", name: "noCount", type: "uint256" },
+          { internalType: "uint256", name: "StartDate", type: "uint256" },
+          { internalType: "uint256", name: "EndDate", type: "uint256" },
+          { internalType: "string", name: "IpfsURI", type: "string" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+          { internalType: "bytes32", name: "signal", type: "bytes32" },
+          { internalType: "uint256", name: "nullifierHash", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "externalNullifier",
+            type: "uint256",
+          },
+          { internalType: "uint256[8]", name: "proof", type: "uint256[8]" },
+        ],
+        name: "accessData",
+        outputs: [{ internalType: "bool", name: "", type: "bool" }],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "string", name: "IpfsURI", type: "string" },
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+          { internalType: "bytes32", name: "signal", type: "bytes32" },
+          { internalType: "uint256", name: "nullifierHash", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "externalNullifier",
+            type: "uint256",
+          },
+          { internalType: "uint256[8]", name: "proof", type: "uint256[8]" },
+        ],
+        name: "addData",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "identityCommitment",
+            type: "uint256",
+          },
+        ],
+        name: "addMember",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        name: "canGroupAddData",
+        outputs: [{ internalType: "bool", name: "", type: "bool" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        name: "canGroupPropose",
+        outputs: [{ internalType: "bool", name: "", type: "bool" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "bytes32", name: "vote", type: "bytes32" },
+          { internalType: "uint256", name: "nullifierHash", type: "uint256" },
+          { internalType: "uint256", name: "pollId", type: "uint256" },
+          { internalType: "uint256[8]", name: "proof", type: "uint256[8]" },
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+        ],
+        name: "castVote",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint8", name: "depth", type: "uint8" },
+          { internalType: "uint256", name: "zeroValue", type: "uint256" },
+          { internalType: "address", name: "admin", type: "address" },
+          { internalType: "bool", name: "canPropose", type: "bool" },
+          { internalType: "bool", name: "canAddData", type: "bool" },
+        ],
+        name: "createGroup",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "address", name: "coordinator", type: "address" },
+          { internalType: "uint256", name: "startDate", type: "uint256" },
+          { internalType: "uint256", name: "endDate", type: "uint256" },
+          { internalType: "string", name: "proposalURI", type: "string" },
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+          { internalType: "bytes32", name: "signal", type: "bytes32" },
+          { internalType: "uint256", name: "nullifierHash", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "externalNullifier",
+            type: "uint256",
+          },
+          { internalType: "uint256[8]", name: "proof", type: "uint256[8]" },
+        ],
+        name: "createProposal",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "dataFileCounter",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        name: "dataList",
+        outputs: [
+          { internalType: "uint256", name: "dataId", type: "uint256" },
+          { internalType: "address", name: "dataOwner", type: "address" },
+          { internalType: "uint256", name: "addedDate", type: "uint256" },
+          { internalType: "string", name: "IpfsURI", type: "string" },
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "groupId", type: "uint256" }],
+        name: "getDepth",
+        outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "groupId", type: "uint256" }],
+        name: "getNumberOfLeaves",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "groupId", type: "uint256" }],
+        name: "getRoot",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        name: "groupAdmins",
+        outputs: [{ internalType: "address", name: "", type: "address" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint256", name: "", type: "uint256" },
+          { internalType: "uint256", name: "", type: "uint256" },
+        ],
+        name: "groupMembership",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "owner",
+        outputs: [{ internalType: "address", name: "", type: "address" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "proposalCounter",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "identityCommitment",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256[]",
+            name: "proofSiblings",
+            type: "uint256[]",
+          },
+          {
+            internalType: "uint8[]",
+            name: "proofPathIndices",
+            type: "uint8[]",
+          },
+        ],
+        name: "removeMember",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+        name: "verifiers",
+        outputs: [
+          { internalType: "contract IVerifier", name: "", type: "address" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint256", name: "groupId", type: "uint256" },
+          { internalType: "bytes32", name: "signal", type: "bytes32" },
+          { internalType: "uint256", name: "nullifierHash", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "externalNullifier",
+            type: "uint256",
+          },
+          { internalType: "uint256[8]", name: "proof", type: "uint256[8]" },
+        ],
+        name: "verifyProof",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ];
+    const signer = new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    ).getSigner();
+    const omContract = new ethers.Contract(
+      omContractAddress,
+      omContractAbi,
+      signer
+    );
+    // const signer2 =  (new ethers.providers.Web3Provider((window as any).ethereum)).getSigner()
+
+    const coordinator = "0xd770134156f9aB742fDB4561A684187f733A9586";
+    const startDate = 1000;
+    const endDate = 2000;
+    const proposalURI = "Proposal Alpha Test";
+    const groupId = 1;
+    const signalInBytes = signalBytes32;
+    const nullifierHash = group1NullifierHash;
+    const externalNullifier = group1ExternalNullifier;
+    const solidityProof = group1SolidityProof;
+    // const checkMembership = await omContract.createProposal(1,signalBytes32,group1NullifierHash,group1ExternalNullifier,group1SolidityProof,{gasLimit: 1500000});
+    // const tx = await checkMembership.wait();
+
+    const addProposal = await omContract.createProposal(
+      coordinator,
+      startDate,
+      endDate,
+      proposalURI,
+      groupId,
+      signalInBytes,
+      nullifierHash,
+      externalNullifier,
+      solidityProof,
+      { gasLimit: 1500000 }
+    );
+    const tx = await addProposal.wait();
+
+    console.log(tx);
   };
 
   const handleVerifyProofOnChain = async (e: any) => {
