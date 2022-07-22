@@ -13,7 +13,7 @@ import {
 } from "@heroicons/react/solid";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { proposalsList } from "./mocks/proposals";
-import { ProofModal } from "./ProofModal";
+import { ProofModalVote } from "./ProofModalVote";
 import { useState } from "react";
 
 const user = {
@@ -414,7 +414,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                     Vote
                   </button>
                 </div>
-                {showProposalModal ? <ProofModal /> : null}
+                {showProposalModal ? <ProofModalVote /> : null}
               </div>
             </section>
           </div>

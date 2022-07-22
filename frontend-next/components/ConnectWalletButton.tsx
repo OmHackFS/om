@@ -42,7 +42,7 @@ export const ConnectWalletButton = ({ onConnect }: any) => {
             xmlns="http://www.w3.org/2000/svg"
           >
             {" "}
-            <g clip-path="url(#clip0_1512_1323)">
+            <g clipPath="url(#clip0_1512_1323)">
               {" "}
               <path
                 d="M2278.79 1730.86L2133.62 2221.69L1848.64 2143.76L2278.79 1730.86Z"

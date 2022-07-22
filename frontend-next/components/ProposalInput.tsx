@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProofModal } from "./ProofModal";
+import { ProofModalProposal } from "./ProofModalProposal";
 import { DatePicker } from "./DatePicker";
 
 export const ProposalInput = () => {
@@ -23,6 +23,9 @@ export const ProposalInput = () => {
       fundRequest: fundRequestInput,
       linkInput: linkInput
     }
+
+    //Send fullProposal to Web3.Storage and consolelog IPFS URI
+    
     console.log(fullProposal);
   }
 
@@ -268,7 +271,7 @@ export const ProposalInput = () => {
           CheckInputs
         </button>
       </div>
-      {showProposalModal ? <ProofModal /> : null}
+      {showProposalModal ? <ProofModalProposal /> : null}
     </div>
   );
 };
