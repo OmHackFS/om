@@ -64,6 +64,8 @@ const App = () => {
   return (
     <div className="app">
     <h1>Data DAO (oh wow) 🤩</h1>
+    <h2 className="mt-4 mb-4">Lit</h2>
+    <button className="btn btn-primary mt-4 mb-4" onClick={getResource}>Get Resource</button>
     <h2 className="mt-4 mb-4">Proposals</h2>
     <button className="btn btn-primary mt-4 mb-4" onClick={getProposals}>Get Proposals</button>
     <div className="card-group">

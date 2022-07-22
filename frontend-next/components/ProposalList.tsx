@@ -1,23 +1,13 @@
 import { proposalsList } from "./mocks/proposals";
 import Link from "next/link";
-import axios from "axios";
 import { useState } from "react";
 
-export const ProposalList = () => {
+export const ProposalList = ( props: any) => {
 
-  
-  const [proposals, setProposals] = useState(proposalsList);
+  const {proposals} = props;
+  console.log("proposals:", proposals);
 
-  const client = axios.create({
-    baseURL: "http://localhost:3030/", // "https://data-dao-api.vercel.app/"
-  });
-
-  async function getProposals() {
-    const response = await client.get("proposals");
-    setProposals(response.data);
-  }
-
-  return (
+ return (    
     <div className="px-4 sm:px-6 lg:px-8 pt-7">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
@@ -89,29 +79,29 @@ export const ProposalList = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {proposals.map((person: any) => (
-                    <Link href={`/proposal_info/${person.id}`}>
-                    <tr key={person.email}>
+                  {proposals.map((proposal: any) => (
+                    <Link href={`/proposal_info/${proposal.id}`}>
+                    <tr key={proposal.id}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                         <div className="flex items-center">
                           <div className="h-10 w-10 flex-shrink-0">
                             <img
                               className="h-10 w-10 rounded-full"
-                              src={person.image}
+                              src={proposal.imageUri}
                               alt=""
                             />
                           </div>
                           <div className="ml-4">
                             <div className="font-medium text-gray-900">
-                              {person.name}
+                              {proposal.proposalName}
                             </div>
-                            <div className="text-gray-500">{person.email}</div>
+                            <div className="text-gray-500">{proposal.proposalName}</div>
                           </div>
                         </div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <div className="text-gray-900">{person.title}</div>
-                        <div className="text-gray-500">{person.department}</div>
+                        <div className="text-gray-900">{proposal.groupId}</div>
+                        <div className="text-gray-500">{proposal.groupId}</div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
@@ -119,13 +109,13 @@ export const ProposalList = () => {
                         </span>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person.role}
+                        {proposal.role}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person.date}
+                        {proposal.startDate}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person.date}
+                        {proposal.date}
                       </td>
 
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
@@ -133,7 +123,7 @@ export const ProposalList = () => {
                           href="#"
                           className="text-indigo-600 hover:text-indigo-900"
                         >
-                          Edit<span className="sr-only">, {person.name}</span>
+                          Edit<span className="sr-only">, {proposal.name}</span>
                         </a>
                       </td>
                     </tr>
