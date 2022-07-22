@@ -15,7 +15,7 @@ import OmSbToken from "../artifacts/contracts/OmSbToken.sol/OmSbToken.json";
 // import {IPFS} from 'ipfs';
 // import * as fs from 'fs';
 
-import { sbContractAddr } from "../contract-addresses";
+import { sbContractAddr } from "../contracts";
 
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import { Provider } from "../utils/provider";
