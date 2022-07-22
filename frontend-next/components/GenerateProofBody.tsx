@@ -42,7 +42,6 @@ export const GenerateProofBody = () => {
     // const newIdentity = new Identity();
     const idCommitment = identity.generateCommitment();
 
- 
     // 2. Create new group
     // https://semaphore.appliedzkp.org/docs/guides/groups
     const newGroup = new Group();

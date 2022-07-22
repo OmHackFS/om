@@ -4,7 +4,15 @@ import { GenerateProofBody } from "./GenerateProofBody";
 import { SelectWalletBody } from "./SelectWalletBody";
 import { SendTransactionBody } from "./SendTransactionBody";
 
-export const MultiStepForm = () => {
+export const MultiStepForm = ({
+  group,
+  title,
+  startDate,
+  endDate,
+  description,
+  fundRequest,
+  linkInput,
+}: any) => {
   const [formStep, setFormStep] = useState(0);
 
   const handleClickNext = (e: any) => {
@@ -25,6 +33,8 @@ export const MultiStepForm = () => {
     e.preventDefault();
   };
 
+  const onGenerateProof = () => {};
+
   return (
     <div>
       <body>
@@ -43,7 +53,7 @@ export const MultiStepForm = () => {
           </h2>
 
           <p className="max-w-screen-md mx-auto text-center text-gray-500 md:text-lg">
-            Through the Zero Knowladge Verification your Identity will stay
+            Through the Zero Knowledge Verification your Identity will stay
             Private
           </p>
         </div>

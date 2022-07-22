@@ -10,28 +10,28 @@ export const ProposalInput = () => {
   const [descriptionInput, setDescriptionInput] = useState<any>();
   const [fundRequestInput, setFundsRequestInput] = useState<any>();
   const [linkInput, setLinkInput] = useState<any>();
-
+  const [subGroup, setSubGroup] = useState();
 
   const [groupInput, setGroupInput] = useState<any>();
 
-  function checkInputs() {
-    const fullProposal={
+  const checkInputs = () => {
+    const fullProposal = {
       title: titleInput,
       startDate: startDateInput,
       endDate: endDateInput,
       description: descriptionInput,
       fundRequest: fundRequestInput,
-      linkInput: linkInput
-    }
+      linkInput: linkInput,
+    };
     console.log(fullProposal);
-  }
-
-
-
-
+  };
 
   const handleShowProposalModal = () => setShowProposalModal(true);
   const handleHideProposalModal = () => setShowProposalModal(false);
+
+  const handleSubGroupChange = (e: any) => {
+    setSubGroup(e.target.value);
+  };
 
   return (
     <div className="space-y-6">
@@ -61,15 +61,18 @@ export const ProposalInput = () => {
                     id="proposal-title"
                     autoComplete="proposal"
                     onChange={(e) => setTitleInput(e.target.value)}
-                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md pt-2 pb-2 text-10xl"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md pt-2 pb-2 text-10xl"
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-3">
-                  <DatePicker labelText="Start Date" onSelect={() => {}} />
+                  <DatePicker
+                    labelText="Start Date"
+                    onSelect={setStartDateInput}
+                  />
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
-                <DatePicker labelText="End Date" onSelect={() => {}} />
+                  <DatePicker labelText="End Date" onSelect={setEndDateInput} />
                 </div>
 
                 <div className="col-span-6 sm:col-span-6">
@@ -88,7 +91,6 @@ export const ProposalInput = () => {
                       placeholder="Proposal Information"
                       defaultValue={""}
                       onChange={(e) => setDescriptionInput(e.target.value)}
-
                     />
                   </div>
                 </div>
@@ -107,7 +109,6 @@ export const ProposalInput = () => {
                     autoComplete="street-address"
                     className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-10xl border-gray-300 rounded-md"
                     onChange={(e) => setLinkInput(e.target.value)}
-
                   />
                 </div>
                 <div className="col-span-6">
@@ -124,7 +125,6 @@ export const ProposalInput = () => {
                     autoComplete="street-address"
                     className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-10xl border-gray-300 rounded-md"
                     onChange={(e) => setFundsRequestInput(e.target.value)}
-
                   />
                 </div>
 
@@ -162,7 +162,9 @@ export const ProposalInput = () => {
                           />
                         </label>
                       </div>
-                      <p className="text-xs pl-1 text-gray-500 pt-4">or drag and drop</p>
+                      <p className="text-xs pl-1 text-gray-500 pt-4">
+                        or drag and drop
+                      </p>
                       <p className="text-xs text-gray-500">
                         PNG, JPG, GIF up to 10MB
                       </p>
@@ -187,7 +189,6 @@ export const ProposalInput = () => {
           </div>
           <div className="mt-5 md:mt-0 md:col-span-2">
             <form className="space-y-6" action="#" method="POST">
-             
               <fieldset>
                 <legend className="contents text-base font-medium text-gray-900">
                   Select Group.
@@ -196,11 +197,14 @@ export const ProposalInput = () => {
                   If private, select from which Sub-Group you would like to
                   propose from.
                 </p>
-                <div className="mt-4 space-y-4">
+                <div
+                  className="mt-4 space-y-4"
+                  onChange={(e) => handleSubGroupChange(e)}
+                >
                   <div className="flex items-center">
                     <input
-                      id="push-everything"
-                      name="push-notifications"
+                      value="group-1"
+                      name="sub-group"
                       type="radio"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                     />
@@ -213,8 +217,8 @@ export const ProposalInput = () => {
                   </div>
                   <div className="flex items-center">
                     <input
-                      id="push-email"
-                      name="push-notifications"
+                      value="group-2"
+                      name="sub-group"
                       type="radio"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                     />
@@ -227,8 +231,8 @@ export const ProposalInput = () => {
                   </div>
                   <div className="flex items-center">
                     <input
-                      id="push-nothing"
-                      name="push-notifications"
+                      value="group-3"
+                      name="sub-group"
                       type="radio"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                     />
@@ -268,7 +272,17 @@ export const ProposalInput = () => {
           CheckInputs
         </button>
       </div>
-      {showProposalModal ? <ProofModal /> : null}
+      {showProposalModal ? (
+        <ProofModal
+          group={subGroup}
+          title={titleInput}
+          startDate={startDateInput}
+          endDate={endDateInput}
+          description={descriptionInput}
+          fundRequest={fundRequestInput}
+          linkInput={linkInput}
+        />
+      ) : null}
     </div>
   );
 };
