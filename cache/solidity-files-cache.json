@@ -1137,6 +1137,45 @@
         "PoseidonT3",
         "PoseidonT6"
       ]
+    },
+    "/Users/ericle/Projects/HackFS/om/contracts/Deleteme.sol": {
+      "lastModificationDate": 1658482709413,
+      "contentHash": "a20f40f7b2c4601049e234c8af504c52",
+      "sourceName": "contracts/Deleteme.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@semaphore-protocol/contracts/interfaces/IVerifier.sol",
+        "@semaphore-protocol/contracts/base/SemaphoreCore.sol",
+        "@semaphore-protocol/contracts/base/SemaphoreGroups.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "OmContract"
+      ]
     }
   }
 }
