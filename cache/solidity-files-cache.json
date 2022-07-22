@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/ericle/Projects/HackFS/om/contracts/Om.sol": {
-      "lastModificationDate": 1658388363276,
-      "contentHash": "67bca173fa4643da46b606092c9f6d0d",
+      "lastModificationDate": 1658480116500,
+      "contentHash": "f88a0cde196c3b7afb5074614ca0b3e8",
       "sourceName": "contracts/Om.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -28,9 +28,18 @@
           }
         }
       },
-      "imports": [],
-      "versionPragmas": [],
-      "artifacts": []
+      "imports": [
+        "hardhat/console.sol",
+        "@semaphore-protocol/contracts/interfaces/IVerifier.sol",
+        "@semaphore-protocol/contracts/base/SemaphoreCore.sol",
+        "@semaphore-protocol/contracts/base/SemaphoreGroups.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "Om"
+      ]
     },
     "/Users/ericle/Projects/HackFS/om/contracts/OmSbToken.sol": {
       "lastModificationDate": 1658389084825,
@@ -771,8 +780,8 @@
       ]
     },
     "/Users/ericle/Projects/HackFS/om/contracts/OmVoting.sol": {
-      "lastModificationDate": 1658388363276,
-      "contentHash": "7a26ca97226cba355e1f3187ee05f60a",
+      "lastModificationDate": 1658466843262,
+      "contentHash": "a130c827206dcbfa0f1fbeabc870fae1",
       "sourceName": "contracts/OmVoting.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -798,8 +807,336 @@
         }
       },
       "imports": [],
-      "versionPragmas": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "OmVoting"
+      ]
+    },
+    "/Users/ericle/Projects/HackFS/om/node_modules/hardhat/console.sol": {
+      "lastModificationDate": 1657688382455,
+      "contentHash": "cc4777addd464ea56fa35b1c45df0591",
+      "sourceName": "hardhat/console.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.22 <0.9.0"
+      ],
+      "artifacts": [
+        "console"
+      ]
+    },
+    "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/interfaces/IVerifier.sol": {
+      "lastModificationDate": 1657688383589,
+      "contentHash": "47b3f60f5f66b5dc2171c65069aa613a",
+      "sourceName": "@semaphore-protocol/contracts/interfaces/IVerifier.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "IVerifier"
+      ]
+    },
+    "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreCore.sol": {
+      "lastModificationDate": 1657688383587,
+      "contentHash": "2fedc7b412a294da55dc310bf57e5d33",
+      "sourceName": "@semaphore-protocol/contracts/base/SemaphoreCore.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../interfaces/ISemaphoreCore.sol",
+        "../interfaces/IVerifier.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "SemaphoreCore"
+      ]
+    },
+    "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreGroups.sol": {
+      "lastModificationDate": 1657688383588,
+      "contentHash": "5fa56788d80bc9b5079df66b08e6011f",
+      "sourceName": "@semaphore-protocol/contracts/base/SemaphoreGroups.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./SemaphoreConstants.sol",
+        "../interfaces/ISemaphoreGroups.sol",
+        "@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol",
+        "@openzeppelin/contracts/utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "SemaphoreGroups"
+      ]
+    },
+    "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/interfaces/ISemaphoreCore.sol": {
+      "lastModificationDate": 1657688383589,
+      "contentHash": "f079ffeeed111ca1902c16ae9d700699",
+      "sourceName": "@semaphore-protocol/contracts/interfaces/ISemaphoreCore.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "ISemaphoreCore"
+      ]
+    },
+    "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/base/SemaphoreConstants.sol": {
+      "lastModificationDate": 1657688383587,
+      "contentHash": "caba466e18c3dd31e4b888dc74e2665b",
+      "sourceName": "@semaphore-protocol/contracts/base/SemaphoreConstants.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
       "artifacts": []
+    },
+    "/Users/ericle/Projects/HackFS/om/node_modules/@semaphore-protocol/contracts/interfaces/ISemaphoreGroups.sol": {
+      "lastModificationDate": 1657688383589,
+      "contentHash": "86706d107a94e2b45d895360a167f1b4",
+      "sourceName": "@semaphore-protocol/contracts/interfaces/ISemaphoreGroups.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "ISemaphoreGroups"
+      ]
+    },
+    "/Users/ericle/Projects/HackFS/om/node_modules/@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol": {
+      "lastModificationDate": 1657688383874,
+      "contentHash": "e9fd9c7db00afd5cc323d9d29d155e84",
+      "sourceName": "@zk-kit/incremental-merkle-tree.sol/contracts/IncrementalBinaryTree.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Hashes.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "IncrementalBinaryTree"
+      ]
+    },
+    "/Users/ericle/Projects/HackFS/om/node_modules/@zk-kit/incremental-merkle-tree.sol/contracts/Hashes.sol": {
+      "lastModificationDate": 1657688383874,
+      "contentHash": "fd04704145cf2784b81cec317a522243",
+      "sourceName": "@zk-kit/incremental-merkle-tree.sol/contracts/Hashes.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "PoseidonT3",
+        "PoseidonT6"
+      ]
     }
   }
 }

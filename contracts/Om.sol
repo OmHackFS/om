@@ -15,6 +15,7 @@ contract Om is SemaphoreCore, SemaphoreGroups {
     uint256 indexed groupId,
     uint256 proposalId,
     bytes32 proposalName,
+    bytes32 proposalDescription,
     uint256 startDate,
     uint256 endDate,
     bytes32 fileUri
@@ -87,7 +88,11 @@ contract Om is SemaphoreCore, SemaphoreGroups {
 
   function createProposal(
     bytes32 proposalName,
+    bytes32 proposalDescription,
+    uint256 startDate,
+    uint256 endDate,
     uint256 nullifierHash,
+    bytes32 fileUri,
     uint256 groupId,
     uint256[8] calldata proof
   ) public {
@@ -104,14 +109,15 @@ contract Om is SemaphoreCore, SemaphoreGroups {
     daoGroups[groupId].nextProposal++;
 
     // Temporary variables (needed to emit full event)
-    bytes32 fileUri = "http://example.ipfs";
-    uint256 startDate = block.timestamp;
-    uint256 endDate = startDate + 3 days;
+    // bytes32 fileUri = "http://example.ipfs";
+    // uint256 startDate = block.timestamp;
+    // uint256 endDate = startDate + 3 days;
 
     emit ProposalCreated(
       groupId,
       proposalId,
       proposalName,
+      proposalDescription,
       startDate,
       endDate,
       fileUri
