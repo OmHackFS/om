@@ -23,7 +23,7 @@ const TABS = [
         />
       </svg>
     ),
-    path: "/"
+    path: "/home",
   },
   {
     id: "1",
@@ -45,7 +45,29 @@ const TABS = [
         />
       </svg>
     ),
-    path: "/proposals"
+    path: "/proposals",
+  },
+  {
+    id: "2",
+    name: "Proposal Input",
+    active: true,
+    logo: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="mr-4 flex-shrink-0 h-6 w-6 text-indigo-300"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+        />
+      </svg>
+    ),
+    path: "/proposal_input",
   },
   {
     id: "2",
@@ -66,7 +88,7 @@ const TABS = [
         />
       </svg>
     ),
-    path: "/dao_data"
+    path: "/dao_data",
   },
 ];
 
@@ -190,7 +212,7 @@ export const SidebarNavigation = () => {
             <nav className="flex-1 px-2 pb-4 space-y-1">
               {/* <!-- Current: "bg-indigo-800 text-white", Default: "text-indigo-100 hover:bg-indigo-600" --> */}
               {TABS.map((tab) => (
-              <Link href={tab.path}>
+                <Link href={tab.path}>
                   <span
                     key={tab.name}
                     onClick={() => handleSelectTab(tab.name)}
