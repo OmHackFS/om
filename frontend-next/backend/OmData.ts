@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 import { Web3Storage, File, getFilesFromPath } from "web3.storage"; // @mehulagg/web3.storage
 // import { DID } from 'dids'
-// import { Integration } from 'lit-ceramic-integration-sdk'  // '@litelliott/lit-ceramic-integration'
+// import { Integration } from 'lit-ceramic-sdk' // '@litelliott/lit-ceramic-integration'
 
 class OmData {
   private graphApiUrl =
@@ -15,15 +15,19 @@ class OmData {
   // Fetch all proposals created from subgraph
   async getProposals() {
     const eventQuery = `{ 
-            proposalCreateds(first: 1000) { 
-                id 
-                groupId
-                description
-                proposalId
-                startDate
-                endDate
-                fileUri
-            }}`;
+      proposalCreateds(first: 1000) { 
+        groupId
+        id
+        endDate: proposalData_EndDate 
+        IpfsURI: proposalData_IpfsURI
+        startDate: proposalData_StartDate
+        endDate: proposalData_coordinator
+        description: proposalData_description
+        noCount: proposalData_noCount
+        title: proposalData_title
+        yesCount: proposalData_yesCount
+        proposalCounter
+    }}`;
     let data = "";
     const client = new ApolloClient({
       link: new HttpLink({ uri: this.graphApiUrl, fetch }),
@@ -41,12 +45,17 @@ class OmData {
   // Fetch all data added events from subgraph
   async getDataAddedEvents() {
     const eventQuery = `{ 
-            dataAddeds(first: 1000) {
-                id
-                dataId
-                owner
-                dateAdded
-              }}`;
+      dataAddeds(first: 1000) {
+        dataId
+        IpfsURI: dataInfos_IpfsURI
+        addedDate: dataInfos_addedDate
+        dataId: dataInfos_dataId
+        dataOwner: dataInfos_dataOwner
+        groupId: dataInfos_groupId
+        size: dataInfos_size
+        title: dataInfos_title
+        id
+      }}`;
     let data = "";
     const client = new ApolloClient({
       link: new HttpLink({ uri: this.graphApiUrl, fetch }),
@@ -64,12 +73,12 @@ class OmData {
   // Fetch all group created events from subgraph
   async getGroupCreatedEvents() {
     const eventQuery = `{ 
-            groupCreateds(first:1000) {
-                id
-                groupId
-                depth
-                zeroValue
-              }}`;
+      groupCreateds(first:1000) {
+          id
+          groupId
+          depth
+          zeroValue
+        }}`;
     let data = "";
     const client = new ApolloClient({
       link: new HttpLink({ uri: this.graphApiUrl, fetch }),
@@ -87,12 +96,12 @@ class OmData {
   // Fetch all members added to a given group from subgraph
   async getMembersAddedByGroup(groupId: number) {
     const eventQuery = `{ 
-            memberAddeds(where: {groupId: ${groupId}}) {
-                id
-                groupId
-                identityCommitment
-                root
-              }}`;
+      memberAddeds(where: {groupId: ${groupId}}) {
+          id
+          groupId
+          identityCommitment
+          root
+        }}`;
     let data = "";
     const client = new ApolloClient({
       link: new HttpLink({ uri: this.graphApiUrl, fetch }),
