@@ -7,8 +7,10 @@ const { verifyProof } = require("@semaphore-protocol/proof");
 import ethUtil from "ethereumjs-util";
 import sigUtil from "@metamask/eth-sig-util";
 import { ethers } from "ethers";
-const omContractAbi = require("./utils/OmContract.json").abi;
-const sbContractAbi = require("./utils/SbContract.json").abi;
+// const omContractAbi = require("./utils/OmContract.json").abi;
+const sbContractAbi = require("../artifacts/contracts/OmSbToken.sol/OmSbToken.json").abi;
+import  backEnd  from "../backend/OmData"
+
 
 const depth = 20;
 const admin = "0xd770134156f9aB742fDB4561A684187f733A9586";
@@ -23,6 +25,7 @@ export const GenerateProofBody = () => {
   const [trapdoor, setTrapdoor] = useState<bigint>();
   const [nullifier, setNullifier] = useState<bigint>();
   const [identityCommitment, setIdentityCommitment] = useState<bigint>();
+  const [groupMembers,setGroupMembers] = useState<any>();
 
   const [group1, setGroup1] = useState<any>();
   const [group2, setGroup2] = useState<any>();
@@ -38,10 +41,17 @@ export const GenerateProofBody = () => {
 
   const handleClickGenerateProof = async (e: any) => {
     e.preventDefault();
-
-    const idCommitment = identity.generateCommitment();
+    //Before Generating the Proof we need to get All the Group members
+    const members = await backEnd.getMembersAddedByGroup(1)
+    setGroupMembers(members)
     const newGroup = new Group();
-    newGroup.addMember(idCommitment);
+    for(let i=0 as any; i<members.length;i++){
+      console.log(`--------Member ${i}`);
+      console.log(members[i].identityCommitment);
+      newGroup.addMember(members[i].identityCommitment);
+
+    }
+  
 
     await setGroup1(newGroup);
     console.log(newGroup);
@@ -85,14 +95,14 @@ export const GenerateProofBody = () => {
     const signer = new ethers.providers.Web3Provider(
       (window as any).ethereum
     ).getSigner();
-    const contractAddress = "0x2F67c135Dac3F28f4f65Ee57913CAb0A5cd00D14";
+    const contractAddress = "0xeAA665d9Bb986B6BD0F1DA55Bfce0365d2cAb61F";
 
     const contract = new ethers.Contract(
       contractAddress,
       sbContractAbi,
       signer
     );
-    const idHash = await contract.identityData(1);
+    const idHash = await contract.identityData(account);
     console.log(idHash);
 
     const decryptedMessage = await (window as any).ethereum.request({
@@ -159,11 +169,29 @@ export const GenerateProofBody = () => {
   };
 
   
- 
+  const getMembers = async (e:any) => {
+    e.preventDefault();
+    const members = await backEnd.getMembersAddedByGroup(1)
+    const members2 = await backEnd.getMembersAddedByGroup(2)
 
+    // const jsonMembers = JSON.parse(members);
+    console.log(members)
+    console.log("Identity Length")
+    console.log(members.length);
+    // console.log("Member 0")
+    // console.log(members[1].identityCommitment);
+    // console.log("Identity Commitment")
+    // console.log(jsonMembers);
+    console.log("Group 2");
+    console.log(members2);
   
+    setGroupMembers(members)
 
-  
+
+
+  }
+
+
 
   return (
     <div className="flex flex-col mb-1">
@@ -213,6 +241,20 @@ export const GenerateProofBody = () => {
         onClick={handleVerifyProofOffChain}
       >
         Off Chain Verification
+      </button>
+
+      <button
+        className="mt-5 px-6 py-2
+                text-sm text-white
+                bg-indigo-500
+                rounded-lg
+                outline-none
+                hover:bg-indigo-600
+                ring-indigo-300
+            "
+        onClick={getMembers}
+      >
+        Get Members
       </button>
     
     </div>
