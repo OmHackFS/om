@@ -4,10 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
 import { MultiStepForm } from "./MultiStepForm";
 
-<<<<<<< HEAD
-export const ProofModalAddData = () => {
-=======
-export const ProofModal = ({
+export const ProofModalVote = ({
   group,
   title,
   startDate,
@@ -16,7 +13,6 @@ export const ProofModal = ({
   fundRequest,
   linkInput,
 }: any) => {
->>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
   const [open, setOpen] = useState(true);
 
   return (
@@ -46,9 +42,6 @@ export const ProofModal = ({
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative bg-white rounded-lg px-20 pt-20- pb-20 text-left shadow-xl ">
-<<<<<<< HEAD
-                <MultiStepForm />
-=======
                 <MultiStepForm
                   group={group}
                   title={title}
@@ -58,7 +51,6 @@ export const ProofModal = ({
                   fundRequest={fundRequest}
                   linkInput={linkInput}
                 />
->>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
               </Dialog.Panel>
             </Transition.Child>
           </div>

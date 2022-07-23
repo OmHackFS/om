@@ -78,12 +78,12 @@ export const CreateIdentityScreen = () => {
 
     if (!encryptionPublicKey) return;
 
-    const newEncryptedIdTrapdoor = ethUtil.bufferToHex(
+    const newEncryptedId = ethUtil.bufferToHex(
       Buffer.from(
         JSON.stringify(
           sigUtil.encrypt({
             publicKey: encryptionPublicKey,
-            data: IdTrapdoor.toString(),
+            data: newId.toString(),
             version: "x25519-xsalsa20-poly1305",
           })
         ),
@@ -91,11 +91,11 @@ export const CreateIdentityScreen = () => {
       )
     );
 
-    console.log("newEncryptedIdTrapdoor ", newEncryptedIdTrapdoor);
+    console.log("newEncryptedId ", newEncryptedId);
 
     const mintedTokenTx = await OmSbTokenContract.connect(
       signer as any
-    ).safeMint(account, newEncryptedIdTrapdoor);
+    ).safeMint(account, newEncryptedId);
 
     console.log("minting token...");
 
@@ -110,6 +110,8 @@ export const CreateIdentityScreen = () => {
     console.log("getting token...");
 
     console.log("mintedToken ", getTokenTx.toString());
+
+    //Update Front End
   };
 
   console.log("tokenId ", tokenId);

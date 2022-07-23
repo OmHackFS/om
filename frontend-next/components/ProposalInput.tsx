@@ -15,6 +15,7 @@ export const ProposalInput = () => {
   const [subGroup, setSubGroup] = useState();
 
   const [groupInput, setGroupInput] = useState<any>();
+  const [proposalUriInput,setProposalUriInput] = useState<any>();
 
   const handleSubmit = async () => {
     const proposal = {
@@ -22,27 +23,14 @@ export const ProposalInput = () => {
       startDate: startDateInput, // Widget isn't working, this is always null
       endDate: endDateInput, // Widget isn't working, this is always null
       description: descriptionInput,
-<<<<<<< HEAD
-      fundRequest: fundRequestInput,
-      linkInput: linkInput
-    }
-
-    //Send fullProposal to Web3.Storage and consolelog IPFS URI
-    
-    console.log(fullProposal);
-  }
-
-
-
-=======
       fundsRequested: fundsRequestedInput,
       link: linkInput,
       file: fileInput,
     };
->>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
 
     const proposalUri = await backEnd.addProposal(proposal);
     console.log("Proposal added: ", proposalUri);
+    setProposalUriInput(proposalUri);
   };
 
   const handleShowProposalModal = () => setShowProposalModal(true);
@@ -316,9 +304,6 @@ export const ProposalInput = () => {
           Submit Proposal
         </button>
       </div>
-<<<<<<< HEAD
-      {showProposalModal ? <ProofModalProposal /> : null}
-=======
       {showProposalModal ? (
         <ProofModalProposal
           group={subGroup}
@@ -328,9 +313,9 @@ export const ProposalInput = () => {
           description={descriptionInput}
           fundRequest={fundsRequestedInput}
           linkInput={linkInput}
+          proposalUri={proposalUriInput}
         />
       ) : null}
->>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
     </div>
   );
 };

@@ -4,11 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
 import { MultiStepForm } from "./MultiStepForm";
 
-<<<<<<< HEAD
-export const ProofModalProposal = () => {
-=======
 export const ProofModalProposal = ({}: any) => {
->>>>>>> 0ce2d604e11276f3065311f2773b98ef6f39a8f0
   const [open, setOpen] = useState(true);
 
   return (
