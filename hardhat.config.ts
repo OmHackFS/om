@@ -57,8 +57,10 @@ const config: HardhatUserConfig = {
     mumbai2: {
       url: "https://polygon-mumbai.g.alchemy.com/v2/0aWYomtIkhZ7DpFAZtNasdu74nL_ZlMf",
       chainId: 80001,
-      accounts:["e66c96225cd605559b10405b8c3acd03a43df3637f98a1ea60984e42e79dc015"]
-  }
+      accounts: [
+        "e66c96225cd605559b10405b8c3acd03a43df3637f98a1ea60984e42e79dc015",
+      ],
+    },
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
@@ -67,10 +69,6 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },
-  //   dependencyCompiler: {
-  //     /** Allows Hardhat to compile the external Verifier.sol contract. */
-  //     paths: ["@semaphore-protocol/contracts/verifiers/Verifier20.sol"]
-  // },
 };
 
 export default config;

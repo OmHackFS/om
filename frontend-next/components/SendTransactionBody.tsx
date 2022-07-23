@@ -9,6 +9,7 @@ import * as sigUtil from "@metamask/eth-sig-util";
 // import * as nftStorage from "nft.storage";
 import { ethers, Signer } from "ethers";
 import OmSbToken from "../artifacts/contracts/OmSbToken.sol/OmSbToken.json";
+import backEnd from "../backend/OmData";
 
 // console.log(nftStorage.NFTStorage)
 // import * as ipfsCar from 'ipfs-car/pack';
@@ -21,7 +22,16 @@ import { injected } from "../utils/connectors";
 
 const sbContractAddr = "0xDAA40151080Be453A9918dc9CcE4BC3160f892CE";
 
-export const SendTransactionBody = () => {
+export const SendTransactionBody = ({
+  group,
+  title,
+  startDate,
+  endDate,
+  description,
+  fundRequest,
+  fileInput,
+  linkInput,
+}: any) => {
   const context = useWeb3React<Provider>();
   const { activate, active, account, library } = context;
 
@@ -29,8 +39,9 @@ export const SendTransactionBody = () => {
   const [signerAddr, setSignerAddr] = useState<string | null>(null);
   const [encryptedIdData, setEncryptedIdData] = useState();
   const [idData, setIdData] = useState();
-  const [message,setMessage] = useState();
-  
+  const [message, setMessage] = useState();
+  const [creating, setCreating] = useState(false);
+  const [proposalUri, setProposalUri] = useState<string | null>(null);
 
   const OmSbTokenContract = useMemo(() => {
     return new ethers.Contract(sbContractAddr, OmSbToken.abi, signer);
@@ -47,11 +58,31 @@ export const SendTransactionBody = () => {
     signer.getAddress().then(setSignerAddr);
   }, [library]);
 
+  const handleCreateProposal = async (e: any) => {
+    e.preventDefault();
+    setCreating(true);
+
+    const newProposalUri = await backEnd.addProposal({
+      group,
+      title,
+      startDate: (startDate && startDate.getTime()) || Date.now(),
+      endDate: (endDate && endDate.getTime()) || Date.now() + 86400000 * 3,
+      description,
+      fundRequest,
+      linkInput,
+      file: fileInput,
+    });
+
+    setCreating(false);
+    setProposalUri(newProposalUri);
+    console.log("proposalUri ", proposalUri);
+  };
+
   const handleEncryptData = async (e: any) => {
     e.preventDefault();
 
     const accounts = await (window as any).ethereum.request({
-      method:'eth_requestAccounts',
+      method: "eth_requestAccounts",
     });
     const account1 = accounts[0];
 
@@ -65,22 +96,14 @@ export const SendTransactionBody = () => {
       IdTrapdoor: IdTrapdoor.toString(),
       IdNullifer: IdNullifer.toString(),
       IdCommitment: IdCommitment.toString(),
-    }
+    };
 
     const stringIdData = JSON.stringify(idData);
-
 
     const encryptionPublicKey = await (window as any).ethereum.request({
       method: "eth_getEncryptionPublicKey",
       params: [account1],
     });
-
-    // console.log("encryptionPublicKey ", encryptionPublicKey, ethUtil);
-    // console.log("data ", idData.toString());
-    // console.log("idData2")
-    // console.log(idData2)
-    // console.log("idData3")
-    // console.log(idData3)
 
     const newEncryptedIdData = ethUtil.bufferToHex(
       Buffer.from(
@@ -96,84 +119,98 @@ export const SendTransactionBody = () => {
     );
 
     setEncryptedIdData(newEncryptedIdData as any);
-    console.log("Encrypted Data Hash");      
+    console.log("Encrypted Data Hash");
     console.log(newEncryptedIdData);
-    console.log("Encrypted Data Id");      
+    console.log("Encrypted Data Id");
     console.log(stringIdData);
   };
 
-//   const storeNftStorageToken = async () => {
-//     console.log("nftStorage ");
+  //   const storeNftStorageToken = async () => {
+  //     console.log("nftStorage ");
 
-//     const NFT_STORAGE_TOKEN =
-//       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDIzZDg1OTczYUU3ZTI1RTdlMTNEZEUwZDhmQzIwMzgwQTQ0NDc4NUIiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1NzU4Mzg2OTU5MywibmFtZSI6IkhhY2tGUyJ9.ldx5AlCgYy2cGrgXOpTPVd2xA68SHcU4_of9MsNmEIw";
-//     const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
-//     const IPFSdata = new Blob([encryptedIdTrapdoor as any]);
-//     const cid = await client.storeBlob(IPFSdata);
+  //     const NFT_STORAGE_TOKEN =
+  //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDIzZDg1OTczYUU3ZTI1RTdlMTNEZEUwZDhmQzIwMzgwQTQ0NDc4NUIiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1NzU4Mzg2OTU5MywibmFtZSI6IkhhY2tGUyJ9.ldx5AlCgYy2cGrgXOpTPVd2xA68SHcU4_of9MsNmEIw";
+  //     const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
+  //     const IPFSdata = new Blob([encryptedIdTrapdoor as any]);
+  //     const cid = await client.storeBlob(IPFSdata);
 
-//     const dataFromIPFS = await fetch(`https://ipfs.io/ipfs/${cid}`);
+  //     const dataFromIPFS = await fetch(`https://ipfs.io/ipfs/${cid}`);
 
-//     console.log("IPFS Address");
-//     console.log(cid);
-//     console.log(idTrapdoor);
-//     console.log(encryptedIdTrapdoor);
+  //     console.log("IPFS Address");
+  //     console.log(cid);
+  //     console.log(idTrapdoor);
+  //     console.log(encryptedIdTrapdoor);
 
-//     console.log("Data Fetched from IPFS");
-//     console.log(dataFromIPFS);
-//   }
+  //     console.log("Data Fetched from IPFS");
+  //     console.log(dataFromIPFS);
+  //   }
 
-  async function connectWallet(){
+  async function connectWallet() {
     const accounts = await (window as any).ethereum.request({
-      method:'eth_requestAccounts',
+      method: "eth_requestAccounts",
     });
     const address = accounts[0];
     setSigner(address);
-
   }
-
-  const handleDecryptData = async (e: any) => {
-    e.preventDefault();
-
-    const accounts = await (window as any).ethereum.request({
-      method:'eth_requestAccounts',
-    });
-    const account1 = accounts[0];
-
-    const decryptedMessage = await (window as any).ethereum.request({
-      method: "eth_decrypt",
-      params: [encryptedIdData, account1],
-    });
-    const stringMessage =decryptedMessage.toString()
-    const jsonMessage = JSON.parse(decryptedMessage);
-    setMessage(stringMessage);
-    // const stringMessage2 =decryptedMessage.json();
-
-    console.log("Decrypted Message");
-    console.log(decryptedMessage);
-    console.log("IdTrapdoor");
-    const idTest = jsonMessage.IdTrapdoor;
-    console.log(parseInt(idTest));
-
-  };
-
-  const handleMintToken = async (e: any) => {
-    e.preventDefault();
-
-    const mintedTokenTx = await OmSbTokenContract.connect(signer as any).safeMint(account)
-
-    await mintedTokenTx.wait()
-
-    console.log('mintedToken ', mintedTokenTx)
-  };
-
   console.log("context ", context);
   return (
-    <div className="flex flex-col">
-      <button onClick={connectWallet}>Connect Wallet</button>
-      <button onClick={handleEncryptData} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Encrypt data</button>
-      <button onClick={handleDecryptData} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Decrypt data</button>
-      <button onClick={handleMintToken} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Mint Token</button>
-      <p>{encryptedIdData}</p>
-    </div>
+    <>
+      <div className="flex flex-col">
+        {!proposalUri ? (
+          <button
+            onClick={handleCreateProposal}
+            className="inline-flex mt-5 px-12 py-4
+        text-sm text-white
+        bg-indigo-500
+        rounded-lg
+        outline-none
+        hover:bg-indigo-600
+        ring-indigo-300 inline-flex"
+          >
+            {creating ? (
+              <svg
+                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            ) : null}
+            Create Proposal
+          </button>
+        ) : null}
+        {proposalUri ? (
+          <div className="h-16 items-center inline-flex mt-2 justify-center rounded-md border border-transparent bg-green-100 px-3 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Proposal successfully created
+            <p>Proposal URI: {proposalUri}</p>
+          </div>
+        ) : null}
+      </div>
+    </>
   );
 };

@@ -1,4 +1,4 @@
-import { ProofModal } from "./ProofModal";
+import { ProofModalAddData } from "./ProofModalAddData";
 import { useState } from "react";
 
 export const DataInput = () => {
@@ -209,7 +209,7 @@ export const DataInput = () => {
             Add Data
           </button>
         </div>
-        {showProposalModal ? <ProofModal /> : null}
+        {showProposalModal ? <ProofModalAddData /> : null}
       </div>
     )
   }

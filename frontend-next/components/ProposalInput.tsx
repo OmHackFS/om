@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { ProofModal } from "./ProofModal";
+import { ProofModalProposal } from "./ProofModalProposal";
 import { DatePicker } from "./DatePicker";
-import  backEnd  from "../backend/OmData"
+import backEnd from "../backend/OmData";
 
 export const ProposalInput = () => {
   const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
@@ -9,15 +9,15 @@ export const ProposalInput = () => {
   const [startDateInput, setStartDateInput] = useState<any>();
   const [endDateInput, setEndDateInput] = useState<any>();
   const [descriptionInput, setDescriptionInput] = useState<any>();
-  const [fundsRequestedInput, setFundsRequestedInput] = useState<any>();  
+  const [fundsRequestedInput, setFundsRequestedInput] = useState<any>();
   const [linkInput, setLinkInput] = useState<any>();
   const [fileInput, setFileInput] = useState<any>();
   const [subGroup, setSubGroup] = useState();
 
   const [groupInput, setGroupInput] = useState<any>();
+  const [proposalUriInput, setProposalUriInput] = useState<any>();
 
   const handleSubmit = async () => {
-    
     const proposal = {
       title: titleInput,
       startDate: startDateInput, // Widget isn't working, this is always null
@@ -30,6 +30,7 @@ export const ProposalInput = () => {
 
     const proposalUri = await backEnd.addProposal(proposal);
     console.log("Proposal added: ", proposalUri);
+    setProposalUriInput(proposalUri);
   };
 
   const handleShowProposalModal = () => setShowProposalModal(true);
@@ -82,12 +83,13 @@ export const ProposalInput = () => {
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
-                  <DatePicker 
+                  <DatePicker
                     id="endDateInput"
                     name="endDateInput"
                     value={endDateInput}
-                    labelText="End Date" 
-                    onSelect={setEndDateInput} />
+                    labelText="End Date"
+                    onSelect={setEndDateInput}
+                  />
                 </div>
 
                 <div className="col-span-6 sm:col-span-6">
@@ -147,7 +149,14 @@ export const ProposalInput = () => {
                 </div>
 
                 <div>
-                  <input id="fileInput" type="file" onChange={(e) => {if(e.target.files && e.target.files[0]) setFileInput(e.target.files[0]);}} />
+                  <input
+                    id="fileInput"
+                    type="file"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0])
+                        setFileInput(e.target.files[0]);
+                    }}
+                  />
                 </div>
                 {/* File upload widget below needs some work to get it working. Created one above temporarily. */}
                 <div className="col-span-6">
@@ -169,7 +178,7 @@ export const ProposalInput = () => {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
-                      </svg>                      
+                      </svg>
                       <div className="flex text-sm text-gray-600 w-full">
                         <label
                           htmlFor="fileForUpload"
@@ -182,7 +191,7 @@ export const ProposalInput = () => {
                             type="file"
                             onChange={(e) => setFileInput(e.target.value)}
                             className="sr-only"
-                          />                          
+                          />
                         </label>
                       </div>
                       <p className="text-xs pl-1 text-gray-500 pt-4">
@@ -207,7 +216,7 @@ export const ProposalInput = () => {
               Proposal Details
             </h3>
             <p className="mt-1 text-sm text-gray-500">
-              Decide which communications you'd like to receive and how.
+              Decide which group you would like to make proposal to
             </p>
           </div>
           <div className="mt-5 md:mt-0 md:col-span-2">
@@ -217,8 +226,8 @@ export const ProposalInput = () => {
                   Select Group.
                 </legend>
                 <p className="text-sm text-gray-500">
-                  If private, select from which Sub-Group you would like to
-                  propose from.
+                  If private, select from which Group you would like to propose
+                  from.
                 </p>
                 <div
                   className="mt-4 space-y-4"
@@ -226,7 +235,7 @@ export const ProposalInput = () => {
                 >
                   <div className="flex items-center">
                     <input
-                      value="group-1"
+                      value="1"
                       name="sub-group"
                       type="radio"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
@@ -235,12 +244,12 @@ export const ProposalInput = () => {
                       htmlFor="push-everything"
                       className="ml-3 block text-sm font-medium text-gray-700"
                     >
-                      Sub-Group 1
+                      Group 1
                     </label>
                   </div>
                   <div className="flex items-center">
                     <input
-                      value="group-2"
+                      value="2"
                       name="sub-group"
                       type="radio"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
@@ -249,12 +258,12 @@ export const ProposalInput = () => {
                       htmlFor="push-email"
                       className="ml-3 block text-sm font-medium text-gray-700"
                     >
-                      Sub-Group 2
+                      Group 2
                     </label>
                   </div>
                   <div className="flex items-center">
                     <input
-                      value="group-3"
+                      value="3"
                       name="sub-group"
                       type="radio"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
@@ -263,7 +272,7 @@ export const ProposalInput = () => {
                       htmlFor="push-nothing"
                       className="ml-3 block text-sm font-medium text-gray-700"
                     >
-                      Sub-Group 3
+                      Group 3
                     </label>
                   </div>
                 </div>
@@ -296,7 +305,9 @@ export const ProposalInput = () => {
         </button>
       </div>
       {showProposalModal ? (
-        <ProofModal
+        <ProofModalProposal
+          fileInput={fileInput}
+          onClose={handleHideProposalModal}
           group={subGroup}
           title={titleInput}
           startDate={startDateInput}
@@ -304,6 +315,7 @@ export const ProposalInput = () => {
           description={descriptionInput}
           fundRequest={fundsRequestedInput}
           linkInput={linkInput}
+          proposalUri={proposalUriInput}
         />
       ) : null}
     </div>

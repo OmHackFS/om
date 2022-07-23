@@ -18,7 +18,6 @@ export type { ISemaphoreGroups } from "./ISemaphoreGroups";
 export type { IVerifier } from "./IVerifier";
 export type { PoseidonT3 } from "./PoseidonT3";
 export type { PoseidonT6 } from "./PoseidonT6";
-export type { OmContract } from "./OmContract";
 export type { Om } from "./Om";
 export type { OmSbToken } from "./OmSbToken";
 export type { OmVoting } from "./OmVoting";
@@ -40,7 +39,6 @@ export { ISemaphoreGroups__factory } from "./factories/ISemaphoreGroups__factory
 export { IVerifier__factory } from "./factories/IVerifier__factory";
 export { PoseidonT3__factory } from "./factories/PoseidonT3__factory";
 export { PoseidonT6__factory } from "./factories/PoseidonT6__factory";
-export { OmContract__factory } from "./factories/OmContract__factory";
 export { Om__factory } from "./factories/Om__factory";
 export { OmSbToken__factory } from "./factories/OmSbToken__factory";
 export { OmVoting__factory } from "./factories/OmVoting__factory";

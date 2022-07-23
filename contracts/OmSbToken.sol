@@ -7,20 +7,25 @@ import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/draft-ERC721Votes.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract OmSbToken is ERC721, Ownable, EIP712, ERC721Votes {
+contract OmSbToken is ERC721, EIP712, ERC721Votes {
   using Counters for Counters.Counter;
 
   Counters.Counter private _tokenIdCounter;
 
-  mapping(uint256 => string) public identityData;
+  // mapping(uint256 => string) public identityData;
+  mapping(address => string) public identityData;
+  mapping(address => bool) public haveId;
 
   constructor() ERC721("OmSbIdentity", "OSI") EIP712("OmSbIdentity", "1") {}
 
-  function safeMint(address to, string memory _identityData) public onlyOwner {
+  function safeMint(address to, string memory _identityData) public {
+    require(haveId[to] == false);
     uint256 tokenId = _tokenIdCounter.current();
     _tokenIdCounter.increment();
+    identityData[to] = _identityData;
+    haveId[to] = true;
     _safeMint(to, tokenId);
-    identityData[tokenId] = _identityData;
+    
   }
 
   // The following functions are overrides required by Solidity.

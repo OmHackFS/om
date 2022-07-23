@@ -21,7 +21,7 @@ import { AbstractConnector } from "@web3-react/abstract-connector";
 import { Provider } from "../utils/provider";
 import { injected } from "../utils/connectors";
 
-export const CreateIdentityScreen = () => {
+export const CreateIdentityScreen = ({ onMintSBToken }: any) => {
   const context = useWeb3React<Provider>();
   const { activate, active, account, library } = context;
 
@@ -57,7 +57,7 @@ export const CreateIdentityScreen = () => {
   }, [library]);
 
   const handleCreateIdentity = async (e: any) => {
-    e.preventDefault();
+    e && e.preventDefault();
 
     setCreating(true);
     const newId = new Identity();
@@ -75,15 +75,16 @@ export const CreateIdentityScreen = () => {
       });
 
     console.log("encryptionPublicKey ", encryptionPublicKey, account);
+    console.log("newId ", newId.toString());
 
     if (!encryptionPublicKey) return;
 
-    const newEncryptedIdTrapdoor = ethUtil.bufferToHex(
+    const newEncryptedId = ethUtil.bufferToHex(
       Buffer.from(
         JSON.stringify(
           sigUtil.encrypt({
             publicKey: encryptionPublicKey,
-            data: IdTrapdoor.toString(),
+            data: newId.toString(),
             version: "x25519-xsalsa20-poly1305",
           })
         ),
@@ -91,11 +92,11 @@ export const CreateIdentityScreen = () => {
       )
     );
 
-    console.log("newEncryptedIdTrapdoor ", newEncryptedIdTrapdoor);
+    console.log("newEncryptedId ", newEncryptedId);
 
     const mintedTokenTx = await OmSbTokenContract.connect(
       signer as any
-    ).safeMint(account, newEncryptedIdTrapdoor);
+    ).safeMint(account, newEncryptedId);
 
     console.log("minting token...");
 
@@ -107,9 +108,13 @@ export const CreateIdentityScreen = () => {
       account
     );
 
+    onMintSBToken(e);
+
     console.log("getting token...");
 
     console.log("mintedToken ", getTokenTx.toString());
+
+    //Update Front End
   };
 
   console.log("tokenId ", tokenId);
@@ -199,7 +204,7 @@ export const CreateIdentityScreen = () => {
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            stroke-width="2"
+            strokeWidth="2"
           >
             <path
               strokeLinecap="round"

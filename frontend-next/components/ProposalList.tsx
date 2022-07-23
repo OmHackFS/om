@@ -1,11 +1,19 @@
 import { proposalsList } from "./mocks/proposals";
 import Link from "next/link";
 import { useState } from "react";
+import {ethers} from "ethers";
 
 export const ProposalList = ( props: any) => {
 
   const {proposals} = props;
   console.log("proposals:", proposals);
+  console.log("proposals1:", proposals[0]);
+  console.log("proposals2", proposals[1]);
+  console.log("Group Id ---------");
+
+  console.log("proposals1:", proposals[0].groupId);
+
+
 
  return (    
     <div className="px-4 sm:px-6 lg:px-8 pt-7">
@@ -44,7 +52,7 @@ export const ProposalList = ( props: any) => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Title
+                      Description
                     </th>
                     <th
                       scope="col"
@@ -93,14 +101,14 @@ export const ProposalList = ( props: any) => {
                           </div>
                           <div className="ml-4">
                             <div className="font-medium text-gray-900">
-                              {proposal.proposalName}
+                              {proposal.proposalName} proposalName
                             </div>
                             <div className="text-gray-500">{proposal.proposalName}</div>
                           </div>
                         </div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <div className="text-gray-900">{proposal.groupId}</div>
+                        <div className="text-gray-900">{proposal.description} groupId</div>
                         <div className="text-gray-500">{proposal.groupId}</div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -109,13 +117,13 @@ export const ProposalList = ( props: any) => {
                         </span>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {proposal.role}
+                        {proposal.groupId}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         {proposal.startDate}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {proposal.date}
+                        {proposal.endDate}
                       </td>
 
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
@@ -123,7 +131,7 @@ export const ProposalList = ( props: any) => {
                           href="#"
                           className="text-indigo-600 hover:text-indigo-900"
                         >
-                          Edit<span className="sr-only">, {proposal.name}</span>
+                          Edit<span className="sr-only">, {proposal.name} Proposal Span</span>
                         </a>
                       </td>
                     </tr>
