@@ -21,6 +21,7 @@ import backEnd from "../backend/OmData";
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import { Provider } from "../utils/provider";
 import { injected } from "../utils/connectors";
+import { ConnectWalletButton } from "./ConnectWalletButton";
 
 const depth = 20;
 const admin = "0xd770134156f9aB742fDB4561A684187f733A9586";
@@ -40,28 +41,14 @@ export const GenerateProofBody = ({ group,setProof, setNullifierHash,setExternal
   const [idTrapdoor, setIdTrapdoor] = useState();
   const [creating, setCreating] = useState(false);
   const [tokenId, setTokenId] = useState();
+  const [omSbTokenContract, setOmSbTokenContract] = useState<any>();
 
-  const OmSbTokenContract = useMemo(() => {
-    return new ethers.Contract(sbContractAddr, OmSbToken.abi, signer);
-  }, [signer]);
+ 
 
-  useEffect((): void => {
-    if (!library) {
-      setSigner(undefined);
-      return;
-    }
+  useEffect(() => {
+    connectWallet()
+  },[]);
 
-    const signer = library.getSigner();
-    setSigner(signer);
-    signer.getAddress().then(setSignerAddr);
-
-    account &&
-      OmSbTokenContract.connect(signer as any)
-        .balanceOf(account)
-        .then((tokenId: any) => {
-          setTokenId(tokenId.toNumber());
-        });
-  }, [library]);
   
   const [offChainVerification, setOffChainVerification] = useState<any>(false);
   const [generatingProof, setGeneratingProof] = useState<boolean>(false);
@@ -72,10 +59,12 @@ export const GenerateProofBody = ({ group,setProof, setNullifierHash,setExternal
     e.preventDefault();
 
     setGeneratingProof(true);
-    console.log(OmSbTokenContract)
+    console.log(omSbTokenContract)
+    console.log(account);
 
     // 1. Decrypt ID
-    const idHash = await OmSbTokenContract.identityData(account);
+    const idHash = await omSbTokenContract.identityData(account);
+    // const idHash=100;
     console.log("id Hash called")
     const decryptedMessage = await (window as any).ethereum.request({
       method: "eth_decrypt",
@@ -86,19 +75,19 @@ export const GenerateProofBody = ({ group,setProof, setNullifierHash,setExternal
     const newIdentityCommitment = retrievedIdentity.generateCommitment();
     console.log(group)
     // 2. Generate Proof
-    const members = await backEnd.getMembersAddedByGroup(Number(group) || 1);
-    console.log(members);
+    // const members = await backEnd.getMembersAddedByGroup(Number(group) || 1);
+    // console.log(members);
 
     // creating new group and add members to the group
 
     const newGroup = new Group();
-    for (let i = 0 as any; i < members.length; i++) {
-      console.log(`--------Member ${i}`);
-      console.log((members[i] as any).identityCommitment);
-      let bigIntMember = ((members[i] as any).identityCommitment);
-      newGroup.addMember(bigIntMember);
-    }
-    // newGroup.addMember(newIdentityCommitment);
+    // for (let i = 0 as any; i < members.length; i++) {
+    //   console.log(`--------Member ${i}`);
+    //   console.log((members[i] as any).identityCommitment);
+    //   let bigIntMember = ((members[i] as any).identityCommitment);
+    //   newGroup.addMember(bigIntMember);
+    // }
+    newGroup.addMember(newIdentityCommitment);
 
     const root = newGroup.root;
 
@@ -149,6 +138,22 @@ export const GenerateProofBody = ({ group,setProof, setNullifierHash,setExternal
     setGeneratingProof(false);
     console.log("response ", response);
   };
+
+  async function connectWallet(){
+    const accounts = await (window as any).ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const address = accounts[0];
+    const signer=(new ethers.providers.Web3Provider((window as any).ethereum)).getSigner();
+    const sbContractAddress="0xF765822f3843a1d2c093B461318466e9fb60D2bA";
+    const sbTokenContract = new ethers.Contract(sbContractAddress, OmSbToken.abi, signer);
+
+    console.log(signer);
+    console.log(sbTokenContract);
+    setSigner(signer)
+    setOmSbTokenContract(sbTokenContract)
+
+  }
 
 
 

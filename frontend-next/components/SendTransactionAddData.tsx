@@ -6,7 +6,7 @@ import Semaphore from "../pages/utils/Semaphore.json";
 import * as ethUtil from "ethereumjs-util";
 import * as sigUtil from "@metamask/eth-sig-util";
 import { ethers, Signer } from "ethers";
-import omToken from "./utils/OmContract.json";
+// import omToken from "./utils/OmContract.json";
 import backEnd from "../backend/OmData";
 
 
@@ -15,17 +15,14 @@ import { AbstractConnector } from "@web3-react/abstract-connector";
 import { Provider } from "../utils/provider";
 import { injected } from "../utils/connectors";
 
-const omContractAddress = "0x2D0d6897212048fc21Be081E2B976C626c2Fc91C";
+const omContractAddress = "0x560aBf82Eb1D8C86968f4314ff6a7770088f0728";
 
 export const SendTransactionAddData = ({
   group,
-  title,
-  startDate,
-  endDate,
-  description,
-  fundRequest,
-  fileInput,
-  linkInput,
+  dataTitle,
+  dataDescription,
+  authorName,
+  authorContact,
   proof,
   nullifierHash,
   externalNullifier,
@@ -42,28 +39,16 @@ export const SendTransactionAddData = ({
   const [message, setMessage] = useState();
   const [creating, setCreating] = useState(false);
   const [proposalUri, setProposalUri] = useState<string | null>(null);
+  const [contract,setContract] =useState<any>();
 
-  const omContract : any= useMemo(() => {
-    return new ethers.Contract(omContractAddress, omToken.abi, signer);
-  }, [signer]);
+  // const omContract : any= useMemo(() => {
+  //   return new ethers.Contract(omContractAddress, omContract.abi, signer);
+  // }, [signer]);
 
   useEffect((): void => {
-    if (!library) {
-      setSigner(undefined);
-      return;
-    }
+    connectWallet();
 
-    const signer = library.getSigner();
-    setSigner(signer);
-    signer.getAddress().then(setSignerAddr);
-    // console.log("Proof")
-    // console.log(proof)
-    // console.log("NullifierHash")
-    // console.log(nullifierHash)
-    // console.log("ExternalNullifier")
-
-    // console.log(externalNullifier)
-  }, [library]);
+  }, []);
 
   const handleCreateProposal = async (e: any) => {
     e.preventDefault();
@@ -82,17 +67,19 @@ export const SendTransactionAddData = ({
 
   
 
-    console.log(omContract);
+    console.log(contract);
 
 
 
     const proposalCoordinator ="0xd770134156f9aB742fDB4561A684187f733A9586"
 
 
-    const dataTitle ="First Data Test";
-    const proposalUri="IPFS URI";
-    const dataSize = 10;
-    const dataGroupId =1;
+    const dataTitle2 ="Data 1 Title";
+    const dataUri="IPFS URI";
+    const fileUri="File IPFS URI";
+    const dataType=1;
+    const symmetricKey=1155543;
+    const groupId=1;
     const dataRoot = root;
     const dataSignal=bytes32signal;
     const dataNullifier=nullifierHash;
@@ -101,11 +88,14 @@ export const SendTransactionAddData = ({
 
 
 
-    const addDataTx = await omContract.addData(
-      dataTitle,
-      proposalUri,
-      dataSize,
-      dataGroupId,
+
+    const addDataTx = await contract.addData(
+      dataTitle2,
+      dataUri,
+      fileUri,
+      dataType,
+      symmetricKey,
+      groupId,
       dataRoot,
       dataSignal,
       dataNullifier,
@@ -115,33 +105,12 @@ export const SendTransactionAddData = ({
     const tx = await addDataTx.wait()
     console.log(tx);
 
-  //   coordinator (address)
-  //   coordinator (address)
-  // title (string)
-  //   title (string)
-  // description (string)
-  //   description (string)
-  // startDate (uint256)
-  //   startDate (uint256)
-  // endDate (uint256)
-  //   endDate (uint256)
-  // proposalURI (string)
-  //   proposalURI (string)
-  // groupId (uint256)
-  //   groupId (uint256)
-  // signal (bytes32)
-  //   signal (bytes32)
-  // nullifierHash (uint256)
-  //   nullifierHash (uint256)
-  // externalNullifier (uint256)
-  //   externalNullifier (uint256)
-  // proof (uint256[8])
 
 
-    // console.log("proposalUri ", proposalUri);
+    
 
     setCreating(false);
-    // setProposalUri(newProposalUri);
+
   };
 
  
@@ -151,7 +120,16 @@ export const SendTransactionAddData = ({
       method: "eth_requestAccounts",
     });
     const address = accounts[0];
-    setSigner(address);
+    const signer=(new ethers.providers.Web3Provider((window as any).ethereum)).getSigner();
+
+    const omContractAddress = "0x560aBf82Eb1D8C86968f4314ff6a7770088f0728";
+    const omABI = [{"inputs":[{"components":[{"internalType":"address","name":"contractAddress","type":"address"},{"internalType":"uint8","name":"merkleTreeDepth","type":"uint8"}],"internalType":"struct OmContract.Verifier[]","name":"_verifiers","type":"tuple[]"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"dataId","type":"uint256"},{"components":[{"internalType":"string","name":"title","type":"string"},{"internalType":"address","name":"dataOwner","type":"address"},{"internalType":"uint256","name":"addedDate","type":"uint256"},{"internalType":"string","name":"dataURI","type":"string"},{"internalType":"string","name":"fileURI","type":"string"},{"internalType":"uint256","name":"groupId","type":"uint256"},{"internalType":"uint256","name":"dataType","type":"uint256"},{"internalType":"string","name":"symmetricKey","type":"string"}],"indexed":false,"internalType":"struct OmContract.dataStructure","name":"dataInfos","type":"tuple"}],"name":"DataAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"groupId","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"depth","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"zeroValue","type":"uint256"}],"name":"GroupCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"groupId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"identityCommitment","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"root","type":"uint256"}],"name":"MemberAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"groupId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"identityCommitment","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"root","type":"uint256"}],"name":"MemberRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"nullifierHash","type":"uint256"}],"name":"NullifierHashAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"groupId","type":"uint256"},{"indexed":false,"internalType":"address","name":"admin","type":"address"}],"name":"OmGroupCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"groupId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"memberID","type":"uint256"}],"name":"OmMemberAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"groupId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"memberID","type":"uint256"}],"name":"OmMemberRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"groupId","type":"uint256"},{"indexed":false,"internalType":"bytes32","name":"signal","type":"bytes32"}],"name":"ProofVerified","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"groupId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"proposalCounter","type":"uint256"},{"components":[{"internalType":"string","name":"title","type":"string"},{"internalType":"string","name":"description","type":"string"},{"internalType":"uint256","name":"yesCount","type":"uint256"},{"internalType":"uint256","name":"noCount","type":"uint256"},{"internalType":"uint256","name":"StartDate","type":"uint256"},{"internalType":"uint256","name":"EndDate","type":"uint256"},{"internalType":"string","name":"IpfsURI","type":"string"}],"indexed":false,"internalType":"struct OmContract.Proposal","name":"proposalData","type":"tuple"}],"name":"ProposalCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"groupId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":true,"internalType":"bool","name":"vote","type":"bool"}],"name":"VoteCast","type":"event"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"ProposalList","outputs":[{"internalType":"string","name":"title","type":"string"},{"internalType":"string","name":"description","type":"string"},{"internalType":"uint256","name":"yesCount","type":"uint256"},{"internalType":"uint256","name":"noCount","type":"uint256"},{"internalType":"uint256","name":"StartDate","type":"uint256"},{"internalType":"uint256","name":"EndDate","type":"uint256"},{"internalType":"string","name":"IpfsURI","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"groupId","type":"uint256"},{"internalType":"uint256","name":"root","type":"uint256"},{"internalType":"bytes32","name":"signal","type":"bytes32"},{"internalType":"uint256","name":"nullifierHash","type":"uint256"},{"internalType":"uint256","name":"externalNullifier","type":"uint256"},{"internalType":"uint256[8]","name":"proof","type":"uint256[8]"}],"name":"accessData","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"title","type":"string"},{"internalType":"string","name":"dataURI","type":"string"},{"internalType":"string","name":"fileURI","type":"string"},{"internalType":"uint256","name":"dataType","type":"uint256"},{"internalType":"string","name":"symmetricKey","type":"string"},{"internalType":"uint256","name":"groupId","type":"uint256"},{"internalType":"uint256","name":"root","type":"uint256"},{"internalType":"bytes32","name":"signal","type":"bytes32"},{"internalType":"uint256","name":"nullifierHash","type":"uint256"},{"internalType":"uint256","name":"externalNullifier","type":"uint256"},{"internalType":"uint256[8]","name":"proof","type":"uint256[8]"}],"name":"addData","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"groupId","type":"uint256"},{"internalType":"uint256","name":"identityCommitment","type":"uint256"}],"name":"addMember","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"canGroupAddData","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"canGroupPropose","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"groupId","type":"uint256"},{"internalType":"uint256","name":"root","type":"uint256"},{"internalType":"bool","name":"vote","type":"bool"},{"internalType":"uint256","name":"nullifierHash","type":"uint256"},{"internalType":"uint256","name":"externalNullifierProposalId","type":"uint256"},{"internalType":"bytes32","name":"signal","type":"bytes32"},{"internalType":"uint256[8]","name":"proof","type":"uint256[8]"}],"name":"castVote","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint8","name":"depth","type":"uint8"},{"internalType":"uint256","name":"zeroValue","type":"uint256"},{"internalType":"address","name":"admin","type":"address"},{"internalType":"bool","name":"canPropose","type":"bool"},{"internalType":"bool","name":"canAddData","type":"bool"}],"name":"createGroup","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"title","type":"string"},{"internalType":"string","name":"description","type":"string"},{"internalType":"uint256","name":"root","type":"uint256"},{"internalType":"uint256","name":"startDate","type":"uint256"},{"internalType":"uint256","name":"endDate","type":"uint256"},{"internalType":"string","name":"proposalURI","type":"string"},{"internalType":"uint256","name":"groupId","type":"uint256"},{"internalType":"bytes32","name":"signal","type":"bytes32"},{"internalType":"uint256","name":"nullifierHash","type":"uint256"},{"internalType":"uint256","name":"externalNullifier","type":"uint256"},{"internalType":"uint256[8]","name":"proof","type":"uint256[8]"}],"name":"createProposal","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"dataFileCounter","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"dataList","outputs":[{"internalType":"string","name":"title","type":"string"},{"internalType":"address","name":"dataOwner","type":"address"},{"internalType":"uint256","name":"addedDate","type":"uint256"},{"internalType":"string","name":"dataURI","type":"string"},{"internalType":"string","name":"fileURI","type":"string"},{"internalType":"uint256","name":"groupId","type":"uint256"},{"internalType":"uint256","name":"dataType","type":"uint256"},{"internalType":"string","name":"symmetricKey","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"groupId","type":"uint256"}],"name":"getDepth","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"groupId","type":"uint256"}],"name":"getNumberOfLeaves","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"getProposalData","outputs":[{"components":[{"internalType":"string","name":"title","type":"string"},{"internalType":"string","name":"description","type":"string"},{"internalType":"uint256","name":"yesCount","type":"uint256"},{"internalType":"uint256","name":"noCount","type":"uint256"},{"internalType":"uint256","name":"StartDate","type":"uint256"},{"internalType":"uint256","name":"EndDate","type":"uint256"},{"internalType":"string","name":"IpfsURI","type":"string"}],"internalType":"struct OmContract.Proposal","name":"ProposalData","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"groupId","type":"uint256"}],"name":"getRoot","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"groupAdmins","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"groupCounter","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"groupMembership","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"proposalCounter","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"groupId","type":"uint256"},{"internalType":"uint256","name":"identityCommitment","type":"uint256"},{"internalType":"uint256[]","name":"proofSiblings","type":"uint256[]"},{"internalType":"uint8[]","name":"proofPathIndices","type":"uint8[]"}],"name":"removeMember","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint8","name":"","type":"uint8"}],"name":"verifiers","outputs":[{"internalType":"contract IVerifier","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"groupId","type":"uint256"},{"internalType":"bytes32","name":"signal","type":"bytes32"},{"internalType":"uint256","name":"root","type":"uint256"},{"internalType":"uint256","name":"nullifierHash","type":"uint256"},{"internalType":"uint256","name":"externalNullifier","type":"uint256"},{"internalType":"uint256[8]","name":"proof","type":"uint256[8]"}],"name":"verifyProof","outputs":[],"stateMutability":"nonpayable","type":"function"}]
+
+    const omContract = new ethers.Contract(omContractAddress, omABI, signer);
+    console.log(omContract);
+    console.log(signer);
+    setContract(omContract);
+    setSigner(signer);
   }
   console.log("context ", context);
   return (

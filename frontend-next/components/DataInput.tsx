@@ -9,6 +9,7 @@ export const DataInput = () => {
   const [dataSizeInput, setDataSizeInput] = useState<any>();
   const [authorNameInput,setAuthorNameInput] = useState<any>();
   const [authorContactInput,setAuthorContactInput] = useState<any>();
+  const [fileInput,setFileInput] = useState();
 
   const [group,setGroup] = useState<any>();
 

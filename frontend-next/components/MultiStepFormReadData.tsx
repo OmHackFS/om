@@ -3,7 +3,7 @@ import { useState } from "react";
 import { GenerateProofBody } from "./GenerateProofBody";
 import { SelectWalletBody } from "./SelectWalletBody";
 import { SendTransactionBody } from "./SendTransactionBody";
-import { SendTransactionAddData } from "./SendTransactionAddData";
+import { SendTransactionReadData } from "./SendTransactionReadData";
 import {ethers} from "ethers";
 
 export const MultiStepFormReadData = ({
@@ -172,7 +172,7 @@ export const MultiStepFormReadData = ({
                         ) : null}
                         {formStep === 1 ? <SelectWalletBody /> : null}
                         {formStep === 2 ? (
-                          <SendTransactionAddData
+                          <SendTransactionReadData
                             group={group}
                             fileInput={fileInput}
                             title={title}

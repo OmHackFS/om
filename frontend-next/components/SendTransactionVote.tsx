@@ -15,7 +15,7 @@ import { AbstractConnector } from "@web3-react/abstract-connector";
 import { Provider } from "../utils/provider";
 import { injected } from "../utils/connectors";
 
-const omContractAddress = "0x2D0d6897212048fc21Be081E2B976C626c2Fc91C";
+const omContractAddress = "0x560aBf82Eb1D8C86968f4314ff6a7770088f0728";
 
 export const SendTransactionVote = ({
   group,

@@ -2,10 +2,10 @@ import React from "react";
 import { useState } from "react";
 import { GenerateProofBody } from "./GenerateProofBody";
 import { SelectWalletBody } from "./SelectWalletBody";
-import { SendTransactionBody } from "./SendTransactionBody";
+import { SendTransactionAddProposal } from "./SendTransactionAddProposal";
 import {ethers} from "ethers";
 
-export const MultiStepFormCreateProposal = ({
+export const MultiStepFormAddProposal = ({
   group,
   title,
   startDate,
@@ -171,7 +171,7 @@ export const MultiStepFormCreateProposal = ({
                         ) : null}
                         {formStep === 1 ? <SelectWalletBody /> : null}
                         {formStep === 2 ? (
-                          <SendTransactionBody
+                          <SendTransactionAddProposal
                             group={group}
                             fileInput={fileInput}
                             title={title}

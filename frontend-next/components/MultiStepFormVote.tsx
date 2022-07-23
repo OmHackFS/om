@@ -5,6 +5,7 @@ import { SelectWalletBody } from "./SelectWalletBody";
 import { SendTransactionBody } from "./SendTransactionBody";
 import { SendTransactionAddData } from "./SendTransactionAddData";
 import {ethers} from "ethers";
+import { SendTransactionVote } from "./SendTransactionVote";
 
 export const MultiStepFormVote = ({
   group,
@@ -172,7 +173,7 @@ export const MultiStepFormVote = ({
                         ) : null}
                         {formStep === 1 ? <SelectWalletBody /> : null}
                         {formStep === 2 ? (
-                          <SendTransactionAddData
+                          <SendTransactionVote
                             group={group}
                             fileInput={fileInput}
                             title={title}

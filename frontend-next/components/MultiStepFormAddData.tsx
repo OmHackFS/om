@@ -7,14 +7,7 @@ import { SendTransactionAddData } from "./SendTransactionAddData";
 import {ethers} from "ethers";
 
 export const MultiStepFormAddData = ({
-  group,
-  title,
-  startDate,
-  endDate,
-  description,
-  fundRequest,
-  fileInput,
-  linkInput,
+  dataTitle,dataDescription,authorName,authorContact,group
 }: any) => {
   const [formStep, setFormStep] = useState(0);
   const [proof,setProof] = useState();
@@ -174,13 +167,10 @@ export const MultiStepFormAddData = ({
                         {formStep === 2 ? (
                           <SendTransactionAddData
                             group={group}
-                            fileInput={fileInput}
-                            title={title}
-                            startDate={startDate}
-                            endDate={endDate}
-                            description={description}
-                            fundRequest={fundRequest}
-                            linkInput={linkInput}
+                            dataTitle={dataTitle}
+                            dataDescription={dataDescription}
+                            authorName={authorName}
+                            authorContact={authorContact}
                             proof={proof}
                             nullifierHash={nullifierHash}
                             externalNullifier={externalNullifier}
