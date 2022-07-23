@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink, gql } from '@apollo/client';
 import { Web3Storage, File, getFilesFromPath } from 'web3.storage'; // @mehulagg/web3.storage
 // import { DID } from 'dids'
-// import { Integration } from 'lit-ceramic-integration-sdk'  // '@litelliott/lit-ceramic-integration'
+// import { Integration } from 'lit-ceramic-sdk' // '@litelliott/lit-ceramic-integration'
 
 class OmData {
 
@@ -14,13 +14,17 @@ class OmData {
     async getProposals() {
         const eventQuery = `{ 
             proposalCreateds(first: 1000) { 
-                id 
-                groupId
-                description
-                proposalId
-                startDate
-                endDate
-                fileUri
+              groupId
+              id
+              endDate: proposalData_EndDate 
+              IpfsURI: proposalData_IpfsURI
+              startDate: proposalData_StartDate
+              endDate: proposalData_coordinator
+              description: proposalData_description
+              noCount: proposalData_noCount
+              title: proposalData_title
+              yesCount: proposalData_yesCount
+              proposalCounter
             }}`;
         let data = "";
         const client = new ApolloClient({
