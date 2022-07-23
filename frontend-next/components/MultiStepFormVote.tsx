@@ -8,14 +8,7 @@ import {ethers} from "ethers";
 import { SendTransactionVote } from "./SendTransactionVote";
 
 export const MultiStepFormVote = ({
-  group,
-  title,
-  startDate,
-  endDate,
-  description,
-  fundRequest,
-  fileInput,
-  linkInput,
+
 }: any) => {
   const [formStep, setFormStep] = useState(0);
   const [proof,setProof] = useState();
@@ -162,7 +155,7 @@ export const MultiStepFormVote = ({
                       <div className="h-72 flex items-center justify-center">
                         {formStep === 0 ? (
                           <GenerateProofBody 
-                          group={group} 
+                          // group={group} 
                           setProof={setProof}
                           setNullifierHash={setNullifierHash}
                           setExternalNullifier={setExternalNullifier}
@@ -174,14 +167,6 @@ export const MultiStepFormVote = ({
                         {formStep === 1 ? <SelectWalletBody /> : null}
                         {formStep === 2 ? (
                           <SendTransactionVote
-                            group={group}
-                            fileInput={fileInput}
-                            title={title}
-                            startDate={startDate}
-                            endDate={endDate}
-                            description={description}
-                            fundRequest={fundRequest}
-                            linkInput={linkInput}
                             proof={proof}
                             nullifierHash={nullifierHash}
                             externalNullifier={externalNullifier}

@@ -5,13 +5,6 @@ import { CheckIcon } from "@heroicons/react/outline";
 import { MultiStepFormVote } from "./MultiStepFormVote";
 
 export const ProofModalVote = ({
-  group,
-  title,
-  startDate,
-  endDate,
-  description,
-  fundRequest,
-  linkInput,
 }: any) => {
   const [open, setOpen] = useState(true);
 
@@ -43,13 +36,6 @@ export const ProofModalVote = ({
             >
               <Dialog.Panel className="relative bg-white rounded-lg px-20 pt-20- pb-20 text-left shadow-xl ">
                 <MultiStepFormVote
-                  group={group}
-                  title={title}
-                  startDate={startDate}
-                  endDate={endDate}
-                  description={description}
-                  fundRequest={fundRequest}
-                  linkInput={linkInput}
                 />
               </Dialog.Panel>
             </Transition.Child>

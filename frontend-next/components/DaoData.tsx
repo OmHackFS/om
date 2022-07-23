@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import {data} from './mocks/datas'
-  
+import { MultiStepFormReadData} from "./MultiStepFormReadData"  
   function classNames(...classes : any[]) {
     return classes.filter(Boolean).join(' ')
   }
@@ -134,6 +134,7 @@ import {data} from './mocks/datas'
               ))}
             </tbody>
           </table>
+          <MultiStepFormReadData/>
         </div>
       </div>
     )
