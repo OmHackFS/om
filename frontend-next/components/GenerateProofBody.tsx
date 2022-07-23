@@ -21,16 +21,17 @@ import backEnd from "../backend/OmData";
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import { Provider } from "../utils/provider";
 import { injected } from "../utils/connectors";
+import { ConnectWalletButton } from "./ConnectWalletButton";
 
 const depth = 20;
 const admin = "0xd770134156f9aB742fDB4561A684187f733A9586";
-const signal = "proposal_1";
-const signalBytes32 = ethers.utils.formatBytes32String(signal);
+// const signal = "proposal_1";
+// const signalBytes32 = ethers.utils.formatBytes32String(signal);
 const groupId = 7579;
 let zeroValue = 0;
 const { generateProof, packToSolidityProof } = semaphoreProof;
 
-export const GenerateProofBody = ({ group }: any) => {
+export const GenerateProofBody = ({ group,setProof, setNullifierHash,setExternalNullifier,setRoot,signal}: any) => {
   const context = useWeb3React<Provider>();
   const { activate, active, account, library } = context;
 
@@ -40,209 +41,62 @@ export const GenerateProofBody = ({ group }: any) => {
   const [idTrapdoor, setIdTrapdoor] = useState();
   const [creating, setCreating] = useState(false);
   const [tokenId, setTokenId] = useState();
+  const [omSbTokenContract, setOmSbTokenContract] = useState<any>();
 
-  const OmSbTokenContract = useMemo(() => {
-    return new ethers.Contract(sbContractAddr, OmSbToken.abi, signer);
-  }, [signer]);
+ 
 
-  useEffect((): void => {
-    if (!library) {
-      setSigner(undefined);
-      return;
-    }
+  useEffect(() => {
+    connectWallet()
+  },[]);
 
-    const signer = library.getSigner();
-    setSigner(signer);
-    signer.getAddress().then(setSignerAddr);
-
-    account &&
-      OmSbTokenContract.connect(signer as any)
-        .balanceOf(account)
-        .then((tokenId: any) => {
-          setTokenId(tokenId.toNumber());
-        });
-  }, [library]);
-
-  const [identity, setIdentity] = useState<any>();
-  const [trapdoor, setTrapdoor] = useState<bigint>();
-  const [nullifier, setNullifier] = useState<bigint>();
-  const [identityCommitment, setIdentityCommitment] = useState<bigint>();
-  const [groupMembers, setGroupMembers] = useState<any>();
-
-  const [group1, setGroup1] = useState<any>();
-  const [group2, setGroup2] = useState<any>();
-
-  const [group1Proof, setGroup1Proof] = useState("");
-  const [group1Status, setGroup1Status] = useState("");
-
-  const [group1ExternalNullifier, setGroup1ExternalNullifier] = useState("");
-  const [group1NullifierHash, setGroup1NullifierHash] = useState<any>();
-  const [group1SolidityProof, setGroup1SolidityProof] = useState("");
+  
   const [offChainVerification, setOffChainVerification] = useState<any>(false);
   const [generatingProof, setGeneratingProof] = useState<boolean>(false);
 
-  const handleClickGenerateProof = async (e: any) => {
-    e.preventDefault();
-    //Before Generating the Proof we need to get All the Group members
-    const members = await backEnd.getMembersAddedByGroup(group);
-    setGroupMembers(members);
-    const newGroup = new Group();
-    for (let i = 0 as any; i < members.length; i++) {
-      console.log(`--------Member ${i}`);
-      // console.log(members[i].identityCommitment);
-      // newGroup.addMember(members[i].identityCommitment);
-    }
 
-    await setGroup1(newGroup);
-    // const externalNullifier = parseInt(Math.random()*(1000000));
-    const externalNullifier = 2;
-
-    const fullProof = await generateProof(
-      identity as any,
-      newGroup as any,
-      externalNullifier,
-      signal,
-      {
-        zkeyFilePath:
-          "http://www.trusted-setup-pse.org/semaphore/20/semaphore.zkey",
-        wasmFilePath:
-          "http://www.trusted-setup-pse.org/semaphore/20/semaphore.wasm",
-      }
-    );
-
-    const { nullifierHash } = fullProof.publicSignals;
-    const solidityProof = packToSolidityProof(fullProof.proof);
-    console.log("Proof");
-    console.log(fullProof.proof);
-    console.log("solidityProof");
-    console.log(solidityProof);
-
-    setGroup1Proof(fullProof as any);
-    setGroup1NullifierHash(nullifierHash);
-    setGroup1SolidityProof(solidityProof as any);
-    setGroup1ExternalNullifier(externalNullifier as any);
-  };
-
-  const handleDecryptId = async (e: any) => {
-    e.preventDefault();
-
-    const idHash = await OmSbTokenContract.identityData(account);
-    console.log("idHash ", idHash);
-
-    const decryptedMessage = await (window as any).ethereum.request({
-      method: "eth_decrypt",
-      params: [idHash, account],
-    });
-
-    const jsonMessage = JSON.parse(decryptedMessage);
-    console.log("jsonMessage ", jsonMessage);
-
-    const retrievedIdentity = new Identity(decryptedMessage);
-    const newTrapdoor = retrievedIdentity.getTrapdoor();
-    const newNullifier = retrievedIdentity.getNullifier();
-    const newIdentityCommitment = retrievedIdentity.generateCommitment();
-
-    setTrapdoor(newTrapdoor);
-    setNullifier(newNullifier);
-    setIdentityCommitment(newIdentityCommitment);
-    setIdentity(retrievedIdentity);
-  };
-
-  const handleVerifyProofOffChain = async (e: any) => {
-    e.preventDefault();
-    console.log("Verification Called");
-
-    const externalNullifier = group1.root;
-    const signal = "Hello Zk";
-
-    const fullProof = await generateProof(
-      identity as any,
-      group1 as any,
-      externalNullifier,
-      signal,
-      {
-        zkeyFilePath:
-          "http://www.trusted-setup-pse.org/semaphore/20/semaphore.zkey",
-        wasmFilePath:
-          "http://www.trusted-setup-pse.org/semaphore/20/semaphore.wasm",
-      }
-    );
-
-    const verificationKey = await fetch(
-      "http://localhost:3000/semaphore.json"
-    ).then(function (res) {
-      return res.json();
-    });
-    console.log("data fetched");
-    console.log(verificationKey);
-
-    // console.log("group1Proof");
-    // console.log(group1Proof);
-
-    const res = await verifyProof(verificationKey, fullProof); // true or false.
-    const response = res.toString();
-    console.log("Waiting Response");
-    setOffChainVerification(response);
-
-    console.log(response);
-  };
-
-  const getMembers = async (e: any) => {
-    e.preventDefault();
-    const members = await backEnd.getMembersAddedByGroup(1);
-    const members2 = await backEnd.getMembersAddedByGroup(2);
-
-    // const jsonMembers = JSON.parse(members);
-    console.log(members);
-    console.log("Identity Length");
-    console.log(members.length);
-    // console.log("Member 0")
-    // console.log(members[1].identityCommitment);
-    // console.log("Identity Commitment")
-    // console.log(jsonMembers);
-    console.log("Group 2");
-    console.log(members2);
-
-    setGroupMembers(members);
-  };
 
   const handleGenerateProof = async (e: any) => {
     e.preventDefault();
 
     setGeneratingProof(true);
+    console.log(omSbTokenContract)
+    console.log(account);
 
     // 1. Decrypt ID
-    const idHash = await OmSbTokenContract.identityData(account);
-    console.log("idHash ", idHash);
-
+    const idHash = await omSbTokenContract.identityData(account);
+    // const idHash=100;
+    console.log("id Hash called")
     const decryptedMessage = await (window as any).ethereum.request({
       method: "eth_decrypt",
       params: [idHash, account],
     });
 
-    const jsonMessage = JSON.parse(decryptedMessage);
-    console.log("jsonMessage ", jsonMessage);
-
     const retrievedIdentity = new Identity(decryptedMessage);
-    const newTrapdoor = retrievedIdentity.getTrapdoor();
-    const newNullifier = retrievedIdentity.getNullifier();
     const newIdentityCommitment = retrievedIdentity.generateCommitment();
-
+    console.log(group)
     // 2. Generate Proof
-    const members = await backEnd.getMembersAddedByGroup(Number(group) || 1);
-    // setGroupMembers(members);
+    // const members = await backEnd.getMembersAddedByGroup(Number(group) || 1);
+    // console.log(members);
 
     // creating new group and add members to the group
+
     const newGroup = new Group();
-    for (let i = 0 as any; i < members.length; i++) {
-      console.log(`--------Member ${i}`);
-      console.log((members[i] as any).identityCommitment);
-      newGroup.addMember((members[i] as any).identityCommitment);
-    }
+    // for (let i = 0 as any; i < members.length; i++) {
+    //   console.log(`--------Member ${i}`);
+    //   console.log((members[i] as any).identityCommitment);
+    //   let bigIntMember = ((members[i] as any).identityCommitment);
+    //   newGroup.addMember(bigIntMember);
+    // }
+    newGroup.addMember(newIdentityCommitment);
 
-    newGroup.addMember(retrievedIdentity.generateCommitment());
+    const root = newGroup.root;
 
-    await setGroup1(newGroup);
+    console.log("Identity Commitment");
+    console.log(newIdentityCommitment.toString());
+    console.log("Root");
+    console.log(root.toString());
+
+
     const externalNullifier = Math.floor(Math.random() * 1000000);
 
     const fullProof = await generateProof(
@@ -261,6 +115,12 @@ export const GenerateProofBody = ({ group }: any) => {
     const { nullifierHash } = fullProof.publicSignals;
     const solidityProof = packToSolidityProof(fullProof.proof);
 
+    setNullifierHash(nullifierHash);
+    setExternalNullifier(externalNullifier);
+    setProof(solidityProof);
+    setRoot(root);
+
+
     // 3. Verification
     console.log("Verification Called");
 
@@ -278,6 +138,24 @@ export const GenerateProofBody = ({ group }: any) => {
     setGeneratingProof(false);
     console.log("response ", response);
   };
+
+  async function connectWallet(){
+    const accounts = await (window as any).ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const address = accounts[0];
+    const signer=(new ethers.providers.Web3Provider((window as any).ethereum)).getSigner();
+    const sbContractAddress="0xF765822f3843a1d2c093B461318466e9fb60D2bA";
+    const sbTokenContract = new ethers.Contract(sbContractAddress, OmSbToken.abi, signer);
+
+    console.log(signer);
+    console.log(sbTokenContract);
+    setSigner(signer)
+    setOmSbTokenContract(sbTokenContract)
+
+  }
+
+
 
   return (
     <div className="flex flex-col mb-1">
@@ -395,6 +273,7 @@ export const GenerateProofBody = ({ group }: any) => {
       >
         Get Members
       </button> */}
+
       </div>
     </div>
   );

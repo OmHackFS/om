@@ -275,6 +275,48 @@ export const ProposalInput = () => {
                       Group 3
                     </label>
                   </div>
+                  <div className="flex items-center">
+                    <input
+                      value="4"
+                      name="sub-group"
+                      type="radio"
+                      className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                    />
+                    <label
+                      htmlFor="push-everything"
+                      className="ml-3 block text-sm font-medium text-gray-700"
+                    >
+                      Group 4
+                    </label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      value="5"
+                      name="sub-group"
+                      type="radio"
+                      className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                    />
+                    <label
+                      htmlFor="push-email"
+                      className="ml-3 block text-sm font-medium text-gray-700"
+                    >
+                      Group 5
+                    </label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      value="6"
+                      name="sub-group"
+                      type="radio"
+                      className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                    />
+                    <label
+                      htmlFor="push-nothing"
+                      className="ml-3 block text-sm font-medium text-gray-700"
+                    >
+                      Group 6
+                    </label>
+                  </div>
                 </div>
               </fieldset>
             </form>
@@ -296,13 +338,13 @@ export const ProposalInput = () => {
         >
           Propose
         </button>
-        <button
+        {/* <button
           type="submit"
           className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           onClick={handleSubmit}
         >
           Submit Proposal
-        </button>
+        </button> */}
       </div>
       {showProposalModal ? (
         <ProofModalProposal

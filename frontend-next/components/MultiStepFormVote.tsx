@@ -3,18 +3,27 @@ import { useState } from "react";
 import { GenerateProofBody } from "./GenerateProofBody";
 import { SelectWalletBody } from "./SelectWalletBody";
 import { SendTransactionBody } from "./SendTransactionBody";
+import { SendTransactionAddData } from "./SendTransactionAddData";
+import {ethers} from "ethers";
+import { SendTransactionVote } from "./SendTransactionVote";
 
-export const MultiStepForm = ({
-  group,
-  title,
-  startDate,
-  endDate,
-  description,
-  fundRequest,
-  fileInput,
-  linkInput,
+export const MultiStepFormVote = ({
+
 }: any) => {
   const [formStep, setFormStep] = useState(0);
+  const [proof,setProof] = useState();
+  const [nullifierHash,setNullifierHash] = useState();
+  const [externalNullifier,setExternalNullifier] = useState();
+  const [root,setRoot] = useState();
+  const signal = "proposals";
+  const bytes32signal = ethers.utils.formatBytes32String(signal);
+
+
+
+
+
+
+
 
   const handleClickNext = (e: any) => {
     e.preventDefault();
@@ -145,19 +154,24 @@ export const MultiStepForm = ({
 
                       <div className="h-72 flex items-center justify-center">
                         {formStep === 0 ? (
-                          <GenerateProofBody group={group} />
+                          <GenerateProofBody 
+                          // group={group} 
+                          setProof={setProof}
+                          setNullifierHash={setNullifierHash}
+                          setExternalNullifier={setExternalNullifier}
+                          signal={signal}
+                          setRoot={setRoot}
+
+                           />
                         ) : null}
                         {formStep === 1 ? <SelectWalletBody /> : null}
                         {formStep === 2 ? (
-                          <SendTransactionBody
-                            group={group}
-                            fileInput={fileInput}
-                            title={title}
-                            startDate={startDate}
-                            endDate={endDate}
-                            description={description}
-                            fundRequest={fundRequest}
-                            linkInput={linkInput}
+                          <SendTransactionVote
+                            proof={proof}
+                            nullifierHash={nullifierHash}
+                            externalNullifier={externalNullifier}
+                            root={root}
+                            bytes32signal={bytes32signal}
                           />
                         ) : null}
                       </div>

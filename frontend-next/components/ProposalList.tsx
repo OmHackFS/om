@@ -7,11 +7,11 @@ export const ProposalList = ( props: any) => {
 
   const {proposals} = props;
   console.log("proposals:", proposals);
-  console.log("proposals1:", proposals[0]);
-  console.log("proposals2", proposals[1]);
-  console.log("Group Id ---------");
+  // console.log("proposals1:", proposals[0]);
+  // console.log("proposals2", proposals[1]);
+  // console.log("Group Id ---------");
 
-  console.log("proposals1:", proposals[0].groupId);
+  // console.log("proposals1:", proposals[0].groupId);
 
 
 
