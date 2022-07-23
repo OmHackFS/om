@@ -15,19 +15,19 @@ class OmData {
   // Fetch all proposals created from subgraph
   async getProposals() {
     const eventQuery = `{ 
-            proposalCreateds(first: 1000) { 
-              groupId
-              id
-              endDate: proposalData_EndDate 
-              IpfsURI: proposalData_IpfsURI
-              startDate: proposalData_StartDate
-              endDate: proposalData_coordinator
-              description: proposalData_description
-              noCount: proposalData_noCount
-              title: proposalData_title
-              yesCount: proposalData_yesCount
-              proposalCounter
-            }}`;
+      proposalCreateds(first: 1000) { 
+        groupId
+        id
+        endDate: proposalData_EndDate 
+        IpfsURI: proposalData_IpfsURI
+        startDate: proposalData_StartDate
+        endDate: proposalData_coordinator
+        description: proposalData_description
+        noCount: proposalData_noCount
+        title: proposalData_title
+        yesCount: proposalData_yesCount
+        proposalCounter
+    }}`;
     let data = "";
     const client = new ApolloClient({
       link: new HttpLink({ uri: this.graphApiUrl, fetch }),
@@ -45,12 +45,17 @@ class OmData {
   // Fetch all data added events from subgraph
   async getDataAddedEvents() {
     const eventQuery = `{ 
-            dataAddeds(first: 1000) {
-                id
-                dataId
-                owner
-                dateAdded
-              }}`;
+      dataAddeds(first: 1000) {
+        dataId
+        IpfsURI: dataInfos_IpfsURI
+        addedDate: dataInfos_addedDate
+        dataId: dataInfos_dataId
+        dataOwner: dataInfos_dataOwner
+        groupId: dataInfos_groupId
+        size: dataInfos_size
+        title: dataInfos_title
+        id
+      }}`;
     let data = "";
     const client = new ApolloClient({
       link: new HttpLink({ uri: this.graphApiUrl, fetch }),
@@ -68,12 +73,12 @@ class OmData {
   // Fetch all group created events from subgraph
   async getGroupCreatedEvents() {
     const eventQuery = `{ 
-            groupCreateds(first:1000) {
-                id
-                groupId
-                depth
-                zeroValue
-              }}`;
+      groupCreateds(first:1000) {
+          id
+          groupId
+          depth
+          zeroValue
+        }}`;
     let data = "";
     const client = new ApolloClient({
       link: new HttpLink({ uri: this.graphApiUrl, fetch }),
@@ -91,12 +96,12 @@ class OmData {
   // Fetch all members added to a given group from subgraph
   async getMembersAddedByGroup(groupId: number) {
     const eventQuery = `{ 
-            memberAddeds(where: {groupId: ${groupId}}) {
-                id
-                groupId
-                identityCommitment
-                root
-              }}`;
+      memberAddeds(where: {groupId: ${groupId}}) {
+          id
+          groupId
+          identityCommitment
+          root
+        }}`;
     let data = "";
     const client = new ApolloClient({
       link: new HttpLink({ uri: this.graphApiUrl, fetch }),
