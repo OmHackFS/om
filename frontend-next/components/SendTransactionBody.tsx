@@ -5,22 +5,17 @@ import { Group } from "@semaphore-protocol/group";
 import Semaphore from "../pages/utils/Semaphore.json";
 import * as ethUtil from "ethereumjs-util";
 import * as sigUtil from "@metamask/eth-sig-util";
-// const { Blob } =  require('nft.storage');
-// import * as nftStorage from "nft.storage";
 import { ethers, Signer } from "ethers";
-import OmSbToken from "../artifacts/contracts/OmSbToken.sol/OmSbToken.json";
+import omToken from "./utils/OmContract.json";
 import backEnd from "../backend/OmData";
 
-// console.log(nftStorage.NFTStorage)
-// import * as ipfsCar from 'ipfs-car/pack';
-// import {IPFS} from 'ipfs';
-// import * as fs from 'fs';
+
 
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import { Provider } from "../utils/provider";
 import { injected } from "../utils/connectors";
 
-const sbContractAddr = "0xDAA40151080Be453A9918dc9CcE4BC3160f892CE";
+const omContractAddress = "0x0a31Fc66B4Ad46beD289a1d85B2CfCB04fd7BD2b";
 
 export const SendTransactionBody = ({
   group,
@@ -31,6 +26,11 @@ export const SendTransactionBody = ({
   fundRequest,
   fileInput,
   linkInput,
+  proof,
+  nullifierHash,
+  externalNullifier,
+  root,
+  bytes32signal
 }: any) => {
   const context = useWeb3React<Provider>();
   const { activate, active, account, library } = context;
@@ -43,8 +43,8 @@ export const SendTransactionBody = ({
   const [creating, setCreating] = useState(false);
   const [proposalUri, setProposalUri] = useState<string | null>(null);
 
-  const OmSbTokenContract = useMemo(() => {
-    return new ethers.Contract(sbContractAddr, OmSbToken.abi, signer);
+  const omContract : any= useMemo(() => {
+    return new ethers.Contract(omContractAddress, omToken.abi, signer);
   }, [signer]);
 
   useEffect((): void => {
@@ -56,6 +56,13 @@ export const SendTransactionBody = ({
     const signer = library.getSigner();
     setSigner(signer);
     signer.getAddress().then(setSignerAddr);
+    // console.log("Proof")
+    // console.log(proof)
+    // console.log("NullifierHash")
+    // console.log(nullifierHash)
+    // console.log("ExternalNullifier")
+
+    // console.log(externalNullifier)
   }, [library]);
 
   const handleCreateProposal = async (e: any) => {
@@ -73,77 +80,74 @@ export const SendTransactionBody = ({
       file: fileInput,
     });
 
+  
+
+    console.log(omContract);
+
+
+
+    const proposalCoordinator ="0xd770134156f9aB742fDB4561A684187f733A9586"
+
+
+    const proposalTitle =title;
+    const proposalDescription=description;
+    const proposalRoot = root;
+    const proposalStartDate=10000;
+    const proposalEndDate=20000;
+    const proposalUri=newProposalUri;
+    const proposalGroupId =group;
+    const proposalSignal=bytes32signal;
+    const proposalNullifier=nullifierHash;
+    const proposalExternalNullifier=externalNullifier;
+    const proposalProof=proof;
+
+
+    const createProposalTx = await omContract.createProposal(
+      proposalTitle,
+      proposalDescription,
+      proposalRoot,
+      proposalStartDate,
+      proposalEndDate,
+      proposalUri,
+      proposalGroupId,
+      proposalSignal,
+      proposalNullifier,
+      proposalExternalNullifier,
+      proposalProof
+    )
+    const tx = await createProposalTx.wait()
+    console.log(tx);
+
+  //   coordinator (address)
+  //   coordinator (address)
+  // title (string)
+  //   title (string)
+  // description (string)
+  //   description (string)
+  // startDate (uint256)
+  //   startDate (uint256)
+  // endDate (uint256)
+  //   endDate (uint256)
+  // proposalURI (string)
+  //   proposalURI (string)
+  // groupId (uint256)
+  //   groupId (uint256)
+  // signal (bytes32)
+  //   signal (bytes32)
+  // nullifierHash (uint256)
+  //   nullifierHash (uint256)
+  // externalNullifier (uint256)
+  //   externalNullifier (uint256)
+  // proof (uint256[8])
+
+
+    // console.log("proposalUri ", proposalUri);
+
     setCreating(false);
     setProposalUri(newProposalUri);
-    console.log("proposalUri ", proposalUri);
   };
 
-  const handleEncryptData = async (e: any) => {
-    e.preventDefault();
-
-    const accounts = await (window as any).ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    const account1 = accounts[0];
-
-    const newId = new Identity();
-    const IdTrapdoor = newId.getTrapdoor();
-    const IdNullifer = newId.getNullifier();
-    const IdCommitment = newId.generateCommitment();
-
-    const idData = {
-      newId: newId.toString(),
-      IdTrapdoor: IdTrapdoor.toString(),
-      IdNullifer: IdNullifer.toString(),
-      IdCommitment: IdCommitment.toString(),
-    };
-
-    const stringIdData = JSON.stringify(idData);
-
-    const encryptionPublicKey = await (window as any).ethereum.request({
-      method: "eth_getEncryptionPublicKey",
-      params: [account1],
-    });
-
-    const newEncryptedIdData = ethUtil.bufferToHex(
-      Buffer.from(
-        JSON.stringify(
-          sigUtil.encrypt({
-            publicKey: encryptionPublicKey,
-            data: stringIdData,
-            version: "x25519-xsalsa20-poly1305",
-          })
-        ),
-        "utf8"
-      )
-    );
-
-    setEncryptedIdData(newEncryptedIdData as any);
-    console.log("Encrypted Data Hash");
-    console.log(newEncryptedIdData);
-    console.log("Encrypted Data Id");
-    console.log(stringIdData);
-  };
-
-  //   const storeNftStorageToken = async () => {
-  //     console.log("nftStorage ");
-
-  //     const NFT_STORAGE_TOKEN =
-  //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDIzZDg1OTczYUU3ZTI1RTdlMTNEZEUwZDhmQzIwMzgwQTQ0NDc4NUIiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1NzU4Mzg2OTU5MywibmFtZSI6IkhhY2tGUyJ9.ldx5AlCgYy2cGrgXOpTPVd2xA68SHcU4_of9MsNmEIw";
-  //     const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
-  //     const IPFSdata = new Blob([encryptedIdTrapdoor as any]);
-  //     const cid = await client.storeBlob(IPFSdata);
-
-  //     const dataFromIPFS = await fetch(`https://ipfs.io/ipfs/${cid}`);
-
-  //     console.log("IPFS Address");
-  //     console.log(cid);
-  //     console.log(idTrapdoor);
-  //     console.log(encryptedIdTrapdoor);
-
-  //     console.log("Data Fetched from IPFS");
-  //     console.log(dataFromIPFS);
-  //   }
+ 
 
   async function connectWallet() {
     const accounts = await (window as any).ethereum.request({
