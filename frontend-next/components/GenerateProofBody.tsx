@@ -8,9 +8,9 @@ import ethUtil from "ethereumjs-util";
 import sigUtil from "@metamask/eth-sig-util";
 import { ethers } from "ethers";
 // const omContractAbi = require("./utils/OmContract.json").abi;
-const sbContractAbi = require("../artifacts/contracts/OmSbToken.sol/OmSbToken.json").abi;
-import  backEnd  from "../backend/OmData"
-
+const sbContractAbi =
+  require("../artifacts/contracts/OmSbToken.sol/OmSbToken.json").abi;
+import backEnd from "../backend/OmData";
 
 const depth = 20;
 const admin = "0xd770134156f9aB742fDB4561A684187f733A9586";
@@ -25,7 +25,7 @@ export const GenerateProofBody = () => {
   const [trapdoor, setTrapdoor] = useState<bigint>();
   const [nullifier, setNullifier] = useState<bigint>();
   const [identityCommitment, setIdentityCommitment] = useState<bigint>();
-  const [groupMembers,setGroupMembers] = useState<any>();
+  const [groupMembers, setGroupMembers] = useState<any>();
 
   const [group1, setGroup1] = useState<any>();
   const [group2, setGroup2] = useState<any>();
@@ -42,16 +42,14 @@ export const GenerateProofBody = () => {
   const handleClickGenerateProof = async (e: any) => {
     e.preventDefault();
     //Before Generating the Proof we need to get All the Group members
-    const members = await backEnd.getMembersAddedByGroup(1)
-    setGroupMembers(members)
+    const members = await backEnd.getMembersAddedByGroup(1);
+    setGroupMembers(members);
     const newGroup = new Group();
-    for(let i=0 as any; i<members.length;i++){
+    for (let i = 0 as any; i < members.length; i++) {
       console.log(`--------Member ${i}`);
-      console.log(members[i].identityCommitment);
-      newGroup.addMember(members[i].identityCommitment);
-
+      // console.log(members[i].identityCommitment);
+      // newGroup.addMember(members[i].identityCommitment);
     }
-  
 
     await setGroup1(newGroup);
     console.log(newGroup);
@@ -168,15 +166,14 @@ export const GenerateProofBody = () => {
     console.log(response);
   };
 
-  
-  const getMembers = async (e:any) => {
+  const getMembers = async (e: any) => {
     e.preventDefault();
-    const members = await backEnd.getMembersAddedByGroup(1)
-    const members2 = await backEnd.getMembersAddedByGroup(2)
+    const members = await backEnd.getMembersAddedByGroup(1);
+    const members2 = await backEnd.getMembersAddedByGroup(2);
 
     // const jsonMembers = JSON.parse(members);
-    console.log(members)
-    console.log("Identity Length")
+    console.log(members);
+    console.log("Identity Length");
     console.log(members.length);
     // console.log("Member 0")
     // console.log(members[1].identityCommitment);
@@ -184,14 +181,9 @@ export const GenerateProofBody = () => {
     // console.log(jsonMembers);
     console.log("Group 2");
     console.log(members2);
-  
-    setGroupMembers(members)
 
-
-
-  }
-
-
+    setGroupMembers(members);
+  };
 
   return (
     <div className="flex flex-col mb-1">
@@ -256,7 +248,6 @@ export const GenerateProofBody = () => {
       >
         Get Members
       </button>
-    
     </div>
   );
 };
