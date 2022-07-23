@@ -5,7 +5,7 @@ import { SelectWalletBody } from "./SelectWalletBody";
 import { SendTransactionBody } from "./SendTransactionBody";
 import {ethers} from "ethers";
 
-export const MultiStepForm = ({
+export const MultiStepFormCreateProposal = ({
   group,
   title,
   startDate,

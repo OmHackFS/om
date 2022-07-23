@@ -17,7 +17,7 @@ import { injected } from "../utils/connectors";
 
 const omContractAddress = "0x2D0d6897212048fc21Be081E2B976C626c2Fc91C";
 
-export const SendTransactionBody = ({
+export const SendTransactionVote = ({
   group,
   title,
   startDate,

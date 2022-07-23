@@ -1,5 +1,5 @@
 import Link from 'next/link'
-// import {data} from './mocks/datas'
+import {data} from './mocks/datas'
   
   function classNames(...classes : any[]) {
     return classes.filter(Boolean).join(' ')
