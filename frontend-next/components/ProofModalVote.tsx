@@ -4,7 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
 import { MultiStepForm } from "./MultiStepForm";
 
-export const ProofModal = ({
+export const ProofModalVote = ({
   group,
   title,
   startDate,

@@ -15,6 +15,7 @@ export const ProposalInput = () => {
   const [subGroup, setSubGroup] = useState();
 
   const [groupInput, setGroupInput] = useState<any>();
+  const [proposalUriInput,setProposalUriInput] = useState<any>();
 
   const handleSubmit = async () => {
     const proposal = {
@@ -29,6 +30,7 @@ export const ProposalInput = () => {
 
     const proposalUri = await backEnd.addProposal(proposal);
     console.log("Proposal added: ", proposalUri);
+    setProposalUriInput(proposalUri);
   };
 
   const handleShowProposalModal = () => setShowProposalModal(true);
@@ -311,6 +313,7 @@ export const ProposalInput = () => {
           description={descriptionInput}
           fundRequest={fundsRequestedInput}
           linkInput={linkInput}
+          proposalUri={proposalUriInput}
         />
       ) : null}
     </div>

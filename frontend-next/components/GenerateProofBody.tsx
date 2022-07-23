@@ -7,8 +7,10 @@ const { verifyProof } = require("@semaphore-protocol/proof");
 import ethUtil from "ethereumjs-util";
 import sigUtil from "@metamask/eth-sig-util";
 import { ethers } from "ethers";
-const omContractAbi = require("./utils/OmContract.json").abi;
-const sbContractAbi = require("./utils/SbContract.json").abi;
+// const omContractAbi = require("./utils/OmContract.json").abi;
+const sbContractAbi =
+  require("../artifacts/contracts/OmSbToken.sol/OmSbToken.json").abi;
+import backEnd from "../backend/OmData";
 
 const depth = 20;
 const admin = "0xd770134156f9aB742fDB4561A684187f733A9586";
@@ -23,6 +25,7 @@ export const GenerateProofBody = () => {
   const [trapdoor, setTrapdoor] = useState<bigint>();
   const [nullifier, setNullifier] = useState<bigint>();
   const [identityCommitment, setIdentityCommitment] = useState<bigint>();
+  const [groupMembers, setGroupMembers] = useState<any>();
 
   const [group1, setGroup1] = useState<any>();
   const [group2, setGroup2] = useState<any>();
@@ -38,10 +41,15 @@ export const GenerateProofBody = () => {
 
   const handleClickGenerateProof = async (e: any) => {
     e.preventDefault();
-
-    const idCommitment = identity.generateCommitment();
+    //Before Generating the Proof we need to get All the Group members
+    const members = await backEnd.getMembersAddedByGroup(1);
+    setGroupMembers(members);
     const newGroup = new Group();
-    newGroup.addMember(idCommitment);
+    for (let i = 0 as any; i < members.length; i++) {
+      console.log(`--------Member ${i}`);
+      // console.log(members[i].identityCommitment);
+      // newGroup.addMember(members[i].identityCommitment);
+    }
 
     await setGroup1(newGroup);
     console.log(newGroup);
@@ -85,14 +93,14 @@ export const GenerateProofBody = () => {
     const signer = new ethers.providers.Web3Provider(
       (window as any).ethereum
     ).getSigner();
-    const contractAddress = "0x2F67c135Dac3F28f4f65Ee57913CAb0A5cd00D14";
+    const contractAddress = "0xeAA665d9Bb986B6BD0F1DA55Bfce0365d2cAb61F";
 
     const contract = new ethers.Contract(
       contractAddress,
       sbContractAbi,
       signer
     );
-    const idHash = await contract.identityData(1);
+    const idHash = await contract.identityData(account);
     console.log(idHash);
 
     const decryptedMessage = await (window as any).ethereum.request({
@@ -140,7 +148,7 @@ export const GenerateProofBody = () => {
     );
 
     const verificationKey = await fetch(
-      "http://localhost:3001/semaphore.json"
+      "http://localhost:3000/semaphore.json"
     ).then(function (res) {
       return res.json();
     });
@@ -158,230 +166,23 @@ export const GenerateProofBody = () => {
     console.log(response);
   };
 
-  const handleVerifyProofOnChain = async (e: any) => {
+  const getMembers = async (e: any) => {
     e.preventDefault();
-    console.log("On Chain Verification Called");
+    const members = await backEnd.getMembersAddedByGroup(1);
+    const members2 = await backEnd.getMembersAddedByGroup(2);
 
-    const externalNullifier = group1.root;
+    // const jsonMembers = JSON.parse(members);
+    console.log(members);
+    console.log("Identity Length");
+    console.log(members.length);
+    // console.log("Member 0")
+    // console.log(members[1].identityCommitment);
+    // console.log("Identity Commitment")
+    // console.log(jsonMembers);
+    console.log("Group 2");
+    console.log(members2);
 
-    const omContractAddress = "0xB726794A462d89b7B082249BF202F12b385470B3";
-
-    const signer = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    ).getSigner();
-    const omContract = new ethers.Contract(
-      omContractAddress,
-      omContractAbi,
-      signer
-    );
-    // const signer2 =  (new ethers.providers.Web3Provider((window as any).ethereum)).getSigner()
-
-    // const addMember = await omContract.addMember(1,signalBytes32,group1NullifierHash,group1ExternalNullifier,group1SolidityProof,{gasLimit: 1500000});
-
-    const checkMembership = await omContract.verifyProof(
-      1,
-      signalBytes32,
-      group1NullifierHash,
-      group1ExternalNullifier,
-      group1SolidityProof,
-      { gasLimit: 1500000 }
-    );
-    const tx = await checkMembership.wait();
-
-    console.log(tx);
-  };
-
-  const handleCreateProposalOnChain = async (e: any) => {
-    e.preventDefault();
-    console.log("On Chain Verification Called");
-
-    // const externalNullifier = group1.root;
-
-    const omContractAddress = "0xB726794A462d89b7B082249BF202F12b385470B3";
-
-    const signer = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    ).getSigner();
-    const omContract = new ethers.Contract(
-      omContractAddress,
-      omContractAbi,
-      signer
-    );
-    // const signer2 =  (new ethers.providers.Web3Provider((window as any).ethereum)).getSigner()
-
-    const coordinator = "0xd770134156f9aB742fDB4561A684187f733A9586";
-    const title = "Second Proposal Alpha title";
-    const description = "Second Proposal description";
-    const startDate = 1000;
-    const endDate = 2000;
-    const proposalURI = "Second Proposal Alpha Test";
-    const groupId = 1;
-    const signalInBytes = signalBytes32;
-    const nullifierHash = group1NullifierHash;
-    const externalNullifier = group1ExternalNullifier;
-    const solidityProof = group1SolidityProof;
-    // const checkMembership = await omContract.createProposal(1,signalBytes32,group1NullifierHash,group1ExternalNullifier,group1SolidityProof,{gasLimit: 1500000});
-    // const tx = await checkMembership.wait();
-
-    const addProposal = await omContract.createProposal(
-      coordinator,
-      title,
-      description,
-      startDate,
-      endDate,
-      proposalURI,
-      groupId,
-      signalInBytes,
-      nullifierHash,
-      externalNullifier,
-      solidityProof,
-      { gasLimit: 1500000 }
-    );
-    const tx = await addProposal.wait();
-
-    console.log(tx);
-  };
-
-  const handleVoteOnChain = async (e: any) => {
-    e.preventDefault();
-    console.log("On Chain Verification Called");
-
-    // const externalNullifier = group1.root;
-
-    const omContractAddress = "0xB726794A462d89b7B082249BF202F12b385470B3";
-    const signer = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    ).getSigner();
-    const omContract = new ethers.Contract(
-      omContractAddress,
-      omContractAbi,
-      signer
-    );
-    // const signer2 =  (new ethers.providers.Web3Provider((window as any).ethereum)).getSigner()
-
-    const groupId = 1;
-    const vote = false;
-    const signalInBytes = signalBytes32;
-    const nullifierHash = group1NullifierHash;
-    const externalNullifier = group1ExternalNullifier;
-    const solidityProof = group1SolidityProof;
-    const signalVote = ethers.utils.formatBytes32String("yes");
-
-    // const checkMembership = await omContract.createProposal(1,signalBytes32,group1NullifierHash,group1ExternalNullifier,group1SolidityProof,{gasLimit: 1500000});
-    // const tx = await checkMembership.wait();
-
-    const castVote = await omContract.castVote(
-      groupId,
-      vote,
-      nullifierHash,
-      externalNullifier,
-      signalInBytes,
-      solidityProof,
-      { gasLimit: 1500000 }
-    );
-
-    const tx = await castVote.wait();
-
-    // groupId (uint256)
-    //   groupId (uint256)
-    // vote (bool)
-    //   vote (bool)
-    // nullifierHash (uint256)
-    //   nullifierHash (uint256)
-    // externalNullifierProposalId (uint256)
-    //   externalNullifierProposalId (uint256)
-    // signal (bytes32)
-    //   signal (bytes32)
-    // proof (uint256[8])
-
-    console.log(tx);
-  };
-
-  const handleAddDataOnChain = async (e: any) => {
-    e.preventDefault();
-    console.log("On Chain Verification Called");
-
-    // const externalNullifier = group1.root;
-
-    const omContractAddress = "0xB726794A462d89b7B082249BF202F12b385470B3";
-
-    const signer = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    ).getSigner();
-    const omContract = new ethers.Contract(
-      omContractAddress,
-      omContractAbi,
-      signer
-    );
-    // const signer2 =  (new ethers.providers.Web3Provider((window as any).ethereum)).getSigner()
-
-    const coordinator = "0xd770134156f9aB742fDB4561A684187f733A9586";
-    const startDate = 1000;
-    const endDate = 2000;
-    const dataIpfsURI = "Data Alpha Test";
-    const groupId = 1;
-    const signalInBytes = signalBytes32;
-    const nullifierHash = group1NullifierHash;
-    const externalNullifier = group1ExternalNullifier;
-    const solidityProof = group1SolidityProof;
-    // const checkMembership = await omContract.createProposal(1,signalBytes32,group1NullifierHash,group1ExternalNullifier,group1SolidityProof,{gasLimit: 1500000});
-    // const tx = await checkMembership.wait();
-
-    const addData = await omContract.addData(
-      dataIpfsURI,
-      groupId,
-      signalInBytes,
-      nullifierHash,
-      externalNullifier,
-      solidityProof,
-      { gasLimit: 1500000 }
-    );
-    const tx = await addData.wait();
-
-    console.log(tx);
-  };
-
-  const handleReadDataOnChain = async (e: any) => {
-    e.preventDefault();
-    console.log("On Chain Verification Called");
-
-    // const externalNullifier = group1.root;
-
-    const omContractAddress = "0xB726794A462d89b7B082249BF202F12b385470B3";
-
-    const signer = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    ).getSigner();
-    const omContract = new ethers.Contract(
-      omContractAddress,
-      omContractAbi,
-      signer
-    );
-    // const signer2 =  (new ethers.providers.Web3Provider((window as any).ethereum)).getSigner()
-
-    const coordinator = "0xd770134156f9aB742fDB4561A684187f733A9586";
-    const startDate = 1000;
-    const endDate = 2000;
-    const proposalURI = "Proposal Alpha Test";
-    const groupId = 1;
-    const signalInBytes = signalBytes32;
-    const nullifierHash = group1NullifierHash;
-    const externalNullifier = group1ExternalNullifier;
-    const solidityProof = group1SolidityProof;
-    // const checkMembership = await omContract.createProposal(1,signalBytes32,group1NullifierHash,group1ExternalNullifier,group1SolidityProof,{gasLimit: 1500000});
-    // const tx = await checkMembership.wait();
-
-    const readData = await omContract.accessData(
-      groupId,
-      signalInBytes,
-      nullifierHash,
-      externalNullifier,
-      solidityProof,
-      { gasLimit: 1500000 }
-    );
-    const tx = await readData.wait();
-
-    console.log(tx);
+    setGroupMembers(members);
   };
 
   return (
@@ -433,20 +234,6 @@ export const GenerateProofBody = () => {
       >
         Off Chain Verification
       </button>
-      <p>{offChainVerification}</p>
-      <button
-        className="mt-5 px-6 py-2
-                text-sm text-white
-                bg-indigo-500
-                rounded-lg
-                outline-none
-                hover:bg-indigo-600
-                ring-indigo-300
-            "
-        onClick={handleVerifyProofOnChain}
-      >
-        On Chain Verification
-      </button>
 
       <button
         className="mt-5 px-6 py-2
@@ -457,48 +244,9 @@ export const GenerateProofBody = () => {
                 hover:bg-indigo-600
                 ring-indigo-300
             "
-        onClick={handleCreateProposalOnChain}
+        onClick={getMembers}
       >
-        Create Proposal Transaction
-      </button>
-      <button
-        className="mt-5 px-6 py-2
-                text-sm text-white
-                bg-indigo-500
-                rounded-lg
-                outline-none
-                hover:bg-indigo-600
-                ring-indigo-300
-            "
-        onClick={handleVoteOnChain}
-      >
-        Vote Transaction
-      </button>
-      <button
-        className="mt-5 px-6 py-2
-                text-sm text-white
-                bg-indigo-500
-                rounded-lg
-                outline-none
-                hover:bg-indigo-600
-                ring-indigo-300
-            "
-        onClick={handleAddDataOnChain}
-      >
-        Add Data Transaction
-      </button>
-      <button
-        className="mt-5 px-6 py-2
-                text-sm text-white
-                bg-indigo-500
-                rounded-lg
-                outline-none
-                hover:bg-indigo-600
-                ring-indigo-300
-            "
-        onClick={handleReadDataOnChain}
-      >
-        Download Data Transaction
+        Get Members
       </button>
     </div>
   );
