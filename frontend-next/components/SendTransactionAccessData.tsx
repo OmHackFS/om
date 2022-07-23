@@ -48,8 +48,8 @@ export const SendTransactionAddData = () => {
     const newGroup = new Group();
     for(let i=0 as any; i<members.length;i++){
       console.log(`--------Member ${i}`);
-      console.log(members[i].identityCommitment);
-      newGroup.addMember(members[i].identityCommitment);
+      console.log((members[i] as any).identityCommitment);
+      newGroup.addMember((members[i] as any).identityCommitment);
 
     }
   
