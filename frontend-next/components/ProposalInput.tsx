@@ -15,7 +15,7 @@ export const ProposalInput = () => {
   const [subGroup, setSubGroup] = useState();
 
   const [groupInput, setGroupInput] = useState<any>();
-  const [proposalUriInput,setProposalUriInput] = useState<any>();
+  const [proposalUriInput, setProposalUriInput] = useState<any>();
 
   const handleSubmit = async () => {
     const proposal = {
@@ -216,7 +216,7 @@ export const ProposalInput = () => {
               Proposal Details
             </h3>
             <p className="mt-1 text-sm text-gray-500">
-              Decide which communications you'd like to receive and how.
+              Decide which group you would like to make proposal to
             </p>
           </div>
           <div className="mt-5 md:mt-0 md:col-span-2">
@@ -226,8 +226,8 @@ export const ProposalInput = () => {
                   Select Group.
                 </legend>
                 <p className="text-sm text-gray-500">
-                  If private, select from which Sub-Group you would like to
-                  propose from.
+                  If private, select from which Group you would like to propose
+                  from.
                 </p>
                 <div
                   className="mt-4 space-y-4"
@@ -235,7 +235,7 @@ export const ProposalInput = () => {
                 >
                   <div className="flex items-center">
                     <input
-                      value="group-1"
+                      value="1"
                       name="sub-group"
                       type="radio"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
@@ -244,12 +244,12 @@ export const ProposalInput = () => {
                       htmlFor="push-everything"
                       className="ml-3 block text-sm font-medium text-gray-700"
                     >
-                      Sub-Group 1
+                      Group 1
                     </label>
                   </div>
                   <div className="flex items-center">
                     <input
-                      value="group-2"
+                      value="2"
                       name="sub-group"
                       type="radio"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
@@ -258,12 +258,12 @@ export const ProposalInput = () => {
                       htmlFor="push-email"
                       className="ml-3 block text-sm font-medium text-gray-700"
                     >
-                      Sub-Group 2
+                      Group 2
                     </label>
                   </div>
                   <div className="flex items-center">
                     <input
-                      value="group-3"
+                      value="3"
                       name="sub-group"
                       type="radio"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
@@ -272,7 +272,7 @@ export const ProposalInput = () => {
                       htmlFor="push-nothing"
                       className="ml-3 block text-sm font-medium text-gray-700"
                     >
-                      Sub-Group 3
+                      Group 3
                     </label>
                   </div>
                 </div>
@@ -306,6 +306,8 @@ export const ProposalInput = () => {
       </div>
       {showProposalModal ? (
         <ProofModalProposal
+          fileInput={fileInput}
+          onClose={handleHideProposalModal}
           group={subGroup}
           title={titleInput}
           startDate={startDateInput}

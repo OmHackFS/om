@@ -11,6 +11,7 @@ export const MultiStepForm = ({
   endDate,
   description,
   fundRequest,
+  fileInput,
   linkInput,
 }: any) => {
   const [formStep, setFormStep] = useState(0);
@@ -49,7 +50,9 @@ export const MultiStepForm = ({
           md:mb-6
         "
           >
-            Verifying Membership
+            {formStep === 0 ? "Verifying Membership" : null}
+            {formStep === 1 ? "Selecting wallet" : null}
+            {formStep === 2 ? "Creating proposal" : null}
           </h2>
 
           <p className="max-w-screen-md mx-auto text-center text-gray-500 md:text-lg">
@@ -140,9 +143,24 @@ export const MultiStepForm = ({
                         </a>
                       </div>
 
-                      {formStep === 0 ? <GenerateProofBody /> : null}
-                      {formStep === 1 ? <SelectWalletBody /> : null}
-                      {formStep === 2 ? <SendTransactionBody /> : null}
+                      <div className="h-72 flex items-center justify-center">
+                        {formStep === 0 ? (
+                          <GenerateProofBody group={group} />
+                        ) : null}
+                        {formStep === 1 ? <SelectWalletBody /> : null}
+                        {formStep === 2 ? (
+                          <SendTransactionBody
+                            group={group}
+                            fileInput={fileInput}
+                            title={title}
+                            startDate={startDate}
+                            endDate={endDate}
+                            description={description}
+                            fundRequest={fundRequest}
+                            linkInput={linkInput}
+                          />
+                        ) : null}
+                      </div>
                     </section>
 
                     <div className="flex items-center justify-between">

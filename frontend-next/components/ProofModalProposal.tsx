@@ -4,12 +4,23 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
 import { MultiStepForm } from "./MultiStepForm";
 
-export const ProofModalProposal = ({}: any) => {
+export const ProofModalProposal = ({
+  group,
+  title,
+  startDate,
+  endDate,
+  description,
+  fileInput,
+  fundRequest,
+  linkInput,
+  proposalUri,
+  onClose,
+}: any) => {
   const [open, setOpen] = useState(true);
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+      <Dialog as="div" className="relative z-10" onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -34,7 +45,17 @@ export const ProofModalProposal = ({}: any) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative bg-white rounded-lg px-20 pt-20- pb-20 text-left shadow-xl ">
-                <MultiStepForm />
+                <MultiStepForm
+                  group={group}
+                  title={title}
+                  startDate={startDate}
+                  endDate={endDate}
+                  fileInput={fileInput}
+                  description={description}
+                  fundRequest={fundRequest}
+                  linkInput={linkInput}
+                  proposalUri={proposalUri}
+                />
               </Dialog.Panel>
             </Transition.Child>
           </div>
