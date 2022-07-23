@@ -2,7 +2,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
-import { MultiStepForm } from "./MultiStepForm";
+import { MultiStepFormReadData } from "./MultiStepFormReadData";
 
 export const ProofModalReadData = () => {
   const [open, setOpen] = useState(true);
@@ -34,7 +34,7 @@ export const ProofModalReadData = () => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative bg-white rounded-lg px-20 pt-20- pb-20 text-left shadow-xl ">
-                <MultiStepForm />
+                <MultiStepFormReadData />
               </Dialog.Panel>
             </Transition.Child>
           </div>
