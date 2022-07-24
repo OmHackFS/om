@@ -124,7 +124,34 @@ class OmData {
         dataURI: dataInfos_dataURI
         fileURI: dataInfos_fileURI
         dataType: dataInfos_dataType
-        symmetricKey: dataInfos_symmetricKey
+      }}`;
+    let data = "";
+    const client = new ApolloClient({
+      link: new HttpLink({ uri: this.graphApiUrl, fetch }),
+      cache: new InMemoryCache(),
+    });
+    try {
+      const result = await client.query({ query: gql(eventQuery) });
+      data = result.data.dataAddeds;
+    } catch (err) {
+      console.log(err);
+    }
+    return data;
+  }
+
+  // Fetch all data added events from subgraph
+  async getDataById(dataId: number) {
+    const eventQuery = `{ 
+      dataAddeds(first: 1000, where: {dataId: ${dataId}}) {
+        dataId
+        addedDate: dataInfos_addedDate
+        dataOwner: dataInfos_dataOwner
+        groupId: dataInfos_groupId
+        title: dataInfos_title
+        id
+        dataURI: dataInfos_dataURI
+        fileURI: dataInfos_fileURI
+        dataType: dataInfos_dataType
       }}`;
     let data = "";
     const client = new ApolloClient({
