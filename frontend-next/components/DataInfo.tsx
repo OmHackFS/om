@@ -74,20 +74,31 @@ export const DataInfo = ({ dataId }: any) => {
   const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
   const [selected, setSelected] = useState<any>(people[0]);
   const [data,setData] = useState<any>();
-  const [dataUri,setDataUri] =useState<any>();
-  const [fileUri,setFileUri] = useState<any>();
+  const [dataURI,setDataURI] =useState<any>();
+  const [fileURI,setFileURI] = useState<any>();
+  const [encryptedData,setEncryptedData] = useState<any>();
 
   const handleShowProposalModal = () => setShowProposalModal(true);
   const handleHideProposalModal = () => setShowProposalModal(false);
 
   useEffect(() => {
-    omBackEnd.getProposalByCounter(dataId).then((data) => {
-      setData((data && data.length > 0 && data[0]) || {});
+    omBackEnd.getDataById(dataId).then((data) => {
+      setEncryptedData((data && data.length > 0 && data[0]) || {});
+      console.log("Use Effect Data")
+      console.log(data)
+      saveData();
+      
+  
+      
     });
-    console.log("Data Id!");
-    console.log(dataId);
-    console.log("Data");
-    console.log(data);
+
+    async function saveData(){
+  
+
+    }
+    
+
+    
   }, [dataId]);
 
   const id = Number(dataId);
@@ -122,7 +133,7 @@ export const DataInfo = ({ dataId }: any) => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  Data {dataId} - {data ? proposalsList[1].title : "Test"}
+                  Data {dataId} - {data ? data.title : "Test"}
                 </h1>
                 <p className="text-sm font-medium text-gray-500">
                   Applied by
@@ -187,7 +198,7 @@ export const DataInfo = ({ dataId }: any) => {
                       id="applicant-information-title"
                       className="text-lg leading-6 font-medium text-gray-900"
                     >
-                      {data ? proposalsList[1].title : ""}
+                      {data ? data : ""}
                     </h2>
                     <p className="mt-1 max-w-2xl text-sm text-gray-500">
                       Personal details and application.
@@ -415,7 +426,7 @@ export const DataInfo = ({ dataId }: any) => {
                   </button>
                 </div>
                 {showProposalModal ? (
-                  <ProofModalReadData hideModal={handleHideProposalModal} setData={setData} />
+                  <ProofModalReadData hideModal={handleHideProposalModal} setData={setData} encryptedData={encryptedData} />
                 ) : null}
               </div>
             </section>
