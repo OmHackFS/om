@@ -159,7 +159,8 @@ export const SendTransactionAddProposal = ({
                 ></path>
               </svg>
             ) : null}
-            Create Proposal
+            {creating ? "Creating " : "Create "} Proposal
+            {creating ? "..." : ""}
           </button>
         ) : null}
         {proposalUri ? (

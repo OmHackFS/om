@@ -1,4 +1,5 @@
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
+import { AnyMxRecord } from "dns";
 import { access } from "fs";
 import { Web3Storage, File, getFilesFromPath } from "web3.storage"; // @mehulagg/web3.storage
 import Lit from "./Lit";
@@ -31,6 +32,39 @@ class OmData {
         yesCount: proposalData_yesCount
         proposalCounter
     }}`;
+    let data = "";
+    const client = new ApolloClient({
+      link: new HttpLink({ uri: this.graphApiUrl, fetch }),
+      cache: new InMemoryCache(),
+    });
+    try {
+      const result = await client.query({ query: gql(eventQuery) });
+      data = result.data.proposalCreateds;
+    } catch (err) {
+      console.log(err);
+    }
+    return data;
+  }
+
+  // Fetch all proposals created from subgraph
+  async getProposalById(proposalId: any) {
+    console.log("proposalId ", proposalId);
+    const eventQuery = `{ 
+        proposalCreateds(first: 1000, where: {id: "${proposalId}"}) { 
+          groupId
+          id
+          endDate: proposalData_EndDate 
+          IpfsURI: proposalData_IpfsURI
+          startDate: proposalData_StartDate
+          endDate: proposalData_EndDate
+          description: proposalData_description
+          noCount: proposalData_noCount
+          title: proposalData_title
+          yesCount: proposalData_yesCount
+          proposalCounter
+      }}`;
+
+    console.log("eventQuery", eventQuery);
     let data = "";
     const client = new ApolloClient({
       link: new HttpLink({ uri: this.graphApiUrl, fetch }),
