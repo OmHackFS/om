@@ -60,7 +60,7 @@ export const MultiStepFormAddData = ({
           >
             {formStep === 0 ? "Verifying Membership" : null}
             {formStep === 1 ? "Selecting wallet" : null}
-            {formStep === 2 ? "Creating proposal" : null}
+            {formStep === 2 ? "Send vote" : null}
           </h2>
 
           <p className="max-w-screen-md mx-auto text-center text-gray-500 md:text-lg">

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { GenerateProofBody } from "./GenerateProofBody";
+import { GenerateProofForVote } from "./GenerateProofForVote";
 import { SelectWalletBody } from "./SelectWalletBody";
 import { SendTransactionBody } from "./SendTransactionBody";
 import { SendTransactionAddData } from "./SendTransactionAddData";
@@ -155,13 +155,14 @@ export const MultiStepFormVote = ({
 
                       <div className="h-72 flex items-center justify-center">
                         {formStep === 0 ? (
-                          <GenerateProofBody
+                          <GenerateProofForVote
                             // group={group}
                             setProof={setProof}
                             setNullifierHash={setNullifierHash}
                             setExternalNullifier={setExternalNullifier}
                             signal={signal}
                             setRoot={setRoot}
+                            proposalId={proposalId}
                           />
                         ) : null}
                         {formStep === 1 ? <SelectWalletBody /> : null}
