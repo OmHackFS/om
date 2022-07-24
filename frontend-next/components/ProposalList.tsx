@@ -23,11 +23,7 @@ export const ProposalList = (props: any) => {
     // // setData(data);
   }
 
-  console.log("proposals ", proposals);
-
   if (!proposals || proposals.length === 0) return null;
-
-  console.log("proposals ", proposals);
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 pt-7">
@@ -64,7 +60,7 @@ export const ProposalList = (props: any) => {
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-16"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
                       Description
                     </th>
@@ -72,19 +68,13 @@ export const ProposalList = (props: any) => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
+                      Status
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
                       Group
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Yes Count
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      No Count
                     </th>
                     <th
                       scope="col"
@@ -127,11 +117,6 @@ export const ProposalList = (props: any) => {
                             </div>
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 break-normal">
-                          <div className="text-gray-900">
-                            {proposal.description}
-                          </div>
-                        </td>
                         <td className="whitespace-wrap px-3 py-4 text-sm text-gray-500">
                           <div className="text-gray-900 break-words">
                             {proposal.description} groupId
@@ -146,14 +131,7 @@ export const ProposalList = (props: any) => {
                           </span>
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          <span className="inline-flex rounded-full  px-2 text-xs font-semibold leading-5 ">
-                            {proposal.yesCount}
-                          </span>
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          <span className="inline-flex rounded-full  px-2 text-xs font-semibold leading-5 ">
-                            {proposal.noCount}
-                          </span>
+                          {proposal.groupId}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                           {new Date(Number(proposal.startDate)).toDateString()}
