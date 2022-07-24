@@ -8,7 +8,7 @@ import * as sigUtil from "@metamask/eth-sig-util";
 import { ethers, Signer } from "ethers";
 import omToken from "./utils/OmContract.json";
 import backEnd from "../backend/OmData";
-import { omCo } from "../contract-addresses/index";
+import { omContractAddr } from "../contract-addresses/index";
 
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import { Provider } from "../utils/provider";
