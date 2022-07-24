@@ -483,6 +483,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                     voteSelected={selected}
                     proposalId={proposalId}
                     hideModal={handleHideVoteModal}
+                    groupId={proposal && proposal.groupId}
                   />
                 ) : null}
               </div>

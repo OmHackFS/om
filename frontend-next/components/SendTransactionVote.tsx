@@ -25,6 +25,7 @@ export const SendTransactionVote = ({
   nullifierHash,
   externalNullifier,
   root,
+  groupId,
   bytes32signal,
   proposalId,
   voteSelected,
@@ -56,7 +57,7 @@ export const SendTransactionVote = ({
 
     console.log(contract);
 
-    const group = 1; //Bring from /proposal_info
+    const group = Number(groupId); //Bring from /proposal_info
     const voteRoot = root; //Generate Proof
     const vote = voteSelected && voteSelected.name === "Yes"; //Bring from /proposal_info
     const voteNullifierHash = nullifierHash; //Generate Proof
@@ -64,7 +65,9 @@ export const SendTransactionVote = ({
     const signal = bytes32signal; //Generate Proof
     const voteProof = proof; //Generate Proof
 
-    const voteTx = await omContract.castVote(
+    console.log(
+      "--->",
+      groupId,
       group,
       voteRoot,
       vote,
@@ -72,6 +75,17 @@ export const SendTransactionVote = ({
       voteExternalNullifierHash,
       signal,
       voteProof
+    );
+
+    const voteTx = await omContract.castVote(
+      Number(groupId),
+      voteRoot,
+      vote,
+      voteNullifierHash,
+      voteExternalNullifierHash,
+      signal,
+      voteProof,
+      { gasLimit: 1500000 }
     );
     const tx = await voteTx.wait();
     console.log(tx);
