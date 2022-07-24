@@ -10,12 +10,14 @@ export const DataInputScreenplay = () => {
   const [author, setAuthor] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [imageUri, setImageUri] = useState<string>("");
-  const [fileInput, setFileInput] = useState<any>();
+  const [fileInput, setFileInput] = useState<any>();  
 
-  
+  const [dataUri, setDataUri] = useState<string>("");  
+  const [documentUri, setDocumentUri] = useState<string>("");  
+  const [screenplay, setScreenplay] = useState<any>();
+
 
   async function handleSubmit() {
-    // console.log("backEnd.getDataByType(1):", await backEnd.getDataByType(1));
     
     const screenplay = {
       title: title,
@@ -24,12 +26,42 @@ export const DataInputScreenplay = () => {
       description: description,
       file: fileInput,
     };
-    const screenplayUri = await backEnd.addScreenplay(screenplay, null);
-    console.log("Added screenplay: ", screenplayUri);
+    const screenplayEncryptedPackage = await backEnd.addScreenplay(screenplay, null);
+    
+    setDataUri(screenplayEncryptedPackage.dataUri)
+    setDocumentUri(screenplayEncryptedPackage.documentUri)
+  }
+
+  async function decryptData() {
+    const zipObject = (await backEnd.decryptFromUri(dataUri, null)).decryptedFile
+    const blob = await zipObject['string.txt'].async('blob')
+    // Open the json in a new window
+      // const url = window.URL.createObjectURL(blob);
+      // window.open(url, '_blank', '');
+    // Or read it into a json object 
+    const fr = new FileReader();
+    fr.onload = (e) => {
+      const objectJson = e.target ? e.target.result : ""
+      setScreenplay(objectJson);
+      console.log("Screenplay updated from decrypted json: ", objectJson)
+    };
+    fr.readAsText(blob);
+  }
+
+  async function decryptDocument() {
+    const zipObject = (await backEnd.decryptFromUri(documentUri, null)).decryptedFile
+    console.log(zipObject)
+    const key = Object.keys(zipObject)[1]
+    const blob = await zipObject[key].async('blob')
+    const url = window.URL.createObjectURL(blob);
+    window.open(url, '_blank', '');
   }
 
   return (
     <div className="space-y-6">
+      {/* For testing */}
+      <div><a onClick={decryptData}>{dataUri}</a><br /><br /><a onClick={decryptDocument}>{documentUri}</a></div>
+      {/* End or testing */}
       <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
         <div className="md:grid md:grid-cols-3 md:gap-6">
           <div className="md:col-span-1">
