@@ -84,7 +84,7 @@ export const SendTransactionAddProposal = ({
       proposalRoot,
       proposalStartDate,
       proposalEndDate,
-      proposalUri,
+      newProposalUri,
       proposalGroupId,
       proposalSignal,
       proposalNullifier,
