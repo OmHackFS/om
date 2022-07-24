@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Header } from "../../components/Header";
 import { SubHeader } from "../../components/SubHeader";
 import { DaoData } from "../../components/DaoData";
 import { ProposalInfo } from "../../components/ProposalInfo";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
+import omBackEnd from "../../backend/OmData";
 
 export default function ProposalInfoPage() {
-  const router = useRouter()
-  const { proposalId } = router.query
+  const router = useRouter();
+  const { proposalId } = router.query;
+
+  console.log("proposalId ", proposalId);
+
+  const proposal = useMemo(() => {
+    omBackEnd.getProposalById(proposalId).then((data) => {
+      return (data && data.length > 0 && data[0]) || {};
+    });
+  }, [proposalId]);
 
   return (
     <div>
@@ -41,11 +50,11 @@ export default function ProposalInfoPage() {
         <main>
           <div className="py-1">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              <ProposalInfo proposalId={proposalId}/>
+              <ProposalInfo proposalId={proposalId} />
             </div>
           </div>
         </main>
       </div>
     </div>
   );
-};
+}

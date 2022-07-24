@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
 import { SubHeader } from "../../components/SubHeader";
 import { ProposalList } from "../../components/ProposalList";
 import Link from "next/link";
-import  backEnd  from "../../backend/OmData"
+import backEnd from "../../backend/OmData";
 
-export default function ProposalsPage({ data }: any ) {
-  console.log("Proposal Page data: ", data)
+export default function ProposalsPage({ data }: any) {
+  // console.log("Proposal Page data: ", data);
+  // const [data, setData] = useState<any>({});
+
+  // useEffect(() => {
+  //   backEnd.getProposals().then(setData);
+
+  //   console.log("data", data);
+  // }, []);
+
   return (
     <div>
       <div className="md:pl-64 flex flex-col flex-1">
@@ -40,7 +48,7 @@ export default function ProposalsPage({ data }: any ) {
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mb-8">
               <h1 className="text-2xl font-semibold text-gray-900">
-                Dao Name - 1
+                Screenplay Submissions
               </h1>
             </div>
             <SubHeader />
@@ -52,11 +60,11 @@ export default function ProposalsPage({ data }: any ) {
       </div>
     </div>
   );
-};
+}
 
-export async function getServerSideProps() {
-  console.log("fetching proposals")
-  const data: any = await backEnd.getProposals()
-  console.log("proposalData", data)
+export async function getStaticProps() {
+  console.log("fetching proposals");
+  const data: any = await backEnd.getProposals();
+  console.log("proposalData", data);
   return { props: { data } };
 }

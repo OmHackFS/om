@@ -1,16 +1,19 @@
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
+import { AnyMxRecord } from "dns";
 import { access } from "fs";
 import { Web3Storage, File, getFilesFromPath } from "web3.storage"; // @mehulagg/web3.storage
-import Lit from './Lit'
+import Lit from "./Lit";
 // import { DID } from 'dids'
 // import { Integration } from 'lit-ceramic-sdk' // '@litelliott/lit-ceramic-integration'
 
 class OmData {
-  private graphApiUrl = "https://api.thegraph.com/subgraphs/name/richwarner/om-mumbai";
+  private graphApiUrl =
+    "https://api.thegraph.com/subgraphs/name/richwarner/om-mumbai";
   private web3StorageApiToken =
     process.env.WEB3_STORAGE_API_TOKEN ||
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDAzQ2VmMGUxZWM2MmQxYmMzNjVGM0ZGMTEyRDU1Y0IwODFGQzQ0RGUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTczNDg0MjU4NjEsIm5hbWUiOiJEQVRBREFPIn0.LMFTddGfHq1raj0XwVhxWVN1J8JFp9XgbZCNx9XCj58";
   private chain = "mumbai"
+
 
   // Fetch all proposals created from subgraph
   async getProposals() {
@@ -21,12 +24,46 @@ class OmData {
         endDate: proposalData_EndDate 
         IpfsURI: proposalData_IpfsURI
         startDate: proposalData_StartDate
+        endDate: proposalData_EndDate
         description: proposalData_description
         noCount: proposalData_noCount
         title: proposalData_title
         yesCount: proposalData_yesCount
         proposalCounter
     }}`;
+    let data = "";
+    const client = new ApolloClient({
+      link: new HttpLink({ uri: this.graphApiUrl, fetch }),
+      cache: new InMemoryCache(),
+    });
+    try {
+      const result = await client.query({ query: gql(eventQuery) });
+      data = result.data.proposalCreateds;
+    } catch (err) {
+      console.log(err);
+    }
+    return data;
+  }
+
+  // Fetch all proposals created from subgraph
+  async getProposalById(proposalId: any) {
+    console.log("proposalId ", proposalId);
+    const eventQuery = `{ 
+        proposalCreateds(first: 1000, where: {id: "${proposalId}"}) { 
+          groupId
+          id
+          endDate: proposalData_EndDate 
+          IpfsURI: proposalData_IpfsURI
+          startDate: proposalData_StartDate
+          endDate: proposalData_EndDate
+          description: proposalData_description
+          noCount: proposalData_noCount
+          title: proposalData_title
+          yesCount: proposalData_yesCount
+          proposalCounter
+      }}`;
+
+    console.log("eventQuery", eventQuery);
     let data = "";
     const client = new ApolloClient({
       link: new HttpLink({ uri: this.graphApiUrl, fetch }),
@@ -154,23 +191,20 @@ class OmData {
     const screenplayEncryptedPackage = {dataUri: "", documentUri: ""}
     
     // If not passed, set the conditions for decryption access that will be controlled by Lit
-    if(!accessControlConditions) {
+    if (!accessControlConditions) {
       accessControlConditions = [
         {
-          contractAddress: '',
-          standardContractType: '',
+          contractAddress: "",
+          standardContractType: "",
           chain: this.chain,
-          method: 'eth_getBalance',
-          parameters: [
-            ':userAddress',
-            'latest'
-          ],
+          method: "eth_getBalance",
+          parameters: [":userAddress", "latest"],
           returnValueTest: {
-            comparator: '>=',
-            value: '10000000000000'
-          }
-        }
-      ]
+            comparator: ">=",
+            value: "10000000000000",
+          },
+        },
+      ];
     }
     
     // Encrypt document file with Lit and prepare it to be uploaded to web3.storage    
@@ -187,6 +221,7 @@ class OmData {
     const encryptedFileArray = []
     encryptedFileArray.push(new File([dataEncryptedBlob], "data.encrypted"))
     encryptedFileArray.push(new File([documentEncryptedBlob], "document.encrypted"))
+
     const web3StorageClient = new Web3Storage({
       token: this.web3StorageApiToken,
       endpoint: new URL("https://api.web3.storage"),
@@ -196,6 +231,7 @@ class OmData {
     });
 
     // Construct the URIs of the encrypted files and also return symmetric keys
+
     screenplayEncryptedPackage.dataUri = "https://" + folderCid + ".ipfs.dweb.link/data.encrypted?key=" + dataEncryptedPackage.encryptedSymmetricKey
     if(documentEncryptedPackage) screenplayEncryptedPackage.documentUri = "https://" + folderCid + ".ipfs.dweb.link/document.encrypted?key="  + documentEncryptedPackage.encryptedSymmetricKey  
     // screenplayEncryptedPackage.symmetricKey = (documentEncryptedPackage) ? documentEncryptedPackage.encryptedSymmetricKey : "" + "|" + dataEncryptedPackage.encryptedSymmetricKey
@@ -275,11 +311,10 @@ class OmData {
 
     // this.litCeramicIntegration.startLitClient(window)  
 
-    // const streamId = await this.litCeramicIntegration.encryptAndWrite(screenplay, evmContractConditions, 'evmContractConditions')
+  // const streamId = await this.litCeramicIntegration.encryptAndWrite(screenplay, evmContractConditions, 'evmContractConditions')
 
-    // console.log("Stream ID: ", streamId)
+  // console.log("Stream ID: ", streamId)
   // }
-
 }
 
 export default new OmData();

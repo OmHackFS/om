@@ -8,15 +8,12 @@ import * as sigUtil from "@metamask/eth-sig-util";
 import { ethers, Signer } from "ethers";
 import omToken from "./utils/OmContract.json";
 import backEnd from "../backend/OmData";
-import { omCo } from "../contract-addresses/index";
 
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import { Provider } from "../utils/provider";
 import { injected } from "../utils/connectors";
 
-// const omContractAddress = "0x560aBf82Eb1D8C86968f4314ff6a7770088f0728";
-
-export const SendTransactionBody = ({
+export const SendTransactionAddProposal = ({
   group,
   title,
   startDate,
@@ -25,6 +22,7 @@ export const SendTransactionBody = ({
   fundRequest,
   fileInput,
   linkInput,
+  pictureUrl,
   proof,
   nullifierHash,
   externalNullifier,
@@ -41,28 +39,14 @@ export const SendTransactionBody = ({
   const [message, setMessage] = useState();
   const [creating, setCreating] = useState(false);
   const [proposalUri, setProposalUri] = useState<string | null>(null);
-
-  const omContract: any = useMemo(() => {
-    return new ethers.Contract(omContractAddress, omToken.abi, signer);
-  }, [signer]);
+  const [contract, setContract] = useState<any>();
 
   useEffect((): void => {
-    if (!library) {
-      setSigner(undefined);
-      return;
-    }
-
-    const signer = library.getSigner();
-    setSigner(signer);
-    signer.getAddress().then(setSignerAddr);
-    // console.log("Proof")
-    // console.log(proof)
-    // console.log("NullifierHash")
-    // console.log(nullifierHash)
-    // console.log("ExternalNullifier")
-
-    // console.log(externalNullifier)
-  }, [library]);
+    // if (!library) {
+    //   setSigner(undefined);
+    //   return;
+    connectWallet();
+  }, []);
 
   const handleCreateProposal = async (e: any) => {
     e.preventDefault();
@@ -77,76 +61,68 @@ export const SendTransactionBody = ({
       fundRequest,
       linkInput,
       file: fileInput,
+      pictureUrl,
+      account,
     });
-
-    console.log(omContract);
-
-    const proposalCoordinator = "0xd770134156f9aB742fDB4561A684187f733A9586";
 
     const proposalTitle = title;
     const proposalDescription = description;
     const proposalRoot = root;
-    const proposalStartDate = 10000;
-    const proposalEndDate = 20000;
-    const proposalUri = newProposalUri;
+    const proposalStartDate = (startDate && startDate.getTime()) || Date.now();
+    const proposalEndDate =
+      (endDate && endDate.getTime()) || Date.now() + 86400000 * 3;
+    const proposalUri = fileInput;
     const proposalGroupId = group;
     const proposalSignal = bytes32signal;
     const proposalNullifier = nullifierHash;
     const proposalExternalNullifier = externalNullifier;
     const proposalProof = proof;
 
-    const createProposalTx = await omContract.createProposal(
+    const createProposalTx = await contract.createProposal(
       proposalTitle,
       proposalDescription,
       proposalRoot,
       proposalStartDate,
       proposalEndDate,
-      proposalUri,
+      newProposalUri,
       proposalGroupId,
       proposalSignal,
       proposalNullifier,
       proposalExternalNullifier,
-      proposalProof
+      proposalProof,
+      { gasLimit: 1500000 }
     );
     const tx = await createProposalTx.wait();
     console.log(tx);
 
-    //   coordinator (address)
-    //   coordinator (address)
-    // title (string)
-    //   title (string)
-    // description (string)
-    //   description (string)
-    // startDate (uint256)
-    //   startDate (uint256)
-    // endDate (uint256)
-    //   endDate (uint256)
-    // proposalURI (string)
-    //   proposalURI (string)
-    // groupId (uint256)
-    //   groupId (uint256)
-    // signal (bytes32)
-    //   signal (bytes32)
-    // nullifierHash (uint256)
-    //   nullifierHash (uint256)
-    // externalNullifier (uint256)
-    //   externalNullifier (uint256)
-    // proof (uint256[8])
-
-    // console.log("proposalUri ", proposalUri);
-
     setCreating(false);
     setProposalUri(newProposalUri);
   };
+
+  function addMember() {}
 
   async function connectWallet() {
     const accounts = await (window as any).ethereum.request({
       method: "eth_requestAccounts",
     });
     const address = accounts[0];
-    setSigner(address);
+    const signer = new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    ).getSigner();
+
+    const omContractAddress = "0x560aBf82Eb1D8C86968f4314ff6a7770088f0728";
+
+    const omContract = new ethers.Contract(
+      omContractAddress,
+      omToken.abi,
+      signer
+    );
+    console.log(omContract);
+    console.log(signer);
+    setContract(omContract);
+    setSigner(signer);
   }
-  console.log("context ", context);
+
   return (
     <>
       <div className="flex flex-col">
@@ -183,7 +159,8 @@ export const SendTransactionBody = ({
                 ></path>
               </svg>
             ) : null}
-            Create Proposal
+            {creating ? "Creating " : "Create "} Proposal
+            {creating ? "..." : ""}
           </button>
         ) : null}
         {proposalUri ? (

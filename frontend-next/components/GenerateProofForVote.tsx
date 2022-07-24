@@ -15,8 +15,7 @@ const { verifyProof } = require("@semaphore-protocol/proof");
 // const omContractAbi = require("./utils/OmContract.json").abi;
 const sbContractAbi =
   require("../artifacts/contracts/OmSbToken.sol/OmSbToken.json").abi;
-import { sbContractAddr } from "../contract-addresses";
-// import { ConnectWalletButton } from "./ConnectWalletButton";
+import { sbContractAddr } from "../contracts";
 import backEnd from "../backend/OmData";
 
 import { AbstractConnector } from "@web3-react/abstract-connector";
@@ -32,13 +31,14 @@ const groupId = 7579;
 let zeroValue = 0;
 const { generateProof, packToSolidityProof } = semaphoreProof;
 
-export const GenerateProofBody = ({
+export const GenerateProofForVote = ({
   group,
   setProof,
   setNullifierHash,
   setExternalNullifier,
   setRoot,
   signal,
+  proposalId,
 }: any) => {
   const context = useWeb3React<Provider>();
   const { activate, active, account, library } = context;
@@ -58,14 +58,12 @@ export const GenerateProofBody = ({
   const [offChainVerification, setOffChainVerification] = useState<any>(false);
   const [generatingProof, setGeneratingProof] = useState<boolean>(false);
 
-  const getWallet = async () => {
-    await activate(injected);
-  };
-
   const handleGenerateProof = async (e: any) => {
     e.preventDefault();
 
     setGeneratingProof(true);
+    console.log(omSbTokenContract);
+    console.log(account);
 
     // 1. Decrypt ID
     const idHash = await omSbTokenContract.identityData(account);
@@ -101,12 +99,10 @@ export const GenerateProofBody = ({
     console.log("Root");
     console.log(root.toString());
 
-    const externalNullifier = Math.floor(Math.random() * 1000000);
-
     const fullProof = await generateProof(
       retrievedIdentity as any,
       newGroup as any,
-      externalNullifier,
+      ethers.BigNumber.from(proposalId.replace("-", "")).toBigInt(),
       signal,
       {
         zkeyFilePath:
@@ -118,9 +114,13 @@ export const GenerateProofBody = ({
 
     const { nullifierHash } = fullProof.publicSignals;
     const solidityProof = packToSolidityProof(fullProof.proof);
+    console.log("Proposal Id");
+    console.log(proposalId);
 
     setNullifierHash(nullifierHash);
-    setExternalNullifier(externalNullifier);
+    setExternalNullifier(
+      ethers.BigNumber.from(proposalId.replace("-", "")).toBigInt()
+    );
     setProof(solidityProof);
     setRoot(root);
 
@@ -163,17 +163,12 @@ export const GenerateProofBody = ({
     setOmSbTokenContract(sbTokenContract);
   }
 
-  console.log("active ", active);
-
   return (
     <div className="flex flex-col mb-1">
       <div className="max-w-lg overflow-x-auto mb-5">
         {!offChainVerification && active ? (
           <button
-            onClick={async (e: any) => {
-              e.preventDefault();
-              await handleGenerateProof(e);
-            }}
+            onClick={handleGenerateProof}
             className="mt-5 px-6 py-4
                 text-sm text-white
                 bg-indigo-500

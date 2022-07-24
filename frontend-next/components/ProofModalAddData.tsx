@@ -2,9 +2,9 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
-import { MultiStepForm } from "./MultiStepForm";
+import { MultiStepFormAddData } from "./MultiStepFormAddData";
 
-export const ProofModalAddData = () => {
+export const ProofModalAddData= ({ dataTitle, dataDescription, authorName,authorContact,group} : any) => {
   const [open, setOpen] = useState(true);
 
   return (
@@ -34,7 +34,13 @@ export const ProofModalAddData = () => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative bg-white rounded-lg px-20 pt-20- pb-20 text-left shadow-xl ">
-                <MultiStepForm />
+                <MultiStepFormAddData 
+                  dataTitle={dataTitle}
+                  dataDescription={dataDescription}
+                  authorName={authorName}
+                  authorContact={authorContact}
+                  group={group}
+                />
               </Dialog.Panel>
             </Transition.Child>
           </div>

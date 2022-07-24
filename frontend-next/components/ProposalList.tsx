@@ -1,27 +1,37 @@
 import { proposalsList } from "./mocks/proposals";
 import Link from "next/link";
-import { useState } from "react";
-import {ethers} from "ethers";
+import { useState, useEffect } from "react";
+import { ethers } from "ethers";
+import backEnd from "../backend/OmData";
 
-export const ProposalList = ( props: any) => {
+export const ProposalList = (props: any) => {
+  const [data, setData] = useState<any>();
+  // const [proposals,setProposals] = useState<any>("");
+  console.log(props);
+  const { proposals } = props;
 
-  const {proposals} = props;
-  console.log("proposals:", proposals);
-  console.log("proposals1:", proposals[0]);
-  console.log("proposals2", proposals[1]);
-  console.log("Group Id ---------");
+  useEffect((): void => {
+    console.log(proposals);
+    getProposal();
+  }, []);
 
-  console.log("proposals1:", proposals[0].groupId);
+  async function getProposal() {
+    // console.log("fetching proposals")
+    // const data: any = await backEnd.getProposals()
+    // console.log("proposalData", data)
+    // await setData(data)
+    // // setData(data);
+  }
 
+  if (!proposals || proposals.length === 0) return null;
 
-
- return (    
+  return (
     <div className="px-4 sm:px-6 lg:px-8 pt-7">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-xl font-semibold text-gray-900">Proposals</h1>
           <p className="mt-2 text-sm text-gray-700">
-            This is a List of Proposals Within a Dao
+            Screenplay Proposals for Current Voting Period
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -89,52 +99,47 @@ export const ProposalList = ( props: any) => {
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {proposals.map((proposal: any) => (
                     <Link href={`/proposal_info/${proposal.id}`}>
-                    <tr key={proposal.id}>
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-                        <div className="flex items-center">
-                          <div className="h-10 w-10 flex-shrink-0">
-                            <img
-                              className="h-10 w-10 rounded-full"
-                              src={proposal.imageUri}
-                              alt=""
-                            />
-                          </div>
-                          <div className="ml-4">
-                            <div className="font-medium text-gray-900">
-                              {proposal.proposalName} proposalName
+                      <tr key={proposal.id}>
+                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                          <div className="flex items-center">
+                            <div className="h-10 w-0 flex-shrink-0">
+                              <img
+                                className="h-10 w-10 rounded-full"
+                                src={proposal.imageUri}
+                                alt=""
+                              />
                             </div>
-                            <div className="text-gray-500">{proposal.proposalName}</div>
+                            <div className="ml-4">
+                              <div className="font-medium text-gray-900">
+                                {proposal.title}
+                              </div>
+                              <div className="text-gray-500"></div>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <div className="text-gray-900">{proposal.description} groupId</div>
-                        <div className="text-gray-500">{proposal.groupId}</div>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                          Active
-                        </span>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {proposal.groupId}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {proposal.startDate}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {proposal.endDate}
-                      </td>
-
-                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a
-                          href="#"
-                          className="text-indigo-600 hover:text-indigo-900"
-                        >
-                          Edit<span className="sr-only">, {proposal.name} Proposal Span</span>
-                        </a>
-                      </td>
-                    </tr>
+                        </td>
+                        <td className="whitespace-wrap px-3 py-4 text-sm text-gray-500">
+                          <div className="text-gray-900 break-words">
+                            {proposal.description} groupId
+                          </div>
+                          <div className="text-gray-500">
+                            {proposal.groupId}
+                          </div>
+                        </td>
+                        <td className="whitespace-wrap px-3 py-4 text-sm text-gray-500">
+                          <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                            Active
+                          </span>
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {proposal.groupId}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {new Date(Number(proposal.startDate)).toDateString()}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {new Date(Number(proposal.endDate)).toDateString()}
+                        </td>
+                      </tr>
                     </Link>
                   ))}
                 </tbody>

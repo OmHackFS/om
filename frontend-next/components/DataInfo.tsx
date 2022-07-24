@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useEffect } from "react";
+import { Fragment } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
 import {
   ArrowNarrowLeftIcon,
@@ -16,7 +16,17 @@ import { ProofModalVote } from "./ProofModalVote";
 import { useState } from "react";
 import { Listbox } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/solid";
-import omBackEnd from "../backend/OmData";
+
+const cards = [
+  { name: "More than 1000 Words", href: "#", icon: "", amount: "Proof Date" },
+  { name: "Older than 100 days", href: "#", icon: "", amount: "Proof Date" },
+  {
+    name: "Mora than 10000 Reviews",
+    href: "#",
+    icon: "",
+    amount: "Proof Date",
+  },
+];
 
 const user = {
   name: "Whitney Francis",
@@ -34,16 +44,16 @@ const timeline = [
   {
     id: 1,
     type: eventTypes.completed,
-    content: "Yes",
-    target: "25 votes",
+    content: "File Size",
+    target: "25 MB",
     date: "Sep 28",
     datetime: "2020-09-28",
   },
   {
     id: 2,
     type: eventTypes.advanced,
-    content: "No",
-    target: "10 votes",
+    content: "Author",
+    target: "Satoshi",
     date: "Sep 22",
     datetime: "2020-09-22",
   },
@@ -82,31 +92,30 @@ function classNames(...classes: any[]) {
 }
 
 type ProposalInfoProps = {
-  proposalId: any;
+  dataId: any;
 };
 
-export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
+export const DataInfo = ({ dataId }: any) => {
   const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
   const [selected, setSelected] = useState<any>(people[0]);
-  const [proposal, setProposal] = useState<any>({});
 
-  const handleShowVoteModal = () => setShowProposalModal(true);
-  const handleHideVoteModal = () => setShowProposalModal(false);
+  const handleShowProposalModal = () => setShowProposalModal(true);
+  const handleHideProposalModal = () => setShowProposalModal(false);
 
-  console.log("proposalId ", proposalId);
-  useEffect(() => {
-    omBackEnd.getProposalById(proposalId).then((data) => {
-      setProposal((data && data.length > 0 && data[0]) || {});
-    });
-  }, [proposalId]);
-
-  const id = Number(proposalId);
-
-  console.log("proposal --> ", proposal, selected);
+  const id = Number(dataId);
   return (
     <>
+      {/*
+        This example requires updating your template:
+
+        ```
+        <html class="h-full bg-gray-100">
+        <body class="h-full">
+        ```
+      */}
       <div className="min-h-full">
         <main className="py-10">
+          {/* Page header */}
           <div className="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
             <div className="flex items-center space-x-5">
               <div className="flex-shrink-0">
@@ -125,18 +134,64 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  {proposal.title}
+                  Proposal {dataId} - {proposalsList[1].title}
                 </h1>
                 <p className="text-sm font-medium text-gray-500">
-                  Applied by group
-                  {" " + proposal.groupId}
+                  Applied by
+                  {proposalsList[1].group}
                 </p>
               </div>
             </div>
           </div>
 
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-lg leading-6 font-medium text-gray-900">
+              Overview
+            </h2>
+            <div className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {/* Card */}
+              {cards.map((card) => (
+                <div
+                  key={card.name}
+                  className="bg-white overflow-hidden shadow rounded-lg"
+                >
+                  <div className="p-5">
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0">
+                        {/* <card.icon className:string="h-6 w-6 text-gray-400" aria-hidden="true" /> */}
+                      </div>
+                      <div className="ml-5 w-0 flex-1">
+                        <dl>
+                          <dt className="text-sm font-medium text-gray-500 truncate">
+                            {card.name}
+                          </dt>
+                          <dd>
+                            <div className="text-lg font-medium text-gray-900">
+                              {card.amount}
+                            </div>
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 px-5 py-3">
+                    <div className="text-sm">
+                      <a
+                        href={card.href}
+                        className="font-medium text-cyan-700 hover:text-cyan-900"
+                      >
+                        Verify Proof
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
             <div className="space-y-6 lg:col-start-1 lg:col-span-2">
+              {/* Description list*/}
               <section aria-labelledby="applicant-information-title">
                 <div className="bg-white shadow sm:rounded-lg">
                   <div className="px-4 py-5 sm:px-6">
@@ -157,7 +212,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           Proposed By
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {proposal.groupId}
+                          {proposalsList[1].group}
                         </dd>
                       </div>
 
@@ -173,7 +228,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           Start Date
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {new Date(Number(proposal.startDate)).toDateString()}
+                          {proposalsList[1].startDate}
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
@@ -181,7 +236,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           End Date
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {new Date(Number(proposal.endDate)).toDateString()}
+                          {proposalsList[1].endDate}
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
@@ -189,7 +244,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           Uploaded Files
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {proposal.IpfsURI}
+                          File Link
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
@@ -205,7 +260,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           Proposal Details
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {proposal.description}
+                          {proposalsList[1].description}
                         </dd>
                       </div>
                     </dl>
@@ -217,112 +272,6 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                     >
                       Read full application
                     </a>
-                  </div>
-                </div>
-              </section>
-
-              {/* Comments*/}
-              <section aria-labelledby="notes-title">
-                <div className="bg-white shadow sm:rounded-lg sm:overflow-hidden">
-                  <div className="divide-y divide-gray-200">
-                    <div className="px-4 py-5 sm:px-6">
-                      <h2
-                        id="notes-title"
-                        className="text-lg font-medium text-gray-900"
-                      >
-                        Comments
-                      </h2>
-                    </div>
-                    <div className="px-4 py-6 sm:px-6">
-                      <ul role="list" className="space-y-8">
-                        {comments.map((comment) => (
-                          <li key={comment.id}>
-                            <div className="flex space-x-3">
-                              <div className="flex-shrink-0">
-                                <img
-                                  className="h-10 w-10 rounded-full"
-                                  src={`https://images.unsplash.com/photo-${comment.imageId}?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80`}
-                                  alt=""
-                                />
-                              </div>
-                              <div>
-                                <div className="text-sm">
-                                  <a
-                                    href="#"
-                                    className="font-medium text-gray-900"
-                                  >
-                                    {comment.name}
-                                  </a>
-                                </div>
-                                <div className="mt-1 text-sm text-gray-700">
-                                  <p>{comment.body}</p>
-                                </div>
-                                <div className="mt-2 text-sm space-x-2">
-                                  <span className="text-gray-500 font-medium">
-                                    {comment.date}
-                                  </span>{" "}
-                                  <span className="text-gray-500 font-medium">
-                                    &middot;
-                                  </span>{" "}
-                                  <button
-                                    type="button"
-                                    className="text-gray-900 font-medium"
-                                  >
-                                    Reply
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="bg-gray-50 px-4 py-6 sm:px-6">
-                    <div className="flex space-x-3">
-                      <div className="flex-shrink-0">
-                        <img
-                          className="h-10 w-10 rounded-full"
-                          src={user.imageUrl}
-                          alt=""
-                        />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <form action="#">
-                          <div>
-                            <label htmlFor="comment" className="sr-only">
-                              About
-                            </label>
-                            <textarea
-                              id="comment"
-                              name="comment"
-                              rows={3}
-                              className="shadow-sm block w-full focus:ring-blue-500 focus:border-blue-500 sm:text-sm border border-gray-300 rounded-md"
-                              placeholder="Add a note"
-                              defaultValue={""}
-                            />
-                          </div>
-                          <div className="mt-3 flex items-center justify-between">
-                            <a
-                              href="#"
-                              className="group inline-flex items-start text-sm space-x-2 text-gray-500 hover:text-gray-900"
-                            >
-                              <QuestionMarkCircleIcon
-                                className="flex-shrink-0 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                aria-hidden="true"
-                              />
-                              <span>Some HTML is okay.</span>
-                            </a>
-                            <button
-                              type="submit"
-                              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                            >
-                              Comment
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </section>
@@ -374,15 +323,14 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                                     href="#"
                                     className="font-medium text-gray-900"
                                   >
-                                    {/* {item.target} */}
-                                    {item.content === "Yes"
-                                      ? proposal.yesCount + " votes"
-                                      : null}
-                                    {item.content === "No"
-                                      ? proposal.noCount + " votes"
-                                      : null}
+                                    {item.target}
                                   </a>
                                 </p>
+                              </div>
+                              <div className="text-right text-sm whitespace-nowrap text-gray-500">
+                                <time dateTime={item.datetime}>
+                                  {item.date}
+                                </time>
                               </div>
                             </div>
                           </div>
@@ -473,18 +421,13 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                   <button
                     type="button"
                     className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    onClick={handleShowVoteModal}
+                    onClick={handleShowProposalModal}
                   >
-                    Vote
+                    Download
                   </button>
                 </div>
                 {showProposalModal ? (
-                  <ProofModalVote
-                    voteSelected={selected}
-                    proposalId={proposalId}
-                    hideModal={handleHideVoteModal}
-                    groupId={proposal && proposal.groupId}
-                  />
+                  <ProofModalVote hideModal={handleHideProposalModal} />
                 ) : null}
               </div>
             </section>

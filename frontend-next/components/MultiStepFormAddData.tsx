@@ -3,18 +3,26 @@ import { useState } from "react";
 import { GenerateProofBody } from "./GenerateProofBody";
 import { SelectWalletBody } from "./SelectWalletBody";
 import { SendTransactionBody } from "./SendTransactionBody";
+import { SendTransactionAddData } from "./SendTransactionAddData";
+import {ethers} from "ethers";
 
-export const MultiStepForm = ({
-  group,
-  title,
-  startDate,
-  endDate,
-  description,
-  fundRequest,
-  fileInput,
-  linkInput,
+export const MultiStepFormAddData = ({
+  dataTitle,dataDescription,authorName,authorContact,group
 }: any) => {
   const [formStep, setFormStep] = useState(0);
+  const [proof,setProof] = useState();
+  const [nullifierHash,setNullifierHash] = useState();
+  const [externalNullifier,setExternalNullifier] = useState();
+  const [root,setRoot] = useState();
+  const signal = "proposals";
+  const bytes32signal = ethers.utils.formatBytes32String(signal);
+
+
+
+
+
+
+
 
   const handleClickNext = (e: any) => {
     e.preventDefault();
@@ -52,7 +60,7 @@ export const MultiStepForm = ({
           >
             {formStep === 0 ? "Verifying Membership" : null}
             {formStep === 1 ? "Selecting wallet" : null}
-            {formStep === 2 ? "Creating proposal" : null}
+            {formStep === 2 ? "Send vote" : null}
           </h2>
 
           <p className="max-w-screen-md mx-auto text-center text-gray-500 md:text-lg">
@@ -145,19 +153,29 @@ export const MultiStepForm = ({
 
                       <div className="h-72 flex items-center justify-center">
                         {formStep === 0 ? (
-                          <GenerateProofBody group={group} />
+                          <GenerateProofBody 
+                          group={group} 
+                          setProof={setProof}
+                          setNullifierHash={setNullifierHash}
+                          setExternalNullifier={setExternalNullifier}
+                          signal={signal}
+                          setRoot={setRoot}
+
+                           />
                         ) : null}
                         {formStep === 1 ? <SelectWalletBody /> : null}
                         {formStep === 2 ? (
-                          <SendTransactionBody
+                          <SendTransactionAddData
                             group={group}
-                            fileInput={fileInput}
-                            title={title}
-                            startDate={startDate}
-                            endDate={endDate}
-                            description={description}
-                            fundRequest={fundRequest}
-                            linkInput={linkInput}
+                            dataTitle={dataTitle}
+                            dataDescription={dataDescription}
+                            authorName={authorName}
+                            authorContact={authorContact}
+                            proof={proof}
+                            nullifierHash={nullifierHash}
+                            externalNullifier={externalNullifier}
+                            root={root}
+                            bytes32signal={bytes32signal}
                           />
                         ) : null}
                       </div>
