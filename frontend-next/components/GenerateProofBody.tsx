@@ -15,7 +15,7 @@ const { verifyProof } = require("@semaphore-protocol/proof");
 // const omContractAbi = require("./utils/OmContract.json").abi;
 const sbContractAbi =
   require("../artifacts/contracts/OmSbToken.sol/OmSbToken.json").abi;
-import { sbContractAddr } from "../contracts";
+import { sbContractAddr } from "../contract-addresses";
 import backEnd from "../backend/OmData";
 
 import { AbstractConnector } from "@web3-react/abstract-connector";

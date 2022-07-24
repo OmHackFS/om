@@ -9,7 +9,7 @@ import * as sigUtil from "@metamask/eth-sig-util";
 // import * as nftStorage from "nft.storage";
 import { ethers, Signer } from "ethers";
 import { CreateIdentityButton } from "./CreateIdentityButton";
-import { sbContractAddr } from "../contracts";
+import { sbContractAddr } from "../contract-addresses";
 import OmSbToken from "../artifacts/contracts/OmSbToken.sol/OmSbToken.json";
 
 import { AbstractConnector } from "@web3-react/abstract-connector";
