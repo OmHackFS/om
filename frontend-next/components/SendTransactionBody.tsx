@@ -43,7 +43,7 @@ export const SendTransactionBody = ({
   const [proposalUri, setProposalUri] = useState<string | null>(null);
 
   const omContract: any = useMemo(() => {
-    return new ethers.Contract(omContractAddress, omToken.abi, signer);
+    return new ethers.Contract(omContractAddr, omToken.abi, signer);
   }, [signer]);
 
   useEffect((): void => {
