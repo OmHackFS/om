@@ -1,22 +1,29 @@
 import Link from 'next/link'
 // import {data} from './mocks/datas'
 import { MultiStepFormReadData} from "./MultiStepFormReadData"  
+import {ProofModalReadData} from "./ProofModalReadData"
+import {useState} from "react"
   function classNames(...classes : any[]) {
     return classes.filter(Boolean).join(' ')
   }
   // const data = 
   
   export const DaoData= ({data} : any) => {
-    console.log("Props");
-    console.log(data);
+    
+    const [openModal,setOpenModal] = useState<boolean>(false);
+    const [dataId,setDataId] = useState<any>(1);
+
     const dataList = data;
     const dataTypes=["Medical","Movie Scripts","Book Scripts"];
-    const dataTest = new Date(1658631063*1000).toLocaleString();
-    console.log("Date Test!")
-    console.log(dataTest)
+
 
     function toDate(timeStamp:any){
       return new Date(timeStamp*1000).toLocaleString().slice(0,10)
+    }
+    const handleReadData=(dataIdInput:any) => {
+      console.log(dataIdInput);
+      setDataId(dataIdInput);
+      setOpenModal(true);
     }
     
     return (
@@ -136,7 +143,7 @@ import { MultiStepFormReadData} from "./MultiStepFormReadData"
                     <button
                       type="button"
                       className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
-                   
+                      onClick={()=> {handleReadData(data.dataId)}}
                     >
                       Download<span className="sr-only">, {data.name}</span>
                     </button>
@@ -146,8 +153,9 @@ import { MultiStepFormReadData} from "./MultiStepFormReadData"
               ))}
             </tbody>
           </table>
-          <MultiStepFormReadData/>
+         
         </div>
+        {openModal ? <ProofModalReadData dataId={dataId}/> : null}
       </div>
     )
   }

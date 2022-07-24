@@ -27,7 +27,8 @@ export const SendTransactionReadData= ({
   nullifierHash,
   externalNullifier,
   root,
-  bytes32signal
+  bytes32signal,
+  dataId
 }: any) => {
   const context = useWeb3React<Provider>();
   const { activate, active, account, library } = context;
@@ -46,6 +47,8 @@ export const SendTransactionReadData= ({
   // }, [signer]);
 
   useEffect((): void => {
+    console.log("Send Tx Data ID")
+    console.log(dataId);
     connectWallet();
 
   }, []);
