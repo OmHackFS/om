@@ -31,7 +31,15 @@ const groupId = 7579;
 let zeroValue = 0;
 const { generateProof, packToSolidityProof } = semaphoreProof;
 
-export const GenerateProofForVote = ({ group,setProof, setNullifierHash,setExternalNullifier,setRoot,signal, proposalId}: any) => {
+export const GenerateProofForVote = ({
+  group,
+  setProof,
+  setNullifierHash,
+  setExternalNullifier,
+  setRoot,
+  signal,
+  proposalId,
+}: any) => {
   const context = useWeb3React<Provider>();
   const { activate, active, account, library } = context;
 
@@ -43,29 +51,24 @@ export const GenerateProofForVote = ({ group,setProof, setNullifierHash,setExter
   const [tokenId, setTokenId] = useState();
   const [omSbTokenContract, setOmSbTokenContract] = useState<any>();
 
- 
-
   useEffect(() => {
-    connectWallet()
-  },[]);
+    connectWallet();
+  }, []);
 
-  
   const [offChainVerification, setOffChainVerification] = useState<any>(false);
   const [generatingProof, setGeneratingProof] = useState<boolean>(false);
-
-
 
   const handleGenerateProof = async (e: any) => {
     e.preventDefault();
 
     setGeneratingProof(true);
-    console.log(omSbTokenContract)
+    console.log(omSbTokenContract);
     console.log(account);
 
     // 1. Decrypt ID
     const idHash = await omSbTokenContract.identityData(account);
     // const idHash=100;
-    console.log("id Hash called")
+    console.log("id Hash called");
     const decryptedMessage = await (window as any).ethereum.request({
       method: "eth_decrypt",
       params: [idHash, account],
@@ -73,7 +76,7 @@ export const GenerateProofForVote = ({ group,setProof, setNullifierHash,setExter
 
     const retrievedIdentity = new Identity(decryptedMessage);
     const newIdentityCommitment = retrievedIdentity.generateCommitment();
-    console.log(group)
+    console.log(group);
     // 2. Generate Proof
     // const members = await backEnd.getMembersAddedByGroup(Number(group) || 1);
     // console.log(members);
@@ -111,14 +114,13 @@ export const GenerateProofForVote = ({ group,setProof, setNullifierHash,setExter
 
     const { nullifierHash } = fullProof.publicSignals;
     const solidityProof = packToSolidityProof(fullProof.proof);
-    console.log("Proposal Id")
-    console.log(proposalId)
+    console.log("Proposal Id");
+    console.log(proposalId);
 
     setNullifierHash(nullifierHash);
     setExternalNullifier(proposalId);
     setProof(solidityProof);
     setRoot(root);
-
 
     // 3. Verification
     console.log("Verification Called");
@@ -138,28 +140,31 @@ export const GenerateProofForVote = ({ group,setProof, setNullifierHash,setExter
     console.log("response ", response);
   };
 
-  async function connectWallet(){
+  async function connectWallet() {
     const accounts = await (window as any).ethereum.request({
       method: "eth_requestAccounts",
     });
     const address = accounts[0];
-    const signer=(new ethers.providers.Web3Provider((window as any).ethereum)).getSigner();
-    const sbContractAddress="0xF765822f3843a1d2c093B461318466e9fb60D2bA";
-    const sbTokenContract = new ethers.Contract(sbContractAddress, OmSbToken.abi, signer);
+    const signer = new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    ).getSigner();
+    const sbContractAddress = "0xF765822f3843a1d2c093B461318466e9fb60D2bA";
+    const sbTokenContract = new ethers.Contract(
+      sbContractAddress,
+      OmSbToken.abi,
+      signer
+    );
 
     console.log(signer);
     console.log(sbTokenContract);
-    setSigner(signer)
-    setOmSbTokenContract(sbTokenContract)
-
+    setSigner(signer);
+    setOmSbTokenContract(sbTokenContract);
   }
-
-
 
   return (
     <div className="flex flex-col mb-1">
       <div className="max-w-lg overflow-x-auto mb-5">
-        {!offChainVerification ? (
+        {!offChainVerification && active ? (
           <button
             onClick={handleGenerateProof}
             className="mt-5 px-6 py-4
@@ -212,6 +217,7 @@ export const GenerateProofForVote = ({ group,setProof, setNullifierHash,setExter
             DAO membership verified
           </div>
         ) : null}
+        {!active ? <ConnectWalletButton /> : null}
         {/* <div>Trapdoor: </div>
         <p>{trapdoor?.toString()}</p>
         <div className="pt-2">Nullifier: </div>
@@ -272,7 +278,6 @@ export const GenerateProofForVote = ({ group,setProof, setNullifierHash,setExter
       >
         Get Members
       </button> */}
-
       </div>
     </div>
   );

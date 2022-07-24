@@ -25,7 +25,7 @@ export const MultiStepFormVote = ({
 
     const nextStep = formStep + 1;
 
-    if (nextStep > 2) {
+    if (nextStep >= 2) {
       onClose();
       return;
     }
@@ -175,6 +175,7 @@ export const MultiStepFormVote = ({
                             bytes32signal={bytes32signal}
                             voteSelected={voteSelected}
                             proposalId={proposalId}
+                            onClose={onClose}
                           />
                         ) : null}
                       </div>

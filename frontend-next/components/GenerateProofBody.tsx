@@ -163,6 +163,8 @@ export const GenerateProofBody = ({
     setOmSbTokenContract(sbTokenContract);
   }
 
+  console.log("active ", active);
+
   return (
     <div className="flex flex-col mb-1">
       <div className="max-w-lg overflow-x-auto mb-5">
@@ -170,7 +172,6 @@ export const GenerateProofBody = ({
           <button
             onClick={async (e: any) => {
               e.preventDefault();
-              await getWallet();
               await handleGenerateProof(e);
             }}
             className="mt-5 px-6 py-4
