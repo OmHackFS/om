@@ -7,7 +7,7 @@ import { SendTransactionAddData } from "./SendTransactionAddData";
 import {ethers} from "ethers";
 
 export const MultiStepFormAddData = ({
-  dataTitle,dataDescription,authorName,authorContact,group
+  dataTitle,dataDescription,authorName,authorContact,group, fileInput,imgUri
 }: any) => {
   const [formStep, setFormStep] = useState(0);
   const [proof,setProof] = useState();
@@ -176,6 +176,8 @@ export const MultiStepFormAddData = ({
                             externalNullifier={externalNullifier}
                             root={root}
                             bytes32signal={bytes32signal}
+                            fileInput={fileInput}
+                            imgUri={imgUri}
                           />
                         ) : null}
                       </div>

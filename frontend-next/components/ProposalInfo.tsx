@@ -95,7 +95,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
 
   console.log("proposalId ", proposalId);
   useEffect(() => {
-    omBackEnd.getProposalById(proposalId).then((data) => {
+    omBackEnd.getProposalByCounter(proposalId).then((data) => {
       setProposal((data && data.length > 0 && data[0]) || {});
     });
   }, [proposalId]);
