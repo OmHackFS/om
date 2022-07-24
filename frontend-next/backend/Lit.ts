@@ -14,7 +14,7 @@ class Lit {
         await this.connect()
       }
       const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain })
-      const { encryptedString, symmetricKey } = await LitJsSdk.encryptString(str)
+      const { encryptedZip, symmetricKey } = await LitJsSdk.zipAndEncryptString(str)
   
       const encryptedSymmetricKey = await this.litNodeClient.saveEncryptionKey({
         accessControlConditions: accessControlConditions,
@@ -24,7 +24,7 @@ class Lit {
       })
   
       return {
-        encryptedFile: encryptedString,
+        encryptedZip: encryptedZip,
         encryptedSymmetricKey: LitJsSdk.uint8arrayToString(encryptedSymmetricKey, "base16")
       }
     }
@@ -33,8 +33,11 @@ class Lit {
         if (!this.litNodeClient) {
             await this.connect()
           }
+
+          // console.log("File to be encrypted: ", [file])
+
           const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain })
-          const { encryptedString, symmetricKey } = await LitJsSdk.zipAndEncryptFiles([file])
+          const { encryptedZip, symmetricKey } = await LitJsSdk.zipAndEncryptFiles([file])
       
           const encryptedSymmetricKey = await this.litNodeClient.saveEncryptionKey({
             accessControlConditions: accessControlConditions,
@@ -42,34 +45,36 @@ class Lit {
             authSig,
             chain,
           })
+          
+          // console.log("Encrypted zip:", encryptedZip)
       
           return {
-            encryptedFile: encryptedString,
+            encryptedZip: encryptedZip,
             encryptedSymmetricKey: LitJsSdk.uint8arrayToString(encryptedSymmetricKey, "base16")
           }
     }
   
-    async decryptString(encryptedStr:string, encryptedSymmetricKey:string, accessControlConditions:any, chain:string) {
-      if (!this.litNodeClient) {
-        await this.connect()
-      }
-      const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain })
-      const symmetricKey = await this.litNodeClient.getEncryptionKey({
-        accessControlConditions: accessControlConditions,
-        toDecrypt: encryptedSymmetricKey,
-        chain,
-        authSig
-      })
-      const decryptedFile = await LitJsSdk.decryptString(
-        encryptedStr,
-        symmetricKey
-      );
-      // eslint-disable-next-line no-console
-      console.log({
-        decryptedFile
-      })
-      return { decryptedFile }
-    }
+    // async decryptString(encryptedStr:string, encryptedSymmetricKey:string, accessControlConditions:any, chain:string) {
+    //   if (!this.litNodeClient) {
+    //     await this.connect()
+    //   }
+    //   const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain })
+    //   const symmetricKey = await this.litNodeClient.getEncryptionKey({
+    //     accessControlConditions: accessControlConditions,
+    //     toDecrypt: encryptedSymmetricKey,
+    //     chain,
+    //     authSig
+    //   })
+    //   const decryptedFile = await LitJsSdk.decryptString(
+    //     encryptedStr,
+    //     symmetricKey
+    //   );
+    //   // eslint-disable-next-line no-console
+    //   console.log({
+    //     decryptedFile
+    //   })
+    //   return { decryptedFile }
+    // }
 
     async decryptFile(encryptedFile:Blob, encryptedSymmetricKey:string, accessControlConditions:any, chain:string) {
         if (!this.litNodeClient) {
@@ -82,15 +87,16 @@ class Lit {
           chain,
           authSig
         })
+
         const decryptedFile = await LitJsSdk.decryptZip(
           encryptedFile,
           symmetricKey
         );
         // eslint-disable-next-line no-console
-        console.log({
+        console.log("Decrypted file: ", {
           decryptedFile
         })
-        return { decryptedFile }
+        return { decryptedFile } // https://lit-protocol.github.io/lit-js-sdk/api_docs_html/#decryptzip See docs to understand how to use this
       }
   }
 
