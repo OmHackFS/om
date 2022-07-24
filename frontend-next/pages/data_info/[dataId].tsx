@@ -2,12 +2,14 @@ import React from "react";
 import { Header } from "../../components/Header";
 import { SubHeader } from "../../components/SubHeader";
 import { DaoData } from "../../components/DaoData";
-import  backEnd  from "../../backend/OmData"
+import { DataInfo } from "../../components/DataInfo";
+import { useRouter } from 'next/router'
+
+export default function DataInfoPage() {
+  const router = useRouter()
+  const { dataId } = router.query
 
 
-export default function DaoDataPage({data2} :any) {
-  console.log("data 2")
-  console.log(data2);
   return (
     <div>
       <div className="md:pl-64 flex flex-col flex-1">
@@ -38,16 +40,9 @@ export default function DaoDataPage({data2} :any) {
         </div>
 
         <main>
-          <div className="py-6">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mb-8">
-              <h1 className="text-2xl font-semibold text-gray-900">
-                Dao Data
-              </h1>
-            </div>
-            <SubHeader />
+          <div className="py-1">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            <DaoData data={data2}/>
- 
+              <DataInfo dataId={dataId}/>
             </div>
           </div>
         </main>
@@ -55,11 +50,3 @@ export default function DaoDataPage({data2} :any) {
     </div>
   );
 };
-
-export async function getServerSideProps() {
-  console.log("fetching daoData")
-  const data2: any = await backEnd.getDataByType(1)
-  console.log("proposalData", data2)
-  return { props: { data2 } };
-}
-

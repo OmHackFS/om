@@ -3,6 +3,15 @@ import { useState } from "react";
 
 export const DataInput = () => {
   const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
+  const [dataTitleInput, setDataTitleInput] = useState<any>();
+  const [dataSubTitleInput,setDataSubTitleInput] = useState<any>();
+  const [dataDescriptionInput,setDataDescriptionInput] = useState<any>();
+  const [dataSizeInput, setDataSizeInput] = useState<any>();
+  const [authorNameInput,setAuthorNameInput] = useState<any>();
+  const [authorContactInput,setAuthorContactInput] = useState<any>();
+  const [fileInput,setFileInput] = useState();
+
+  const [group,setGroup] = useState<any>();
 
   const handleShowProposalModal = () => setShowProposalModal(true);
     return (
@@ -20,38 +29,41 @@ export const DataInput = () => {
 
                  <div className="col-span-6 sm:col-span-4">
                     <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
-                      Session Title
+                      Data Title
                     </label>
                     <input
                       type="text"
                       name="proposal-title"
                       id="proposal-title"
                       autoComplete="proposal"
+                      onChange={(e) => setDataTitleInput(e.target.value)}
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md pt-5"
                     />
                    </div>
                   <div className="col-span-6 sm:col-span-3">
                     <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">
-                      Doctor Name
+                      Data Size
                     </label>
                     <input
                       type="text"
                       name="first-name"
                       id="first-name"
                       autoComplete="given-name"
+                      onChange={(e) => setDataSizeInput(e.target.value)}
                       className="pt-5 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
   
                   <div className="col-span-6 sm:col-span-3">
                     <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                      Session Date
+                      Data Version
                     </label>
                     <input
                       type="text"
                       name="last-name"
                       id="last-name"
                       autoComplete="family-name"
+
                       className="pt-5 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
@@ -61,7 +73,7 @@ export const DataInput = () => {
                 
                   <div className="col-span-6 sm:col-span-6">
                   <label htmlFor="about" className="block text-sm font-medium text-gray-700">
-                    Session Description
+                    Data Description
                   </label>
                   <div className="mt-1">
                     <textarea
@@ -70,6 +82,8 @@ export const DataInput = () => {
                       rows={3}
                       className="text-center shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md pt-20 pb-20 align-center"
                       placeholder="Proposal Information"
+                      onChange={(e) => setDataDescriptionInput(e.target.value)}
+
                       defaultValue={''}
                     />
                   </div>
@@ -78,25 +92,28 @@ export const DataInput = () => {
              
                   <div className="col-span-6">
                     <label htmlFor="street-address" className="block text-sm font-medium text-gray-700">
-                      Doctor Id
+                      Author Name
                     </label>
                     <input
                       type="text"
                       name="street-address"
                       id="street-address"
                       autoComplete="street-address"
+                      onChange={(e) => setAuthorNameInput(e.target.value)}
+
                       className="pt-5 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
                   <div className="col-span-6">
                     <label htmlFor="street-address" className="block text-sm font-medium text-gray-700">
-                      Doctor Contact
+                      Author Contact
                     </label>
                     <input
                       type="text"
                       name="street-address"
                       id="street-address"
                       autoComplete="street-address"
+                      onChange={(e) => setAuthorContactInput(e.target.value)}
                       className="pt-5 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
@@ -162,7 +179,7 @@ export const DataInput = () => {
                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                       />
                       <label htmlFor="push-everything" className="ml-3 block text-sm font-medium text-gray-700">
-                        Sub-Group 1
+                        Group 1
                       </label>
                     </div>
                     <div className="flex items-center">
@@ -173,7 +190,7 @@ export const DataInput = () => {
                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                       />
                       <label htmlFor="push-email" className="ml-3 block text-sm font-medium text-gray-700">
-                        Sub-Group 2
+                        Group 2
                       </label>
                     </div>
                     <div className="flex items-center">
@@ -184,7 +201,7 @@ export const DataInput = () => {
                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                       />
                       <label htmlFor="push-nothing" className="ml-3 block text-sm font-medium text-gray-700">
-                        Sub-Group 3
+                        Group 3
                       </label>
                     </div>
                   </div>
