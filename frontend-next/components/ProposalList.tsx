@@ -102,7 +102,7 @@ export const ProposalList = (props: any) => {
                   {proposals.map((proposal: any) => (
                     <Link href={`/proposal_info/${proposal.proposalCounter}`}>
                       <tr key={proposal.id}>
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                        <td className="whitespace-wrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                           <div className="flex items-center">
                             <div className="h-10 w-0 flex-shrink-0">
                               <img

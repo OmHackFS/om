@@ -31,9 +31,9 @@ import {useState} from "react"
       <div className="px-4 sm:px-6 lg:px-8 pt-10">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-xl font-semibold text-gray-900">Dao Data</h1>
+            <h1 className="text-xl font-semibold text-gray-900">Dao Screenplay Uploads</h1>
             <p className="mt-2 text-sm text-gray-700">
-              This is the aggregated data from this Dao.
+             Dao screenplay uploads for current voting period
             </p>
           </div>
           <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">

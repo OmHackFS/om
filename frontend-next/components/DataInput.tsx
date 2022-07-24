@@ -21,8 +21,8 @@ export const DataInput = () => {
         <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
           <div className="md:grid md:grid-cols-3 md:gap-6">
             <div className="md:col-span-1">
-              <h3 className="text-lg font-medium leading-6 text-gray-900">Proposal Information</h3>
-              <p className="mt-1 text-sm text-gray-500">Add all the informations you need for the Proposal</p>
+              <h3 className="text-lg font-medium leading-6 text-gray-900">Screenplay Information</h3>
+              <p className="mt-1 text-sm text-gray-500">Add all the information you need to privately and securely upload your screenplay to the blockchain</p>
             </div>
             <div className="mt-5 md:mt-0 md:col-span-2">
               <form action="#" method="POST">
@@ -30,7 +30,7 @@ export const DataInput = () => {
 
                  <div className="col-span-6 sm:col-span-4">
                     <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
-                      Data Title
+                      Title
                     </label>
                     <input
                       type="text"
@@ -75,7 +75,7 @@ export const DataInput = () => {
                 
                   <div className="col-span-6 sm:col-span-6">
                   <label htmlFor="about" className="block text-sm font-medium text-gray-700">
-                    Data Description
+                    Description
                   </label>
                   <div className="mt-1">
                     <textarea
@@ -152,7 +152,7 @@ export const DataInput = () => {
                         </label>
                         <p className="pl-1">or drag and drop</p>
                       </div>
-                      <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                      <p className="text-xs text-gray-500">TXT up to 10MB</p>
                     </div>
                   </div>
                 </div>
