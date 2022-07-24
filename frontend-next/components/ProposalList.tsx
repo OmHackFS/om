@@ -102,7 +102,7 @@ export const ProposalList = (props: any) => {
                   {proposals.map((proposal: any) => (
                     <Link href={`/proposal_info/${proposal.proposalCounter}`}>
                       <tr key={proposal.id}>
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                        <td className="max-w-xs whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                           <div className="flex items-center">
                             <div className="h-10 w-0 flex-shrink-0">
                               <img
@@ -111,9 +111,9 @@ export const ProposalList = (props: any) => {
                                 alt=""
                               />
                             </div>
-                            <div className="ml-4">
-                              <div className="font-medium text-gray-900">
-                                {proposal.title}
+                            <div className="max-w-xs ml-4 ">
+                              <div className="font-medium text-gray-900 truncate overflow-hidden ">
+                                {(proposal.title).slice(0,40)}
                               </div>
                               <div className="text-gray-500"></div>
                             </div>
@@ -121,11 +121,11 @@ export const ProposalList = (props: any) => {
                         </td>
                         <td className="whitespace-wrap px-3 py-4 text-sm text-gray-500">
                           <div className="text-gray-900 break-words">
-                            {proposal.description} groupId
+                            {(proposal.description).slice(0,90)} ...
                           </div>
-                          <div className="text-gray-500">
+                          {/* <div className="text-gray-500">
                             {proposal.groupId}
-                          </div>
+                          </div> */}
                         </td>
                         <td className="whitespace-wrap px-3 py-4 text-sm text-gray-500">
                           <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
