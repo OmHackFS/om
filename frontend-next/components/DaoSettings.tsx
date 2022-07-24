@@ -29,13 +29,13 @@ export const DaoSettings = () => {
   
   }
 
-  function addMember() {
+  async function addMember() {
     console.log("Add Member");
     console.log(addMemberGroupId);
     console.log(addMemberCommitmentId);
-    console.log(signer)
-    console.log(contract);
-
+    const addMemberTx = await contract.addMember(addMemberGroupId,addMemberCommitmentId);
+    const tx = await addMemberTx.wait();
+    console.log(tx);
   }
 
   function removeMember() {

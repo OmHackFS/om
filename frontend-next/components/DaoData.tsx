@@ -6,7 +6,9 @@ import { MultiStepFormReadData} from "./MultiStepFormReadData"
   }
   // const data = 
   
-  export const DaoData= () => {
+  export const DaoData= (props : any) => {
+    console.log("Props");
+    console.log(props);
     return (
       <div className="px-4 sm:px-6 lg:px-8 pt-10">
         <div className="sm:flex sm:items-center">
