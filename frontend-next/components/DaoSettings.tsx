@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import {ethers} from "ethers";
-import { ContextExclusionPlugin } from "webpack";
+// import { ContextExclusionPlugin } from "webpack";
 
 export const DaoSettings = () => {
   const [contract,setContract]= useState<any>();
