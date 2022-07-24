@@ -11,6 +11,7 @@ class OmData {
     process.env.WEB3_STORAGE_API_TOKEN ||
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDAzQ2VmMGUxZWM2MmQxYmMzNjVGM0ZGMTEyRDU1Y0IwODFGQzQ0RGUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTczNDg0MjU4NjEsIm5hbWUiOiJEQVRBREFPIn0.LMFTddGfHq1raj0XwVhxWVN1J8JFp9XgbZCNx9XCj58";
   private chain = "mumbai"
+  private soulBoundContract ='0xF765822f3843a1d2c093B461318466e9fb60D2bA'
 
   // Fetch all proposals created from subgraph
   async getProposals() {
@@ -154,20 +155,20 @@ class OmData {
     const screenplayEncryptedPackage = {dataUri: "", documentUri: ""}
     
     // If not passed, set the conditions for decryption access that will be controlled by Lit
+    // In this case, we're requiring ownership of a soulbound token
     if(!accessControlConditions) {
       accessControlConditions = [
         {
-          contractAddress: '',
-          standardContractType: '',
+          contractAddress: this.soulBoundContract,
+          standardContractType: 'ERC721',
           chain: this.chain,
-          method: 'eth_getBalance',
+          method: 'balanceOf',
           parameters: [
-            ':userAddress',
-            'latest'
+            ':userAddress'
           ],
           returnValueTest: {
-            comparator: '>=',
-            value: '10000000000000'
+            comparator: '>',
+            value: '0'
           }
         }
       ]
@@ -233,20 +234,35 @@ class OmData {
     if(!accessControlConditions) {
       accessControlConditions = [
         {
-          contractAddress: '',
-          standardContractType: '',
+          contractAddress: this.soulBoundContract,
+          standardContractType: 'ERC721',
           chain: this.chain,
-          method: 'eth_getBalance',
+          method: 'balanceOf',
           parameters: [
-            ':userAddress',
-            'latest'
+            ':userAddress'
           ],
           returnValueTest: {
-            comparator: '>=',
-            value: '10000000000000'
+            comparator: '>',
+            value: '0'
           }
         }
       ]
+      // accessControlConditions = [
+      //   {
+      //     contractAddress: '',
+      //     standardContractType: '',
+      //     chain: this.chain,
+      //     method: 'eth_getBalance',
+      //     parameters: [
+      //       ':userAddress',
+      //       'latest'
+      //     ],
+      //     returnValueTest: {
+      //       comparator: '>=',
+      //       value: '10000000000000'
+      //     }
+      //   }
+      // ]
     }
     // console.log("Fetching from: ", uriParts[0])
 
