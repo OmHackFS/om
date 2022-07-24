@@ -124,7 +124,6 @@ class OmData {
         dataURI: dataInfos_dataURI
         fileURI: dataInfos_fileURI
         dataType: dataInfos_dataType
-        symmetricKey: dataInfos_symmetricKey
       }}`;
     let data = "";
     const client = new ApolloClient({

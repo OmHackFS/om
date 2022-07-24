@@ -4,8 +4,10 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
 import { MultiStepFormAddData } from "./MultiStepFormAddData";
 
-export const ProofModalAddData= ({ dataTitle, dataDescription, authorName,authorContact,group} : any) => {
+export const ProofModalAddData= ({ dataTitle, dataDescription, authorName,authorContact,group,fileInput,imgUri} : any) => {
   const [open, setOpen] = useState(true);
+  console.log("fileInput");
+  console.log(fileInput);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -40,6 +42,8 @@ export const ProofModalAddData= ({ dataTitle, dataDescription, authorName,author
                   authorName={authorName}
                   authorContact={authorContact}
                   group={group}
+                  fileInput={fileInput}
+                  imgUri={imgUri}
                 />
               </Dialog.Panel>
             </Transition.Child>
