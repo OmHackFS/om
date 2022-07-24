@@ -35,7 +35,7 @@ export const ProposalList = (props: any) => {
         <div className="sm:flex-auto">
           <h1 className="text-xl font-semibold text-gray-900">Proposals</h1>
           <p className="mt-2 text-sm text-gray-700">
-            This is a List of Proposals Within a Dao
+            Screenplay Proposals for Current Voting Period
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -112,7 +112,7 @@ export const ProposalList = (props: any) => {
                       <tr key={proposal.id}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                           <div className="flex items-center">
-                            <div className="h-10 w-10 flex-shrink-0">
+                            <div className="h-10 w-0 flex-shrink-0">
                               <img
                                 className="h-10 w-10 rounded-full"
                                 src={proposal.imageUri}
@@ -132,9 +132,17 @@ export const ProposalList = (props: any) => {
                             {proposal.description}
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          <span className="inline-flex rounded-full  px-2 text-xs font-semibold leading-5 ">
+                        <td className="whitespace-wrap px-3 py-4 text-sm text-gray-500">
+                          <div className="text-gray-900 break-words">
+                            {proposal.description} groupId
+                          </div>
+                          <div className="text-gray-500">
                             {proposal.groupId}
+                          </div>
+                        </td>
+                        <td className="whitespace-wrap px-3 py-4 text-sm text-gray-500">
+                          <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                            Active
                           </span>
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
