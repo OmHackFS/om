@@ -8,6 +8,7 @@ export const ProofModalProposal = ({
   group,
   title,
   startDate,
+  pictureUrl,
   endDate,
   description,
   fileInput,
@@ -55,6 +56,7 @@ export const ProofModalProposal = ({
                   fundRequest={fundRequest}
                   linkInput={linkInput}
                   proposalUri={proposalUri}
+                  pictureUrl={pictureUrl}
                 />
               </Dialog.Panel>
             </Transition.Child>

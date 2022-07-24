@@ -9,12 +9,9 @@ import { ethers, Signer } from "ethers";
 import omToken from "./utils/OmContract.json";
 import backEnd from "../backend/OmData";
 
-
-
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import { Provider } from "../utils/provider";
 import { injected } from "../utils/connectors";
-
 
 export const SendTransactionAddProposal = ({
   group,
@@ -25,11 +22,12 @@ export const SendTransactionAddProposal = ({
   fundRequest,
   fileInput,
   linkInput,
+  pictureUrl,
   proof,
   nullifierHash,
   externalNullifier,
   root,
-  bytes32signal
+  bytes32signal,
 }: any) => {
   const context = useWeb3React<Provider>();
   const { activate, active, account, library } = context;
@@ -41,18 +39,13 @@ export const SendTransactionAddProposal = ({
   const [message, setMessage] = useState();
   const [creating, setCreating] = useState(false);
   const [proposalUri, setProposalUri] = useState<string | null>(null);
-  const [contract,setContract] = useState<any>();
-
-
+  const [contract, setContract] = useState<any>();
 
   useEffect((): void => {
     // if (!library) {
     //   setSigner(undefined);
     //   return;
-   connectWallet();
-
-
-  
+    connectWallet();
   }, []);
 
   const handleCreateProposal = async (e: any) => {
@@ -68,22 +61,23 @@ export const SendTransactionAddProposal = ({
       fundRequest,
       linkInput,
       file: fileInput,
+      pictureUrl,
+      account,
     });
 
-  
-    const proposalTitle =title;
-    const proposalDescription=description;
+    const proposalTitle = title;
+    const proposalDescription = description;
     const proposalRoot = root;
-    const proposalStartDate=10000;
-    const proposalEndDate=20000;
-    const proposalUri="Avatar Movie URI";
-    const proposalGroupId =group;
-    const proposalSignal=bytes32signal;
-    const proposalNullifier=nullifierHash;
-    const proposalExternalNullifier=externalNullifier;
-    const proposalProof=proof;
+    const proposalStartDate = (startDate && startDate.getTime()) || Date.now();
+    const proposalEndDate =
+      (endDate && endDate.getTime()) || Date.now() + 86400000 * 3;
+    const proposalUri = fileInput;
+    const proposalGroupId = group;
+    const proposalSignal = bytes32signal;
+    const proposalNullifier = nullifierHash;
+    const proposalExternalNullifier = externalNullifier;
+    const proposalProof = proof;
 
-    console.log("Before Calling the Transaction");
     const createProposalTx = await contract.createProposal(
       proposalTitle,
       proposalDescription,
@@ -96,40 +90,39 @@ export const SendTransactionAddProposal = ({
       proposalNullifier,
       proposalExternalNullifier,
       proposalProof,
-      {gasLimit: 1500000}
-    )
-    const tx = await createProposalTx.wait(10)
+      { gasLimit: 1500000 }
+    );
+    const tx = await createProposalTx.wait();
     console.log(tx);
 
-
-
-    
     setCreating(false);
     setProposalUri(newProposalUri);
   };
 
-  function addMember(){
-
-  }
-
- 
+  function addMember() {}
 
   async function connectWallet() {
     const accounts = await (window as any).ethereum.request({
       method: "eth_requestAccounts",
     });
     const address = accounts[0];
-    const signer=(new ethers.providers.Web3Provider((window as any).ethereum)).getSigner();
+    const signer = new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    ).getSigner();
 
     const omContractAddress = "0x560aBf82Eb1D8C86968f4314ff6a7770088f0728";
 
-    const omContract = new ethers.Contract(omContractAddress, omToken.abi, signer);
+    const omContract = new ethers.Contract(
+      omContractAddress,
+      omToken.abi,
+      signer
+    );
     console.log(omContract);
     console.log(signer);
     setContract(omContract);
     setSigner(signer);
   }
-  console.log("context ", context);
+
   return (
     <>
       <div className="flex flex-col">

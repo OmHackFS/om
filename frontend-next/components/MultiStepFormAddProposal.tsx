@@ -3,7 +3,7 @@ import { useState } from "react";
 import { GenerateProofBody } from "./GenerateProofBody";
 import { SelectWalletBody } from "./SelectWalletBody";
 import { SendTransactionAddProposal } from "./SendTransactionAddProposal";
-import {ethers} from "ethers";
+import { ethers } from "ethers";
 
 export const MultiStepFormAddProposal = ({
   group,
@@ -12,23 +12,17 @@ export const MultiStepFormAddProposal = ({
   endDate,
   description,
   fundRequest,
+  pictureUrl,
   fileInput,
   linkInput,
 }: any) => {
   const [formStep, setFormStep] = useState(0);
-  const [proof,setProof] = useState();
-  const [nullifierHash,setNullifierHash] = useState();
-  const [externalNullifier,setExternalNullifier] = useState();
-  const [root,setRoot] = useState();
+  const [proof, setProof] = useState();
+  const [nullifierHash, setNullifierHash] = useState();
+  const [externalNullifier, setExternalNullifier] = useState();
+  const [root, setRoot] = useState();
   const signal = "proposals";
   const bytes32signal = ethers.utils.formatBytes32String(signal);
-
-
-
-
-
-
-
 
   const handleClickNext = (e: any) => {
     e.preventDefault();
@@ -159,20 +153,20 @@ export const MultiStepFormAddProposal = ({
 
                       <div className="h-72 flex items-center justify-center">
                         {formStep === 0 ? (
-                          <GenerateProofBody 
-                          group={group} 
-                          setProof={setProof}
-                          setNullifierHash={setNullifierHash}
-                          setExternalNullifier={setExternalNullifier}
-                          signal={signal}
-                          setRoot={setRoot}
-
-                           />
+                          <GenerateProofBody
+                            group={group}
+                            setProof={setProof}
+                            setNullifierHash={setNullifierHash}
+                            setExternalNullifier={setExternalNullifier}
+                            signal={signal}
+                            setRoot={setRoot}
+                          />
                         ) : null}
                         {formStep === 1 ? <SelectWalletBody /> : null}
                         {formStep === 2 ? (
                           <SendTransactionAddProposal
                             group={group}
+                            pictureUrl={pictureUrl}
                             fileInput={fileInput}
                             title={title}
                             startDate={startDate}
