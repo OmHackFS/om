@@ -4,7 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
 import { MultiStepFormReadData } from "./MultiStepFormReadData";
 
-export const ProofModalReadData = ( {dataId} : any) => {
+export const ProofModalReadData = ( {dataId,setData} : any) => {
   const [open, setOpen] = useState(true);
   console.log("Data Id Proof Modal");
   console.log(dataId);
@@ -36,7 +36,7 @@ export const ProofModalReadData = ( {dataId} : any) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative bg-white rounded-lg px-20 pt-20- pb-20 text-left shadow-xl ">
-                <MultiStepFormReadData dataId={dataId} />
+                <MultiStepFormReadData dataId={dataId} setData={setData} />
               </Dialog.Panel>
             </Transition.Child>
           </div>

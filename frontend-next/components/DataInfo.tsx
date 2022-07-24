@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
 import {
   ArrowNarrowLeftIcon,
@@ -16,6 +16,8 @@ import { ProofModalVote } from "./ProofModalVote";
 import { useState } from "react";
 import { Listbox } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/solid";
+import omBackEnd from "../backend/OmData"
+import { ProofModalReadData } from "./ProofModalReadData";
 
 const cards = [
   { name: "More than 1000 Words", href: "#", icon: "", amount: "Proof Date" },
@@ -28,12 +30,7 @@ const cards = [
   },
 ];
 
-const user = {
-  name: "Whitney Francis",
-  email: "whitney@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80",
-};
+
 
 const eventTypes = {
   applied: { icon: UserIcon, bgColorClass: "bg-gray-400" },
@@ -58,29 +55,7 @@ const timeline = [
     datetime: "2020-09-22",
   },
 ];
-const comments = [
-  {
-    id: 1,
-    name: "Leslie Alexander",
-    date: "4d ago",
-    imageId: "1494790108377-be9c29b29330",
-    body: "Ducimus quas delectus ad maxime totam doloribus reiciendis ex. Tempore dolorem maiores. Similique voluptatibus tempore non ut.",
-  },
-  {
-    id: 2,
-    name: "Michael Foster",
-    date: "4d ago",
-    imageId: "1519244703995-f4e0f30006d5",
-    body: "Et ut autem. Voluptatem eum dolores sint necessitatibus quos. Quis eum qui dolorem accusantium voluptas voluptatem ipsum. Quo facere iusto quia accusamus veniam id explicabo et aut.",
-  },
-  {
-    id: 3,
-    name: "Dries Vincent",
-    date: "4d ago",
-    imageId: "1506794778202-cad84cf45f1d",
-    body: "Expedita consequatur sit ea voluptas quo ipsam recusandae. Ab sint et voluptatem repudiandae voluptatem et eveniet. Nihil quas consequatur autem. Perferendis rerum et.",
-  },
-];
+
 
 const people = [
   { id: 1, name: "Yes" },
@@ -98,9 +73,22 @@ type ProposalInfoProps = {
 export const DataInfo = ({ dataId }: any) => {
   const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
   const [selected, setSelected] = useState<any>(people[0]);
+  const [data,setData] = useState<any>();
+  const [dataUri,setDataUri] =useState<any>();
+  const [fileUri,setFileUri] = useState<any>();
 
   const handleShowProposalModal = () => setShowProposalModal(true);
   const handleHideProposalModal = () => setShowProposalModal(false);
+
+  useEffect(() => {
+    omBackEnd.getProposalByCounter(dataId).then((data) => {
+      setData((data && data.length > 0 && data[0]) || {});
+    });
+    console.log("Data Id!");
+    console.log(dataId);
+    console.log("Data");
+    console.log(data);
+  }, [dataId]);
 
   const id = Number(dataId);
   return (
@@ -134,11 +122,11 @@ export const DataInfo = ({ dataId }: any) => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  Proposal {dataId} - {proposalsList[1].title}
+                  Data {dataId} - {data ? proposalsList[1].title : "Test"}
                 </h1>
                 <p className="text-sm font-medium text-gray-500">
                   Applied by
-                  {proposalsList[1].group}
+                  {data ? proposalsList[1].group :""}
                 </p>
               </div>
             </div>
@@ -199,7 +187,7 @@ export const DataInfo = ({ dataId }: any) => {
                       id="applicant-information-title"
                       className="text-lg leading-6 font-medium text-gray-900"
                     >
-                      {proposalsList[1].title}
+                      {data ? proposalsList[1].title : ""}
                     </h2>
                     <p className="mt-1 max-w-2xl text-sm text-gray-500">
                       Personal details and application.
@@ -212,7 +200,7 @@ export const DataInfo = ({ dataId }: any) => {
                           Proposed By
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {proposalsList[1].group}
+                          {data ? proposalsList[1].group : ""}
                         </dd>
                       </div>
 
@@ -228,7 +216,7 @@ export const DataInfo = ({ dataId }: any) => {
                           Start Date
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {proposalsList[1].startDate}
+                          {data ? proposalsList[1].startDate : ""}
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
@@ -236,7 +224,7 @@ export const DataInfo = ({ dataId }: any) => {
                           End Date
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {proposalsList[1].endDate}
+                          {data ? proposalsList[1].endDate : ""}
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
@@ -252,7 +240,7 @@ export const DataInfo = ({ dataId }: any) => {
                           Proposal Links
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {proposalsList[1].link}
+                          {data ? proposalsList[1].link : ""}
                         </dd>
                       </div>
                       <div className="sm:col-span-2">
@@ -260,7 +248,7 @@ export const DataInfo = ({ dataId }: any) => {
                           Proposal Details
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {proposalsList[1].description}
+                          {data ? proposalsList[1].description :""}
                         </dd>
                       </div>
                     </dl>
@@ -423,11 +411,11 @@ export const DataInfo = ({ dataId }: any) => {
                     className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     onClick={handleShowProposalModal}
                   >
-                    Download
+                    Decrypt
                   </button>
                 </div>
                 {showProposalModal ? (
-                  <ProofModalVote hideModal={handleHideProposalModal} />
+                  <ProofModalReadData hideModal={handleHideProposalModal} setData={setData} />
                 ) : null}
               </div>
             </section>

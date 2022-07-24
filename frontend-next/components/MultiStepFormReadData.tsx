@@ -6,7 +6,7 @@ import { SendTransactionBody } from "./SendTransactionBody";
 import { SendTransactionReadData } from "./SendTransactionReadData";
 import {ethers} from "ethers";
 
-export const MultiStepFormReadData = ({ dataId
+export const MultiStepFormReadData = ({ dataId , setData
 }: any) => {
   const [formStep, setFormStep] = useState(0);
   const [proof,setProof] = useState();
@@ -170,6 +170,7 @@ export const MultiStepFormReadData = ({ dataId
                             root={root}
                             bytes32signal={bytes32signal}
                             dataId={dataId}
+                            setData={setData}
                           />
                         ) : null}
                       </div>
