@@ -1,14 +1,24 @@
 import Link from 'next/link'
-import {data} from './mocks/datas'
+// import {data} from './mocks/datas'
 import { MultiStepFormReadData} from "./MultiStepFormReadData"  
   function classNames(...classes : any[]) {
     return classes.filter(Boolean).join(' ')
   }
   // const data = 
   
-  export const DaoData= (props : any) => {
+  export const DaoData= ({data} : any) => {
     console.log("Props");
-    console.log(props);
+    console.log(data);
+    const dataList = data;
+    const dataTypes=["Medical","Movie Scripts","Book Scripts"];
+    const dataTest = new Date(1658631063*1000).toLocaleString();
+    console.log("Date Test!")
+    console.log(dataTest)
+
+    function toDate(timeStamp:any){
+      return new Date(timeStamp*1000).toLocaleString().slice(0,10)
+    }
+    
     return (
       <div className="px-4 sm:px-6 lg:px-8 pt-10">
         <div className="sm:flex sm:items-center">
@@ -41,7 +51,7 @@ import { MultiStepFormReadData} from "./MultiStepFormReadData"
                   scope="col"
                   className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
                 >
-                  Size
+                  Data Type
                 </th>
                 <th
                   scope="col"
@@ -64,62 +74,62 @@ import { MultiStepFormReadData} from "./MultiStepFormReadData"
               </tr>
             </thead>
             <tbody>
-              {data.map((plan, planIdx) => (
-                <tr key={plan.id}>
+              {dataList.map((data:any) => (
+                <tr key={data.id}>
                   <td
                     className={classNames(
-                      planIdx === 0 ? '' : 'border-t border-transparent',
+                      data.id === 0 ? '' : 'border-t border-transparent',
                       'relative py-4 pl-4 sm:pl-6 pr-3 text-sm'
                     )}
                   >
                     <div className="font-medium text-gray-900">
-                      {plan.name}
+                      {data.title}
                     </div>
                     <div className="mt-1 flex flex-col text-gray-500 sm:block lg:hidden">
                       <span>
-                        {plan.size} / {plan.uploaded_by}
+                        {data.title} / {data.title}
                       </span>
                       <span className="hidden sm:inline"> · </span>
-                      <span>{plan.upload_date}</span>
+                      <span>{data.title}</span>
                     </div>
-                    {planIdx !== 0 ? <div className="absolute right-0 left-6 -top-px h-px bg-gray-200" /> : null}
+                    {data.id !== 0 ? <div className="absolute right-0 left-6 -top-px h-px bg-gray-200" /> : null}
                   </td>
                   <td
                     className={classNames(
-                      planIdx === 0 ? '' : 'border-t border-gray-200',
+                      data.id === 0 ? '' : 'border-t border-gray-200',
                       'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
                     )}
                   >
-                    {plan.size}
+                    {dataTypes[data.dataType]}
                   </td>
                   <td
                     className={classNames(
-                      planIdx === 0 ? '' : 'border-t border-gray-200',
+                      data.id === 0 ? '' : 'border-t border-gray-200',
                       'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
                     )}
                   >
-                    {plan.uploaded_by}
+                    Group {data.groupId}
                   </td>
                   <td
                     className={classNames(
-                      planIdx === 0 ? '' : 'border-t border-gray-200',
+                      data.id === 0 ? '' : 'border-t border-gray-200',
                       'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
                     )}
                   >
-                    {plan.upload_date}
+                    {toDate(data.addedDate)}
                   </td>
                   <td
                     className={classNames(
-                      planIdx === 0 ? '' : 'border-t border-gray-200 text-center',
+                      data.id === 0 ? '' : 'border-t border-gray-200 text-center',
                       'px-3 py-3.5 text-sm text-gray-500 text-center'
                     )}
                   >
-                    <div className="sm:hidden ite">{plan.properties}</div>
-                    <div className="hidden sm:block">{plan.properties}</div>
+                    <div className="sm:hidden ite">{data.title}</div>
+                    <div className="hidden sm:block">{data.dataType}</div>
                   </td>
                   <td
                     className={classNames(
-                      planIdx === 0 ? '' : 'border-t border-transparent',
+                      data.id === 0 ? '' : 'border-t border-transparent',
                       'relative py-3.5 pl-3 pr-4 sm:pr-6 text-right text-sm font-medium'
                     )}
                   >
@@ -128,9 +138,9 @@ import { MultiStepFormReadData} from "./MultiStepFormReadData"
                       className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
                    
                     >
-                      Download<span className="sr-only">, {plan.name}</span>
+                      Download<span className="sr-only">, {data.name}</span>
                     </button>
-                    {planIdx !== 0 ? <div className="absolute right-6 left-0 -top-px h-px bg-gray-200" /> : null}
+                    {data.id !== 0 ? <div className="absolute right-6 left-0 -top-px h-px bg-gray-200" /> : null}
                   </td>
                 </tr>
               ))}

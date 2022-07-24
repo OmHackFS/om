@@ -54,17 +54,6 @@ export const SendTransactionVote = ({
     e.preventDefault();
     setCreating(true);
 
-    // const newProposalUri = await backEnd.addProposal({
-    //   group,
-    //   title,
-    //   startDate: (startDate && startDate.getTime()) || Date.now(),
-    //   endDate: (endDate && endDate.getTime()) || Date.now() + 86400000 * 3,
-    //   description,
-    //   fundRequest,
-    //   linkInput,
-    //   file: fileInput,
-    // });
-
   
 
     console.log(contract);
@@ -74,27 +63,14 @@ export const SendTransactionVote = ({
     const proposalCoordinator ="0xd770134156f9aB742fDB4561A684187f733A9586"
 
 
-  //   groupId (uint256)
-  //   groupId (uint256)
-  // root (uint256)
-  //   root (uint256)
-  // vote (bool)
-  //   vote (bool)
-  // nullifierHash (uint256)
-  //   nullifierHash (uint256)
-  // externalNullifierProposalId (uint256)
-  //   externalNullifierProposalId (uint256)
-  // signal (bytes32)
-  //   signal (bytes32)
-  // proof (uint256[8])
 
-    const group =1;
-    const voteRoot= root;
-    const vote = true;
-    const voteNullifierHash= nullifierHash;
-    const voteExternalNullifierHash =externalNullifier;
-    const signal = bytes32signal;
-    const voteProof = proof;
+    const group =1; //Bring from /proposal_info
+    const voteRoot= root; //Generate Proof
+    const vote = true; //Bring from /proposal_info
+    const voteNullifierHash= nullifierHash; //Generate Proof
+    const voteExternalNullifierHash =externalNullifier; //Generate Proof
+    const signal = bytes32signal; //Generate Proof
+    const voteProof = proof; //Generate Proof
 
     const voteTx = await contract.castVote(
       group,
