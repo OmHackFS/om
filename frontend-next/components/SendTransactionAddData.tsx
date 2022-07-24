@@ -54,6 +54,8 @@ export const SendTransactionAddData = ({
     e.preventDefault();
     setCreating(true);
 
+    //Add Data Here
+
     // const newProposalUri = await backEnd.addProposal({
     //   group,
     //   title,
@@ -78,7 +80,6 @@ export const SendTransactionAddData = ({
     const dataUri="IPFS URI";
     const fileUri="File IPFS URI";
     const dataType=1;
-    const symmetricKey=1155543;
     const groupId=1;
     const dataRoot = root;
     const dataSignal=bytes32signal;
@@ -94,7 +95,6 @@ export const SendTransactionAddData = ({
       dataUri,
       fileUri,
       dataType,
-      symmetricKey,
       groupId,
       dataRoot,
       dataSignal,

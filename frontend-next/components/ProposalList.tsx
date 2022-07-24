@@ -12,6 +12,8 @@ export const ProposalList = (props: any) => {
 
   useEffect((): void => {
     console.log(proposals);
+    console.log("Proposal ID")
+    console.log(proposals[1].proposalCounter);
     getProposal();
   }, []);
 
@@ -98,7 +100,7 @@ export const ProposalList = (props: any) => {
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {proposals.map((proposal: any) => (
-                    <Link href={`/proposal_info/${proposal.id}`}>
+                    <Link href={`/proposal_info/${proposal.proposalCounter}`}>
                       <tr key={proposal.id}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                           <div className="flex items-center">
