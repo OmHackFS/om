@@ -10,28 +10,18 @@ export const DataInputScreenplay = () => {
   const [author, setAuthor] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [imageUri, setImageUri] = useState<string>("");
-  const [fileForUpload, setFileForUpload] = useState<string>("");
+  const [fileInput, setFileInput] = useState<any>();
 
   async function handleSubmit() {
-    const data = new FormData();
-    data.append("title", title);
-    data.append("author", author);
-    data.append("imageUri", imageUri);
-    data.append("description", description);
-    data.append("file", fileForUpload);
-    const response = backEnd.addScreenplay(
-      window,
-      "prover id",
-      "here's the proof",
-      data
-    );
-    console.log(response);
-    // Clear form fields
-    setTitle("");
-    setAuthor("");
-    setDescription("");
-    setImageUri("");
-    setFileForUpload("");
+    const screenplay = {
+      title: title,
+      author: author, 
+      imageUri: imageUri, 
+      description: description,
+      file: fileInput,
+    };
+    const screenplayUri = await backEnd.addScreenplay(screenplay, null);
+    console.log("Added screenplay: ", screenplayUri);
   }
 
   return (
@@ -116,7 +106,17 @@ export const DataInputScreenplay = () => {
                     className="pt-5 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
-
+                <div>
+                <input
+                    id="fileInput"
+                    type="file"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0])
+                        setFileInput(e.target.files[0]);
+                    }}
+                  />
+                </div>
+                {/* File upload widget below needs some work to get it working. Created one above temporarily. */}
                 <div className="col-span-6">
                   <label className="block text-sm font-medium text-gray-700">
                     Upload Screenplay Document
