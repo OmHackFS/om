@@ -102,7 +102,7 @@ export const GenerateProofForVote = ({
     const fullProof = await generateProof(
       retrievedIdentity as any,
       newGroup as any,
-      ethers.BigNumber.from(proposalId.replace("-", "")).toBigInt(),
+      parseInt(proposalId),
       signal,
       {
         zkeyFilePath:
@@ -119,8 +119,8 @@ export const GenerateProofForVote = ({
 
     setNullifierHash(nullifierHash);
     setExternalNullifier(
-      ethers.BigNumber.from(proposalId.replace("-", "")).toBigInt()
-    );
+      parseInt(proposalId)
+      );
     setProof(solidityProof);
     setRoot(root);
 
