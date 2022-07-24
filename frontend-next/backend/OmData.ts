@@ -1,18 +1,19 @@
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 import { access } from "fs";
 import { Web3Storage, File, getFilesFromPath } from "web3.storage"; // @mehulagg/web3.storage
-import Lit from './Lit'
+import Lit from "./Lit";
 // import { DID } from 'dids'
 // import { Integration } from 'lit-ceramic-sdk' // '@litelliott/lit-ceramic-integration'
 
 class OmData {
-  private graphApiUrl = "https://api.thegraph.com/subgraphs/name/richwarner/om-mumbai";
+  private graphApiUrl =
+    "https://api.thegraph.com/subgraphs/name/richwarner/om-mumbai";
   private web3StorageApiToken =
     process.env.WEB3_STORAGE_API_TOKEN ||
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDAzQ2VmMGUxZWM2MmQxYmMzNjVGM0ZGMTEyRDU1Y0IwODFGQzQ0RGUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTczNDg0MjU4NjEsIm5hbWUiOiJEQVRBREFPIn0.LMFTddGfHq1raj0XwVhxWVN1J8JFp9XgbZCNx9XCj58";
   // private litCeramicIntegration = new Integration('https://ceramic-clay.3boxlabs.com', 'polygon')
-  // private streamID = 'kjzl6cwe1jw1479rnblkk5u43ivxkuo29i4efdx1e7hk94qrhjl0d4u0dyys1au' // test data  
-  private chain = "mumbai"
+  // private streamID = 'kjzl6cwe1jw1479rnblkk5u43ivxkuo29i4efdx1e7hk94qrhjl0d4u0dyys1au' // test data
+  private chain = "mumbai";
 
   // Fetch all proposals created from subgraph
   async getProposals() {
@@ -23,6 +24,7 @@ class OmData {
         endDate: proposalData_EndDate 
         IpfsURI: proposalData_IpfsURI
         startDate: proposalData_StartDate
+        endDate: proposalData_EndDate
         description: proposalData_description
         noCount: proposalData_noCount
         title: proposalData_title
@@ -152,44 +154,61 @@ class OmData {
 
   // Add a screenplay. This creates two encrypted files on IPFS, one is the uploaded document, and the other
   //   contains JSON of the screnplay data.
-  async addScreenplay(screenplay:any, accessControlConditions:any) {
-    const screenplayEncryptedPackage = {dataUri: "", fileUri: "", symmetricKey: ""}
-    
+  async addScreenplay(screenplay: any, accessControlConditions: any) {
+    const screenplayEncryptedPackage = {
+      dataUri: "",
+      fileUri: "",
+      symmetricKey: "",
+    };
+
     // If not passed, set the conditions for decryption access that will be controlled by Lit
-    if(!accessControlConditions) {
+    if (!accessControlConditions) {
       accessControlConditions = [
         {
-          contractAddress: '',
-          standardContractType: '',
+          contractAddress: "",
+          standardContractType: "",
           chain: this.chain,
-          method: 'eth_getBalance',
-          parameters: [
-            ':userAddress',
-            'latest'
-          ],
+          method: "eth_getBalance",
+          parameters: [":userAddress", "latest"],
           returnValueTest: {
-            comparator: '>=',
-            value: '10000000000000'
-          }
-        }
-      ]
+            comparator: ">=",
+            value: "10000000000000",
+          },
+        },
+      ];
     }
-    
+
     // If document was provided, encrypt it with Lit and prepare it to be uploaded to web3.storage
-    let documentEncryptedPackage, documentEncryptedBlob
-    if(screenplay.file) {
-      documentEncryptedPackage = await Lit.encryptFile(screenplay.file, accessControlConditions, this.chain);
-      documentEncryptedBlob = new Blob([documentEncryptedPackage.encryptedFile], { type: "application/octet-stream", });
+    let documentEncryptedPackage, documentEncryptedBlob;
+    if (screenplay.file) {
+      documentEncryptedPackage = await Lit.encryptFile(
+        screenplay.file,
+        accessControlConditions,
+        this.chain
+      );
+      documentEncryptedBlob = new Blob(
+        [documentEncryptedPackage.encryptedFile],
+        { type: "application/octet-stream" }
+      );
     }
 
     // Encrypt the data object using Lit and prepare it to be uploaded to web3.storage
-    const dataEncryptedPackage = await Lit.encryptString(JSON.stringify(screenplay), accessControlConditions, this.chain);    
-    const dataEncryptedBlob = new Blob([dataEncryptedPackage.encryptedFile], { type: "application/octet-stream", });   
-    
+    const dataEncryptedPackage = await Lit.encryptString(
+      JSON.stringify(screenplay),
+      accessControlConditions,
+      this.chain
+    );
+    const dataEncryptedBlob = new Blob([dataEncryptedPackage.encryptedFile], {
+      type: "application/octet-stream",
+    });
+
     // Add document file and data file to permanent storage on web3.storage
-    const encryptedFileArray = []
-    encryptedFileArray.push( new File([dataEncryptedBlob], "screenplay.encrypted"))
-    if (documentEncryptedPackage) encryptedFileArray.push(new File([], "document.encrypted"))
+    const encryptedFileArray = [];
+    encryptedFileArray.push(
+      new File([dataEncryptedBlob], "screenplay.encrypted")
+    );
+    if (documentEncryptedPackage)
+      encryptedFileArray.push(new File([], "document.encrypted"));
     const web3StorageClient = new Web3Storage({
       token: this.web3StorageApiToken,
       endpoint: new URL("https://api.web3.storage"),
@@ -199,19 +218,21 @@ class OmData {
     });
 
     // Construct the URIs of the encrypted files and also return symmetric keys
-    screenplayEncryptedPackage.dataUri = "https://" + folderCid + ".ipfs.dweb.link/document.encrypted"
-    if(documentEncryptedPackage) screenplayEncryptedPackage.fileUri = "https://" + folderCid + ".ipfs.dweb.link/screenplay.encrypted"   
-    screenplayEncryptedPackage.symmetricKey = (documentEncryptedPackage) ? documentEncryptedPackage.encryptedSymmetricKey : "" + "|" + dataEncryptedPackage.encryptedSymmetricKey
+    screenplayEncryptedPackage.dataUri =
+      "https://" + folderCid + ".ipfs.dweb.link/document.encrypted";
+    if (documentEncryptedPackage)
+      screenplayEncryptedPackage.fileUri =
+        "https://" + folderCid + ".ipfs.dweb.link/screenplay.encrypted";
+    screenplayEncryptedPackage.symmetricKey = documentEncryptedPackage
+      ? documentEncryptedPackage.encryptedSymmetricKey
+      : "" + "|" + dataEncryptedPackage.encryptedSymmetricKey;
 
     // console.log("Added screenplay: ", screenplayEncryptedPackage)
 
     return screenplayEncryptedPackage;
   }
 
-
-  async decrypt(uri:string, encryptedSymmetricKey:string) {
-
-  }
+  async decrypt(uri: string, encryptedSymmetricKey: string) {}
 
   // Fetch and decrypt all screenplays from storage in Lit/Ceramic
   // async getScreenplay(id: string) {}
@@ -221,15 +242,12 @@ class OmData {
   //   console.log("Recevied new screenplay: ", screenplay);
   //   console.log("with proof: ", proof);
 
-    // this.litCeramicIntegration.startLitClient(window)
+  // this.litCeramicIntegration.startLitClient(window)
 
-   
+  // const streamId = await this.litCeramicIntegration.encryptAndWrite(screenplay, evmContractConditions, 'evmContractConditions')
 
-    // const streamId = await this.litCeramicIntegration.encryptAndWrite(screenplay, evmContractConditions, 'evmContractConditions')
-
-    // console.log("Stream ID: ", streamId)
+  // console.log("Stream ID: ", streamId)
   // }
-
 }
 
 export default new OmData();

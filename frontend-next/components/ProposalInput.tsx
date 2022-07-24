@@ -13,6 +13,7 @@ export const ProposalInput = () => {
   const [linkInput, setLinkInput] = useState<any>();
   const [fileInput, setFileInput] = useState<any>();
   const [subGroup, setSubGroup] = useState();
+  const [pictureUrl, setPictureUrl] = useState<string>();
 
   const [groupInput, setGroupInput] = useState<any>();
   const [proposalUriInput, setProposalUriInput] = useState<any>();
@@ -69,6 +70,23 @@ export const ProposalInput = () => {
                     value={titleInput}
                     autoComplete="proposal"
                     onChange={(e) => setTitleInput(e.target.value)}
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md pt-2 pb-2 text-10xl"
+                  />
+                </div>
+                <div className="col-span-6 sm:col-span-4">
+                  <label
+                    htmlFor="email-address"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Profile Picture Url
+                  </label>
+                  <input
+                    type="text"
+                    name="titleInput"
+                    id="titleInput"
+                    value={pictureUrl}
+                    autoComplete="proposal"
+                    onChange={(e) => setPictureUrl(e.target.value)}
                     className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md pt-2 pb-2 text-10xl"
                   />
                 </div>
@@ -350,6 +368,7 @@ export const ProposalInput = () => {
         <ProofModalProposal
           fileInput={fileInput}
           onClose={handleHideProposalModal}
+          pictureUrl={pictureUrl}
           group={subGroup}
           title={titleInput}
           startDate={startDateInput}
