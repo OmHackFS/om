@@ -5,12 +5,22 @@ import { CheckIcon } from "@heroicons/react/outline";
 import { MultiStepFormVote } from "./MultiStepFormVote";
 
 export const ProofModalVote = ({
+  voteSelected,
+  proposalId,
+  hideModal,
 }: any) => {
   const [open, setOpen] = useState(true);
 
+  console.log("---> ", voteSelected, proposalId);
+
+  const handleClose = (bool: any) => {
+    setOpen(bool);
+    hideModal();
+  };
+
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+      <Dialog as="div" className="relative z-10" onClose={handleClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -36,6 +46,9 @@ export const ProofModalVote = ({
             >
               <Dialog.Panel className="relative bg-white rounded-lg px-20 pt-20- pb-20 text-left shadow-xl ">
                 <MultiStepFormVote
+                  voteSelected={voteSelected}
+                  proposalId={proposalId}
+                  onClose={() => setOpen(false)}
                 />
               </Dialog.Panel>
             </Transition.Child>

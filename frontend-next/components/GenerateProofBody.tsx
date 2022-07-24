@@ -16,6 +16,7 @@ const { verifyProof } = require("@semaphore-protocol/proof");
 const sbContractAbi =
   require("../artifacts/contracts/OmSbToken.sol/OmSbToken.json").abi;
 import { sbContractAddr } from "../contract-addresses";
+// import { ConnectWalletButton } from "./ConnectWalletButton";
 import backEnd from "../backend/OmData";
 
 import { AbstractConnector } from "@web3-react/abstract-connector";
@@ -57,16 +58,14 @@ export const GenerateProofBody = ({
   const [offChainVerification, setOffChainVerification] = useState<any>(false);
   const [generatingProof, setGeneratingProof] = useState<boolean>(false);
 
+  const getWallet = async () => {
+    await activate(injected);
+  };
+
   const handleGenerateProof = async (e: any) => {
     e.preventDefault();
 
     setGeneratingProof(true);
-
-    async function _activate(activate: any): Promise<void> {
-      await activate(injected);
-    }
-
-    await _activate(activate);
 
     // 1. Decrypt ID
     const idHash = await omSbTokenContract.identityData(account);
@@ -167,9 +166,13 @@ export const GenerateProofBody = ({
   return (
     <div className="flex flex-col mb-1">
       <div className="max-w-lg overflow-x-auto mb-5">
-        {!offChainVerification ? (
+        {!offChainVerification && active ? (
           <button
-            onClick={handleGenerateProof}
+            onClick={async (e: any) => {
+              e.preventDefault();
+              await getWallet();
+              await handleGenerateProof(e);
+            }}
             className="mt-5 px-6 py-4
                 text-sm text-white
                 bg-indigo-500
@@ -220,6 +223,7 @@ export const GenerateProofBody = ({
             DAO membership verified
           </div>
         ) : null}
+        {!active ? <ConnectWalletButton /> : null}
         {/* <div>Trapdoor: </div>
         <p>{trapdoor?.toString()}</p>
         <div className="pt-2">Nullifier: </div>

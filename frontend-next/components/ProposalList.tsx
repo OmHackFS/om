@@ -27,6 +27,8 @@ export const ProposalList = (props: any) => {
 
   if (!proposals || proposals.length === 0) return null;
 
+  console.log("proposals ", proposals);
+
   return (
     <div className="px-4 sm:px-6 lg:px-8 pt-7">
       <div className="sm:flex sm:items-center">
@@ -62,7 +64,7 @@ export const ProposalList = (props: any) => {
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-16"
                     >
                       Description
                     </th>
@@ -125,7 +127,7 @@ export const ProposalList = (props: any) => {
                             </div>
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 break-normal">
                           <div className="text-gray-900">
                             {proposal.description}
                           </div>
@@ -151,18 +153,6 @@ export const ProposalList = (props: any) => {
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                           {new Date(Number(proposal.endDate)).toDateString()}
                         </td>
-
-                        {/* <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                          <a
-                            href="#"
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Edit
-                            <span className="sr-only">
-                              , {proposal.name} Proposal Span
-                            </span>
-                          </a>
-                        </td> */}
                       </tr>
                     </Link>
                   ))}
