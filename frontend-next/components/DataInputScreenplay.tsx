@@ -12,7 +12,11 @@ export const DataInputScreenplay = () => {
   const [imageUri, setImageUri] = useState<string>("");
   const [fileInput, setFileInput] = useState<any>();
 
+  
+
   async function handleSubmit() {
+    // console.log("backEnd.getDataByType(1):", await backEnd.getDataByType(1));
+    
     const screenplay = {
       title: title,
       author: author, 

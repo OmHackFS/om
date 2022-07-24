@@ -23,7 +23,6 @@ class OmData {
         endDate: proposalData_EndDate 
         IpfsURI: proposalData_IpfsURI
         startDate: proposalData_StartDate
-        endDate: proposalData_coordinator
         description: proposalData_description
         noCount: proposalData_noCount
         title: proposalData_title
@@ -153,10 +152,8 @@ class OmData {
 
   // Add a screenplay. This creates two encrypted files on IPFS, one is the uploaded document, and the other
   //   contains JSON of the screnplay data.
-
   async addScreenplay(screenplay:any, accessControlConditions:any) {
-    /*  
-    const screenplayUris = {fileUri: "", dataUri: ""}
+    const screenplayEncryptedPackage = {dataUri: "", fileUri: "", symmetricKey: ""}
     
     // If not passed, set the conditions for decryption access that will be controlled by Lit
     if(!accessControlConditions) {
@@ -178,43 +175,37 @@ class OmData {
       ]
     }
     
-    // If document was provided, encrypt it with Lit
+    // If document was provided, encrypt it with Lit and prepare it to be uploaded to web3.storage
+    let documentEncryptedPackage, documentEncryptedBlob
     if(screenplay.file) {
-      const documentEncryptedPackage = await Lit.encryptFile(screenplay.file, accessControlConditions, this.chain);
+      documentEncryptedPackage = await Lit.encryptFile(screenplay.file, accessControlConditions, this.chain);
+      documentEncryptedBlob = new Blob([documentEncryptedPackage.encryptedFile], { type: "application/octet-stream", });
     }
 
-    // Encrypt the data object using Lit
-    const dataEncryptedPackage = await Lit.encryptString(JSON.stringify(screenplay), accessControlConditions, this.chain);   
+    // Encrypt the data object using Lit and prepare it to be uploaded to web3.storage
+    const dataEncryptedPackage = await Lit.encryptString(JSON.stringify(screenplay), accessControlConditions, this.chain);    
+    const dataEncryptedBlob = new Blob([dataEncryptedPackage.encryptedFile], { type: "application/octet-stream", });   
     
-    
-    // Add documents to permanent storage on web3.storage
+    // Add document file and data file to permanent storage on web3.storage
+    const encryptedFileArray = []
+    encryptedFileArray.push( new File([dataEncryptedBlob], "screenplay.encrypted"))
+    if (documentEncryptedPackage) encryptedFileArray.push(new File([], "document.encrypted"))
     const web3StorageClient = new Web3Storage({
       token: this.web3StorageApiToken,
       endpoint: new URL("https://api.web3.storage"),
     });
-    const documentFileArray = [screenplay.file];
-    const documentCid = await web3StorageClient.put(documentFileArray, {
+    const folderCid = await web3StorageClient.put(encryptedFileArray, {
       wrapWithDirectory: true,
     });
 
-    // Add the documentURI to the screenplay object
-    screenplay.documentUri = "https://" + documentCid + ".ipfs.dweb.link";    
-   
+    // Construct the URIs of the encrypted files and also return symmetric keys
+    screenplayEncryptedPackage.dataUri = "https://" + folderCid + ".ipfs.dweb.link/document.encrypted"
+    if(documentEncryptedPackage) screenplayEncryptedPackage.fileUri = "https://" + folderCid + ".ipfs.dweb.link/screenplay.encrypted"   
+    screenplayEncryptedPackage.symmetricKey = (documentEncryptedPackage) ? documentEncryptedPackage.encryptedSymmetricKey : "" + "|" + dataEncryptedPackage.encryptedSymmetricKey
 
-    // Create permanent storage on web3.storage for the metadata too, with the documentURI embedded
-    const screenplayData = new Blob([screenplayEncryptedPackage.encryptedFile], {
-      type: "application/octet-stream",
-    });
-    const dataFileArray = [new File([screenplayData], "screenplay.encrypted")];
-    const dataCid = await web3StorageClient.put(dataFileArray, {
-      wrapWithDirectory: false,
-    });
+    // console.log("Added screenplay: ", screenplayEncryptedPackage)
 
-    const screenplayUri = "https://" + dataCid + ".ipfs.dweb.link";
-    // console.log("Added screenplay: ", screenplayUri)
-
-    return screenplayUris;
-    */
+    return screenplayEncryptedPackage;
   }
 
 
