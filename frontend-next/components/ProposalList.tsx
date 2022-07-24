@@ -23,6 +23,8 @@ export const ProposalList = (props: any) => {
     // // setData(data);
   }
 
+  console.log("proposals ", proposals);
+
   if (!proposals || proposals.length === 0) return null;
 
   return (
@@ -68,13 +70,19 @@ export const ProposalList = (props: any) => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Status
+                      Group
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Group
+                      Yes Count
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      No Count
                     </th>
                     <th
                       scope="col"
@@ -119,28 +127,32 @@ export const ProposalList = (props: any) => {
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                           <div className="text-gray-900">
-                            {proposal.description} groupId
-                          </div>
-                          <div className="text-gray-500">
-                            {proposal.groupId}
+                            {proposal.description}
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                            Active
+                          <span className="inline-flex rounded-full  px-2 text-xs font-semibold leading-5 ">
+                            {proposal.groupId}
                           </span>
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {proposal.groupId}
+                          <span className="inline-flex rounded-full  px-2 text-xs font-semibold leading-5 ">
+                            {proposal.yesCount}
+                          </span>
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {proposal.startDate}
+                          <span className="inline-flex rounded-full  px-2 text-xs font-semibold leading-5 ">
+                            {proposal.noCount}
+                          </span>
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {proposal.endDate}
+                          {new Date(Number(proposal.startDate)).toDateString()}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {new Date(Number(proposal.endDate)).toDateString()}
                         </td>
 
-                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                        {/* <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                           <a
                             href="#"
                             className="text-indigo-600 hover:text-indigo-900"
@@ -150,7 +162,7 @@ export const ProposalList = (props: any) => {
                               , {proposal.name} Proposal Span
                             </span>
                           </a>
-                        </td>
+                        </td> */}
                       </tr>
                     </Link>
                   ))}

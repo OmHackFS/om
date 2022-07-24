@@ -1,5 +1,4 @@
-
-import { Fragment } from "react";
+import { Fragment, useMemo, useEffect } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
 import {
   ArrowNarrowLeftIcon,
@@ -15,8 +14,9 @@ import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { proposalsList } from "./mocks/proposals";
 import { ProofModalVote } from "./ProofModalVote";
 import { useState } from "react";
-import { Listbox } from '@headlessui/react'
-import { SelectorIcon } from '@heroicons/react/solid'
+import { Listbox } from "@headlessui/react";
+import { SelectorIcon } from "@heroicons/react/solid";
+import omBackEnd from "../backend/OmData";
 
 const user = {
   name: "Whitney Francis",
@@ -46,7 +46,7 @@ const timeline = [
     target: "10 votes",
     date: "Sep 22",
     datetime: "2020-09-22",
-  }
+  },
 ];
 const comments = [
   {
@@ -73,9 +73,9 @@ const comments = [
 ];
 
 const people = [
-  { id: 1, name: 'Yes' },
-  { id: 2, name: 'No' },
-]
+  { id: 1, name: "Yes" },
+  { id: 2, name: "No" },
+];
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
@@ -87,25 +87,25 @@ type ProposalInfoProps = {
 
 export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
   const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
-  const [selected, setSelected] = useState<any>(people[0])
-
+  const [selected, setSelected] = useState<any>(people[0]);
+  const [proposal, setProposal] = useState<any>({});
 
   const handleShowProposalModal = () => setShowProposalModal(true);
 
+  console.log("proposalId ", proposalId);
+  useEffect(() => {
+    omBackEnd.getProposalById(proposalId).then((data) => {
+      setProposal((data && data.length > 0 && data[0]) || {});
+    });
+  }, [proposalId]);
+
   const id = Number(proposalId);
+
+  console.log("proposal --> ", proposal);
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div className="min-h-full">
         <main className="py-10">
-          {/* Page header */}
           <div className="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
             <div className="flex items-center space-x-5">
               <div className="flex-shrink-0">
@@ -124,13 +124,11 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  Proposal {proposalId} - {proposalsList[1].title}
+                  {proposal.title}
                 </h1>
                 <p className="text-sm font-medium text-gray-500">
-                  Applied by
-      
-                  {proposalsList[1].group}
-                 
+                  Applied by group
+                  {" " + proposal.groupId}
                 </p>
               </div>
             </div>
@@ -138,7 +136,6 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
 
           <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
             <div className="space-y-6 lg:col-start-1 lg:col-span-2">
-              {/* Description list*/}
               <section aria-labelledby="applicant-information-title">
                 <div className="bg-white shadow sm:rounded-lg">
                   <div className="px-4 py-5 sm:px-6">
@@ -159,7 +156,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           Proposed By
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                        {proposalsList[1].group}
+                          {proposal.groupId}
                         </dd>
                       </div>
 
@@ -175,7 +172,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           Start Date
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                        {proposalsList[1].startDate}
+                          {new Date(Number(proposal.startDate)).toDateString()}
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
@@ -183,7 +180,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           End Date
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                        {proposalsList[1].endDate}
+                          {new Date(Number(proposal.endDate)).toDateString()}
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
@@ -191,21 +188,23 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           Uploaded Files
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          File Link
+                          {proposal.IpfsURI}
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
                         <dt className="text-sm font-medium text-gray-500">
                           Proposal Links
                         </dt>
-                        <dd className="mt-1 text-sm text-gray-900">{proposalsList[1].link}</dd>
+                        <dd className="mt-1 text-sm text-gray-900">
+                          {proposalsList[1].link}
+                        </dd>
                       </div>
                       <div className="sm:col-span-2">
                         <dt className="text-sm font-medium text-gray-500">
                           Proposal Details
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                        {proposalsList[1].description}
+                          {proposal.description}
                         </dd>
                       </div>
                     </dl>
@@ -391,62 +390,83 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                   </ul>
                 </div>
                 <Listbox value={selected} onChange={setSelected}>
-      {({ open }) => (
-        <>
-          <Listbox.Label className="mt-3 block text-sm font-medium text-gray-700">Select Vote</Listbox.Label>
-          <div className="mt-1 relative">
-            <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <span className="block truncate">{selected.name}</span>
-              <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-              </span>
-            </Listbox.Button>
-
-            <Transition
-              show={open}
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                {people.map((person) => (
-                  <Listbox.Option
-                    key={person.id}
-                    className={({ active }) =>
-                      classNames(
-                        active ? 'text-white bg-indigo-600' : 'text-gray-900',
-                        'cursor-default select-none relative py-2 pl-3 pr-9'
-                      )
-                    }
-                    value={person}
-                  >
-                    {({ selected, active }) => (
-                      <>
-                        <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
-                          {person.name}
-                        </span>
-
-                        {selected ? (
-                          <span
-                            className={classNames(
-                              active ? 'text-white' : 'text-indigo-600',
-                              'absolute inset-y-0 right-0 flex items-center pr-4'
-                            )}
-                          >
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                  {({ open }) => (
+                    <>
+                      <Listbox.Label className="mt-3 block text-sm font-medium text-gray-700">
+                        Select Vote
+                      </Listbox.Label>
+                      <div className="mt-1 relative">
+                        <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                          <span className="block truncate">
+                            {selected.name}
                           </span>
-                        ) : null}
-                      </>
-                    )}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </Transition>
-          </div>
-        </>
-      )}
-    </Listbox>
+                          <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                            <SelectorIcon
+                              className="h-5 w-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </Listbox.Button>
+
+                        <Transition
+                          show={open}
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                            {people.map((person) => (
+                              <Listbox.Option
+                                key={person.id}
+                                className={({ active }) =>
+                                  classNames(
+                                    active
+                                      ? "text-white bg-indigo-600"
+                                      : "text-gray-900",
+                                    "cursor-default select-none relative py-2 pl-3 pr-9"
+                                  )
+                                }
+                                value={person}
+                              >
+                                {({ selected, active }) => (
+                                  <>
+                                    <span
+                                      className={classNames(
+                                        selected
+                                          ? "font-semibold"
+                                          : "font-normal",
+                                        "block truncate"
+                                      )}
+                                    >
+                                      {person.name}
+                                    </span>
+
+                                    {selected ? (
+                                      <span
+                                        className={classNames(
+                                          active
+                                            ? "text-white"
+                                            : "text-indigo-600",
+                                          "absolute inset-y-0 right-0 flex items-center pr-4"
+                                        )}
+                                      >
+                                        <CheckIcon
+                                          className="h-5 w-5"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                    ) : null}
+                                  </>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </>
+                  )}
+                </Listbox>
                 <div className="mt-6 flex flex-col justify-stretch">
                   <button
                     type="button"
