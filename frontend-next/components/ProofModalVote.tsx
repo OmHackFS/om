@@ -2,7 +2,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
-import { MultiStepFormVote } from "./MultiStepFormVote";
+import {ethers} from "ethers";
 
 export const ProofModalVote = ({
   voteSelected,
@@ -11,6 +11,9 @@ export const ProofModalVote = ({
   hideModal,
 }: any) => {
   const [open, setOpen] = useState(true);
+  const bigIntProposal = ethers.BigNumber.from(proposalId);
+  console.group("Big Int Proposal")
+  console.log(bigIntProposal);
 
   console.log("ProposalModalVote ", groupId);
 

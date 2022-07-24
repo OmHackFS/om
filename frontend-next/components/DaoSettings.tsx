@@ -60,7 +60,7 @@ export const DaoSettings = () => {
       (window as any).ethereum
     ).getSigner();
 
-    const omContractAddress = "0x560aBf82Eb1D8C86968f4314ff6a7770088f0728";
+    const omContractAddress = "0x98552919780D36f04Aaec58C80de436A3CD43f06";
     const omABI = [
       {
         inputs: [
