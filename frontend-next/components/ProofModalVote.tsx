@@ -7,11 +7,12 @@ import { MultiStepFormVote } from "./MultiStepFormVote";
 export const ProofModalVote = ({
   voteSelected,
   proposalId,
+  groupId,
   hideModal,
 }: any) => {
   const [open, setOpen] = useState(true);
 
-  console.log("---> ", voteSelected, proposalId);
+  console.log("ProposalModalVote ", groupId);
 
   const handleClose = (bool: any) => {
     setOpen(bool);
@@ -48,6 +49,7 @@ export const ProofModalVote = ({
                 <MultiStepFormVote
                   voteSelected={voteSelected}
                   proposalId={proposalId}
+                  groupId={groupId}
                   onClose={() => setOpen(false)}
                 />
               </Dialog.Panel>
