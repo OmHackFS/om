@@ -128,7 +128,7 @@ export const GenerateProofBody = ({
     console.log("Verification Called");
 
     const verificationKey = await fetch(
-      "http://localhost:3000/semaphore.json"
+      "https://www.trusted-setup-pse.org/semaphore/20/semaphore.json"
     ).then(function (res) {
       return res.json();
     });
