@@ -6,6 +6,9 @@ export const DaoSettings = () => {
   const [contract,setContract]= useState<any>();
   const [signer,setSigner] = useState<any>();
   const [createGroupId,setCreateGroupId] = useState<any>();
+  const [groupAdmin, setGroupAdmin] = useState<any>();
+  const [canPropose,setCanPropose] = useState<any>();
+  const [canAddData,setCanAddData] = useState<any>();
 
   const [addMemberGroupId,setAddMemberGroupId] = useState<any>();
   const [addMemberCommitmentId,setAddMemberCommitmentId] = useState<any>();
@@ -23,9 +26,16 @@ export const DaoSettings = () => {
 
 
 
-  function createGroup(e:any) {
+  async function createGroup(e:any) {
     e.preventDefault();
     console.log("Create Groups");
+    console.log(groupAdmin);
+    console.log(canPropose);
+    console.log(canAddData);
+
+    const createGroupTx = await contract.createGroup(20,0,groupAdmin,canPropose,canAddData);
+    const tx = await createGroupTx.wait();
+    console.log(tx);
   
   }
 
@@ -144,13 +154,14 @@ export const DaoSettings = () => {
                         htmlFor="first-name"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Group Id
+                        Group Admin
                       </label>
                       <input
                         type="text"
                         name="first-name"
                         id="first-name"
                         autoComplete="given-name"
+                        onChange = {(e) => setGroupAdmin(e.target.value)}
                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
@@ -160,13 +171,14 @@ export const DaoSettings = () => {
                         htmlFor="last-name"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Data 2
+                        Can Propose
                       </label>
                       <input
                         type="text"
                         name="last-name"
                         id="last-name"
                         autoComplete="family-name"
+                        onChange = {(e) => setCanPropose(e.target.value)}
                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
@@ -175,50 +187,23 @@ export const DaoSettings = () => {
                         htmlFor="last-name"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Data 2
+                        Can Add Data
                       </label>
                       <input
                         type="text"
                         name="last-name"
                         id="last-name"
                         autoComplete="family-name"
+                        onChange = {(e) => setCanAddData(e.target.value)}
                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
-                    <div className="col-span-6 sm:col-span-5">
-                      <label
-                        htmlFor="last-name"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Data 2
-                      </label>
-                      <input
-                        type="text"
-                        name="last-name"
-                        id="last-name"
-                        autoComplete="family-name"
-                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      />
-                    </div>
-                    <div className="col-span-6 sm:col-span-5">
-                      <label
-                        htmlFor="last-name"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Data 2
-                      </label>
-                      <input
-                        type="text"
-                        name="last-name"
-                        id="last-name"
-                        autoComplete="family-name"
-                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      />
-                    </div>
+                
+                
                     <div className="col-span-6 sm:col-span-6">
                       <button
                         type="submit"
-                        className="mt-3 w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="mt-3  inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         onClick={createGroup}
                       >
                         Send
