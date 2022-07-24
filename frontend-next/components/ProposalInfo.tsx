@@ -189,7 +189,9 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                           Uploaded Files
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {proposal.IpfsURI}
+                          <p className="break-words max-w-md">
+                            {proposal.IpfsURI}
+                          </p>
                         </dd>
                       </div>
                       <div className="sm:col-span-1">

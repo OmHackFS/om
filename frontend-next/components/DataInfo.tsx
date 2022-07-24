@@ -16,7 +16,7 @@ import { ProofModalVote } from "./ProofModalVote";
 import { useState } from "react";
 import { Listbox } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/solid";
-import omBackEnd from "../backend/OmData"
+import omBackEnd from "../backend/OmData";
 import { ProofModalReadData } from "./ProofModalReadData";
 
 const cards = [
@@ -30,14 +30,15 @@ const cards = [
   },
 ];
 
-const data1 ={
-  title:"Film Title: 'Her'",
-  author:"Spike Jonze",
-  imageUri:"https://resizing.flixster.com/i-GXjMjF3uEhOGrFXptIH0JwWmE=/206x305/v2/https://flxt.tmsimg.com/assets/p9991186_p_v8_ag.jpg%22",
-  description: "In a near future, a lonely writer develops an unlikely relationship with an operating system designed to meet his every need.",
-  file:{}}
-
-
+const data1 = {
+  title: "Film Title: 'Her'",
+  author: "Spike Jonze",
+  imageUri:
+    "https://resizing.flixster.com/i-GXjMjF3uEhOGrFXptIH0JwWmE=/206x305/v2/https://flxt.tmsimg.com/assets/p9991186_p_v8_ag.jpg%22",
+  description:
+    "In a near future, a lonely writer develops an unlikely relationship with an operating system designed to meet his every need.",
+  file: {},
+};
 
 const eventTypes = {
   applied: { icon: UserIcon, bgColorClass: "bg-gray-400" },
@@ -63,7 +64,6 @@ const timeline = [
   },
 ];
 
-
 const people = [
   { id: 1, name: "Yes" },
   { id: 2, name: "No" },
@@ -80,10 +80,10 @@ type ProposalInfoProps = {
 export const DataInfo = ({ dataId }: any) => {
   const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
   const [selected, setSelected] = useState<any>(people[0]);
-  const [data,setData] = useState<any>(1);
-  const [dataURI,setDataURI] =useState<any>();
-  const [fileURI,setFileURI] = useState<any>();
-  const [encryptedData,setEncryptedData] = useState<any>();
+  const [data, setData] = useState<any>(1);
+  const [dataURI, setDataURI] = useState<any>();
+  const [fileURI, setFileURI] = useState<any>();
+  const [encryptedData, setEncryptedData] = useState<any>();
 
   const handleShowProposalModal = () => setShowProposalModal(true);
   const handleHideProposalModal = () => setShowProposalModal(false);
@@ -91,21 +91,12 @@ export const DataInfo = ({ dataId }: any) => {
   useEffect(() => {
     omBackEnd.getDataById(dataId).then((data) => {
       setEncryptedData((data && data.length > 0 && data[0]) || {});
-      console.log("Use Effect Data")
-      console.log(data)
+      console.log("Use Effect Data");
+      console.log(data);
       saveData();
-      
-  
-      
     });
 
-    async function saveData(){
-  
-
-    }
-    
-
-    
+    async function saveData() {}
   }, [dataId]);
 
   const id = Number(dataId);
@@ -144,7 +135,7 @@ export const DataInfo = ({ dataId }: any) => {
                 </h1>
                 <p className="text-sm font-medium text-gray-500">
                   Applied by
-                  {data ? "Group 1" :""}
+                  {data ? "Group 1" : ""}
                 </p>
               </div>
             </div>
@@ -222,8 +213,6 @@ export const DataInfo = ({ dataId }: any) => {
                         </dd>
                       </div>
 
-               
-
                       <div className="sm:col-span-1">
                         <dt className="text-sm font-medium text-gray-500">
                           Author
@@ -237,7 +226,9 @@ export const DataInfo = ({ dataId }: any) => {
                           Image URI
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {data ? data1.imageUri : ""}
+                          <p className="break-words max-w-md">
+                            {data ? data1.imageUri : ""}
+                          </p>
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
@@ -248,13 +239,13 @@ export const DataInfo = ({ dataId }: any) => {
                           File Link
                         </dd>
                       </div>
-                      
+
                       <div className="sm:col-span-2">
                         <dt className="text-sm font-medium text-gray-500">
                           Proposal Details
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {data ? data1.description :""}
+                          {data ? data1.description : ""}
                         </dd>
                       </div>
                     </dl>
@@ -333,7 +324,7 @@ export const DataInfo = ({ dataId }: any) => {
                     ))}
                   </ul>
                 </div>
-                
+
                 <div className="mt-6 flex flex-col justify-stretch">
                   <button
                     type="button"
@@ -344,7 +335,11 @@ export const DataInfo = ({ dataId }: any) => {
                   </button>
                 </div>
                 {showProposalModal ? (
-                  <ProofModalReadData hideModal={handleHideProposalModal} setData={setData} encryptedData={encryptedData} />
+                  <ProofModalReadData
+                    hideModal={handleHideProposalModal}
+                    setData={setData}
+                    encryptedData={encryptedData}
+                  />
                 ) : null}
               </div>
             </section>
