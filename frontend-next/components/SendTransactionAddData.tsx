@@ -80,7 +80,8 @@ export const SendTransactionAddData = ({
    setDataUri(dataUriInput);
    setFileUri(fileUriInput);
 
-    
+
+
     //Get 2 Links
   
 

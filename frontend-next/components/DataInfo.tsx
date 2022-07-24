@@ -30,6 +30,13 @@ const cards = [
   },
 ];
 
+const data1 ={
+  title:"Film Title: 'Her'",
+  author:"Spike Jonze",
+  imageUri:"https://resizing.flixster.com/i-GXjMjF3uEhOGrFXptIH0JwWmE=/206x305/v2/https://flxt.tmsimg.com/assets/p9991186_p_v8_ag.jpg%22",
+  description: "In a near future, a lonely writer develops an unlikely relationship with an operating system designed to meet his every need.",
+  file:{}}
+
 
 
 const eventTypes = {
@@ -73,21 +80,32 @@ type ProposalInfoProps = {
 export const DataInfo = ({ dataId }: any) => {
   const [showProposalModal, setShowProposalModal] = useState<boolean>(false);
   const [selected, setSelected] = useState<any>(people[0]);
-  const [data,setData] = useState<any>();
-  const [dataUri,setDataUri] =useState<any>();
-  const [fileUri,setFileUri] = useState<any>();
+  const [data,setData] = useState<any>(1);
+  const [dataURI,setDataURI] =useState<any>();
+  const [fileURI,setFileURI] = useState<any>();
+  const [encryptedData,setEncryptedData] = useState<any>();
 
   const handleShowProposalModal = () => setShowProposalModal(true);
   const handleHideProposalModal = () => setShowProposalModal(false);
 
   useEffect(() => {
-    omBackEnd.getProposalByCounter(dataId).then((data) => {
-      setData((data && data.length > 0 && data[0]) || {});
+    omBackEnd.getDataById(dataId).then((data) => {
+      setEncryptedData((data && data.length > 0 && data[0]) || {});
+      console.log("Use Effect Data")
+      console.log(data)
+      saveData();
+      
+  
+      
     });
-    console.log("Data Id!");
-    console.log(dataId);
-    console.log("Data");
-    console.log(data);
+
+    async function saveData(){
+  
+
+    }
+    
+
+    
   }, [dataId]);
 
   const id = Number(dataId);
@@ -122,11 +140,11 @@ export const DataInfo = ({ dataId }: any) => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  Data {dataId} - {data ? proposalsList[1].title : "Test"}
+                  Data {dataId} - {data ? data1.title : ""}
                 </h1>
                 <p className="text-sm font-medium text-gray-500">
                   Applied by
-                  {data ? proposalsList[1].group :""}
+                  {data ? "Group 1" :""}
                 </p>
               </div>
             </div>
@@ -187,7 +205,7 @@ export const DataInfo = ({ dataId }: any) => {
                       id="applicant-information-title"
                       className="text-lg leading-6 font-medium text-gray-900"
                     >
-                      {data ? proposalsList[1].title : ""}
+                      {data ? data1.title : ""}
                     </h2>
                     <p className="mt-1 max-w-2xl text-sm text-gray-500">
                       Personal details and application.
@@ -200,31 +218,26 @@ export const DataInfo = ({ dataId }: any) => {
                           Proposed By
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {data ? proposalsList[1].group : ""}
+                          {data ? "Group 1" : ""}
                         </dd>
                       </div>
 
-                      <div className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">
-                          Funds Requested
-                        </dt>
-                        <dd className="mt-1 text-sm text-gray-900">$120,000</dd>
-                      </div>
+               
 
                       <div className="sm:col-span-1">
                         <dt className="text-sm font-medium text-gray-500">
-                          Start Date
+                          Author
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {data ? proposalsList[1].startDate : ""}
+                          {data ? data1.author : ""}
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
                         <dt className="text-sm font-medium text-gray-500">
-                          End Date
+                          Image URI
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {data ? proposalsList[1].endDate : ""}
+                          {data ? data1.imageUri : ""}
                         </dd>
                       </div>
                       <div className="sm:col-span-1">
@@ -235,20 +248,13 @@ export const DataInfo = ({ dataId }: any) => {
                           File Link
                         </dd>
                       </div>
-                      <div className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">
-                          Proposal Links
-                        </dt>
-                        <dd className="mt-1 text-sm text-gray-900">
-                          {data ? proposalsList[1].link : ""}
-                        </dd>
-                      </div>
+                      
                       <div className="sm:col-span-2">
                         <dt className="text-sm font-medium text-gray-500">
                           Proposal Details
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900">
-                          {data ? proposalsList[1].description :""}
+                          {data ? data1.description :""}
                         </dd>
                       </div>
                     </dl>
@@ -327,84 +333,7 @@ export const DataInfo = ({ dataId }: any) => {
                     ))}
                   </ul>
                 </div>
-                <Listbox value={selected} onChange={setSelected}>
-                  {({ open }) => (
-                    <>
-                      <Listbox.Label className="mt-3 block text-sm font-medium text-gray-700">
-                        Select Vote
-                      </Listbox.Label>
-                      <div className="mt-1 relative">
-                        <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                          <span className="block truncate">
-                            {selected.name}
-                          </span>
-                          <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                            <SelectorIcon
-                              className="h-5 w-5 text-gray-400"
-                              aria-hidden="true"
-                            />
-                          </span>
-                        </Listbox.Button>
-
-                        <Transition
-                          show={open}
-                          as={Fragment}
-                          leave="transition ease-in duration-100"
-                          leaveFrom="opacity-100"
-                          leaveTo="opacity-0"
-                        >
-                          <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                            {people.map((person) => (
-                              <Listbox.Option
-                                key={person.id}
-                                className={({ active }) =>
-                                  classNames(
-                                    active
-                                      ? "text-white bg-indigo-600"
-                                      : "text-gray-900",
-                                    "cursor-default select-none relative py-2 pl-3 pr-9"
-                                  )
-                                }
-                                value={person}
-                              >
-                                {({ selected, active }) => (
-                                  <>
-                                    <span
-                                      className={classNames(
-                                        selected
-                                          ? "font-semibold"
-                                          : "font-normal",
-                                        "block truncate"
-                                      )}
-                                    >
-                                      {person.name}
-                                    </span>
-
-                                    {selected ? (
-                                      <span
-                                        className={classNames(
-                                          active
-                                            ? "text-white"
-                                            : "text-indigo-600",
-                                          "absolute inset-y-0 right-0 flex items-center pr-4"
-                                        )}
-                                      >
-                                        <CheckIcon
-                                          className="h-5 w-5"
-                                          aria-hidden="true"
-                                        />
-                                      </span>
-                                    ) : null}
-                                  </>
-                                )}
-                              </Listbox.Option>
-                            ))}
-                          </Listbox.Options>
-                        </Transition>
-                      </div>
-                    </>
-                  )}
-                </Listbox>
+                
                 <div className="mt-6 flex flex-col justify-stretch">
                   <button
                     type="button"
@@ -415,7 +344,7 @@ export const DataInfo = ({ dataId }: any) => {
                   </button>
                 </div>
                 {showProposalModal ? (
-                  <ProofModalReadData hideModal={handleHideProposalModal} setData={setData} />
+                  <ProofModalReadData hideModal={handleHideProposalModal} setData={setData} encryptedData={encryptedData} />
                 ) : null}
               </div>
             </section>

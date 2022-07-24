@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Header } from "../../components/Header";
 import { SubHeader } from "../../components/SubHeader";
 import { DaoData } from "../../components/DaoData";
 import { DataInfo } from "../../components/DataInfo";
 import { useRouter } from 'next/router'
+import omBackEnd from '../../backend/OmData'
 
 export default function DataInfoPage() {
   const router = useRouter()
   const { dataId } = router.query
+
+  const data = useMemo(() => {
+    omBackEnd.getDataById(Number(dataId)).then((data) => {
+      return (data && data.length > 0 && data[0]) || {};
+    });
+  }, [dataId]);
 
 
   return (

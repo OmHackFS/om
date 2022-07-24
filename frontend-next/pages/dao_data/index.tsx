@@ -5,9 +5,9 @@ import { DaoData } from "../../components/DaoData";
 import  backEnd  from "../../backend/OmData"
 
 
-export default function DaoDataPage({data2} :any) {
+export default function DaoDataPage({data} :any) {
   console.log("data 2")
-  console.log(data2);
+  console.log(data);
   return (
     <div>
       <div className="md:pl-64 flex flex-col flex-1">
@@ -46,7 +46,7 @@ export default function DaoDataPage({data2} :any) {
             </div>
             <SubHeader />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            <DaoData dataInput={data2}/>
+            <DaoData dataInput={data}/>
  
             </div>
           </div>
@@ -56,10 +56,12 @@ export default function DaoDataPage({data2} :any) {
   );
 };
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   console.log("fetching daoData")
-  const data2: any = await backEnd.getDataByType(1)
-  console.log("proposalData", data2)
-  return { props: { data2 } };
+  const data: any = await backEnd.getDataByType(1)
+  console.log("data", data)
+  return { props: { data } };
 }
+
+
 

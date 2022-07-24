@@ -12,6 +12,7 @@ import {useState} from "react"
     
     const [openModal,setOpenModal] = useState<boolean>(false);
     const [dataId,setDataId] = useState<any>(1);
+    console.log("Data Input")
     console.log(dataInput)
 
     const dataList = dataInput;
@@ -134,7 +135,7 @@ import {useState} from "react"
                     )}
                   >
                     <div className="sm:hidden ite">{data.title}</div>
-                    <div className="hidden sm:block">{data.dataType}</div>
+                    <div className="hidden sm:block">3</div>
                   </td>
                   <td
                     className={classNames(
