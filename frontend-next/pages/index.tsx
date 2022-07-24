@@ -13,7 +13,7 @@ import Router from "next/router";
 import type { NextPage } from "next";
 import { ConnectWalletScreen } from "../components/ConnectWalletScreen";
 import { CreateIdentityScreen } from "../components/CreateIdentityScreen";
-import { sbContractAddr } from "../contracts";
+import { sbContractAddr } from "../contract-addresses";
 import { Provider } from "../utils/provider";
 import { injected } from "../utils/connectors";
 
