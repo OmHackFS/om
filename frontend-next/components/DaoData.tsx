@@ -1,5 +1,5 @@
 import Link from 'next/link'
-// import {data} from './mocks/datas'
+import {data} from './mocks/datas'
 import { MultiStepFormReadData} from "./MultiStepFormReadData"  
 import {ProofModalReadData} from "./ProofModalReadData"
 import {useState} from "react"
@@ -8,12 +8,13 @@ import {useState} from "react"
   }
   // const data = 
   
-  export const DaoData= ({data} : any) => {
+  export const DaoData= ({dataInput} : any) => {
     
     const [openModal,setOpenModal] = useState<boolean>(false);
     const [dataId,setDataId] = useState<any>(1);
+    console.log(dataInput)
 
-    const dataList = data;
+    const dataList = dataInput;
     const dataTypes=["Medical","Movie Scripts","Book Scripts"];
 
 

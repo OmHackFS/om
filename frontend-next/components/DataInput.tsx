@@ -9,7 +9,8 @@ export const DataInput = () => {
   const [dataSizeInput, setDataSizeInput] = useState<any>();
   const [authorNameInput,setAuthorNameInput] = useState<any>();
   const [authorContactInput,setAuthorContactInput] = useState<any>();
-  const [fileInput,setFileInput] = useState();
+  const [fileInput,setFileInput] = useState<any>();
+  const [imgUri,setImgUri] = useState<any>();
 
   const [group,setGroup] = useState<any>();
 
@@ -56,13 +57,14 @@ export const DataInput = () => {
   
                   <div className="col-span-6 sm:col-span-3">
                     <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                      Data Version
+                      Image Uri
                     </label>
                     <input
                       type="text"
                       name="last-name"
                       id="last-name"
                       autoComplete="family-name"
+                      onChange={(e) => setImgUri(e.target.value)}
 
                       className="pt-5 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
@@ -138,11 +140,15 @@ export const DataInput = () => {
                       </svg>
                       <div className="flex text-sm text-gray-600 w-full">
                         <label
-                          htmlFor="file-upload"
+                          htmlFor="fileInput"
                           className="w-full relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                         >
                           <span>Upload Files</span>
-                          <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                          <input id="fileInput" type="file"
+                          onChange={(e) => {
+                            if (e.target.files && e.target.files[0])
+                              setFileInput(e.target.files[0]);
+                          }}/>
                         </label>
                         <p className="pl-1">or drag and drop</p>
                       </div>
@@ -226,7 +232,20 @@ export const DataInput = () => {
             Add Data
           </button>
         </div>
-        {showProposalModal ? <ProofModalAddData /> : null}
+        {showProposalModal ? (
+        <ProofModalAddData 
+        dataTitle={dataTitleInput}
+        dataDescription={dataDescriptionInput}
+        authorName={authorNameInput}
+        authorContact={authorContactInput}
+        group={group}
+        fileInput={fileInput}
+        imgUri={imgUri}
+
+  
+        /> 
+    
+        ): null}
       </div>
     )
   }
