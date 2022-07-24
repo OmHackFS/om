@@ -9,7 +9,7 @@ import * as sigUtil from "@metamask/eth-sig-util";
 // import * as nftStorage from "nft.storage";
 import { ethers, Signer } from "ethers";
 import { CreateIdentityButton } from "./CreateIdentityButton";
-import { sbContractAddr } from "../contract-addresses";
+import { sbContractAddr } from "../contract-addresses/index";
 import OmSbToken from "../artifacts/contracts/OmSbToken.sol/OmSbToken.json";
 
 import { AbstractConnector } from "@web3-react/abstract-connector";
@@ -38,6 +38,8 @@ export const Header = () => {
     const signer = library.getSigner();
     setSigner(signer);
     signer.getAddress().then(setSignerAddr);
+
+    console.log("account ", account);
 
     account &&
       OmSbTokenContract.connect(signer as any)

@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/ericle/Projects/HackFS/om/contracts/Om.sol": {
-      "lastModificationDate": 1658515551380,
-      "contentHash": "f88a0cde196c3b7afb5074614ca0b3e8",
+      "lastModificationDate": 1658687961659,
+      "contentHash": "dae671e36f4b4d924b8728dc55ce8202",
       "sourceName": "contracts/Om.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -35,6 +35,7 @@
         "@semaphore-protocol/contracts/base/SemaphoreGroups.sol"
       ],
       "versionPragmas": [
+        "^0.8.4",
         "^0.8.4"
       ],
       "artifacts": [
@@ -1101,41 +1102,6 @@
       ],
       "artifacts": [
         "Ownable"
-      ]
-    },
-    "/Users/ericle/Projects/HackFS/om/contracts/OmVoting.sol": {
-      "lastModificationDate": 1658482426274,
-      "contentHash": "a130c827206dcbfa0f1fbeabc870fae1",
-      "sourceName": "contracts/OmVoting.sol",
-      "solcConfig": {
-        "version": "0.8.4",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.4"
-      ],
-      "artifacts": [
-        "OmVoting"
       ]
     }
   }

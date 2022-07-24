@@ -21,31 +21,100 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface OmInterface extends ethers.utils.Interface {
   functions: {
+    "ProposalList(uint256)": FunctionFragment;
+    "accessData(uint256,uint256,bytes32,uint256,uint256,uint256[8])": FunctionFragment;
+    "addData(string,string,string,uint256,uint256,uint256,bytes32,uint256,uint256,uint256[8])": FunctionFragment;
     "addMember(uint256,uint256)": FunctionFragment;
-    "castVote(uint256,bytes32,uint256,uint256,uint256[8])": FunctionFragment;
-    "createDao(bytes32)": FunctionFragment;
-    "createProposal(bytes32,bytes32,uint256,uint256,uint256,bytes32,uint256,uint256[8])": FunctionFragment;
-    "daoGroups(uint256)": FunctionFragment;
+    "canGroupAddData(uint256)": FunctionFragment;
+    "canGroupPropose(uint256)": FunctionFragment;
+    "castVote(uint256,uint256,bool,uint256,uint256,bytes32,uint256[8])": FunctionFragment;
+    "createGroup(uint8,uint256,address,bool,bool)": FunctionFragment;
+    "createProposal(string,string,uint256,uint256,uint256,string,uint256,bytes32,uint256,uint256,uint256[8])": FunctionFragment;
+    "dataFileCounter()": FunctionFragment;
+    "dataList(uint256)": FunctionFragment;
     "getDepth(uint256)": FunctionFragment;
     "getNumberOfLeaves(uint256)": FunctionFragment;
+    "getProposalData(uint256)": FunctionFragment;
     "getRoot(uint256)": FunctionFragment;
-    "proposalsPerGroup(uint256,uint256)": FunctionFragment;
+    "groupAdmins(uint256)": FunctionFragment;
+    "groupCounter()": FunctionFragment;
+    "groupMembership(uint256,uint256)": FunctionFragment;
+    "owner()": FunctionFragment;
+    "proposalCounter()": FunctionFragment;
     "removeMember(uint256,uint256,uint256[],uint8[])": FunctionFragment;
-    "treeDepth()": FunctionFragment;
-    "verifier()": FunctionFragment;
+    "verifiers(uint8)": FunctionFragment;
+    "verifyProof(uint256,bytes32,uint256,uint256,uint256,uint256[8])": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "ProposalList",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "accessData",
+    values: [
+      BigNumberish,
+      BigNumberish,
+      BytesLike,
+      BigNumberish,
+      BigNumberish,
+      [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addData",
+    values: [
+      string,
+      string,
+      string,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BytesLike,
+      BigNumberish,
+      BigNumberish,
+      [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ]
+    ]
+  ): string;
   encodeFunctionData(
     functionFragment: "addMember",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "canGroupAddData",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "canGroupPropose",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "castVote",
     values: [
       BigNumberish,
+      BigNumberish,
+      boolean,
+      BigNumberish,
+      BigNumberish,
       BytesLike,
-      BigNumberish,
-      BigNumberish,
       [
         BigNumberish,
         BigNumberish,
@@ -59,18 +128,21 @@ interface OmInterface extends ethers.utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "createDao",
-    values: [BytesLike]
+    functionFragment: "createGroup",
+    values: [BigNumberish, BigNumberish, string, boolean, boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "createProposal",
     values: [
-      BytesLike,
-      BytesLike,
+      string,
+      string,
       BigNumberish,
       BigNumberish,
       BigNumberish,
+      string,
+      BigNumberish,
       BytesLike,
+      BigNumberish,
       BigNumberish,
       [
         BigNumberish,
@@ -85,7 +157,11 @@ interface OmInterface extends ethers.utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "daoGroups",
+    functionFragment: "dataFileCounter",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "dataList",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -97,66 +173,186 @@ interface OmInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "getProposalData",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getRoot",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "proposalsPerGroup",
+    functionFragment: "groupAdmins",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "groupCounter",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "groupMembership",
     values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "proposalCounter",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "removeMember",
     values: [BigNumberish, BigNumberish, BigNumberish[], BigNumberish[]]
   ): string;
-  encodeFunctionData(functionFragment: "treeDepth", values?: undefined): string;
-  encodeFunctionData(functionFragment: "verifier", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "verifiers",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "verifyProof",
+    values: [
+      BigNumberish,
+      BytesLike,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ]
+    ]
+  ): string;
 
+  decodeFunctionResult(
+    functionFragment: "ProposalList",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "accessData", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addData", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addMember", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "canGroupAddData",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "canGroupPropose",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "castVote", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "createDao", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "createGroup",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "createProposal",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "daoGroups", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "dataFileCounter",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "dataList", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getDepth", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getNumberOfLeaves",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "getProposalData",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getRoot", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "proposalsPerGroup",
+    functionFragment: "groupAdmins",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "groupCounter",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "groupMembership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "proposalCounter",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "removeMember",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "treeDepth", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "verifier", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verifiers", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "verifyProof",
+    data: BytesLike
+  ): Result;
 
   events: {
-    "DaoCreated(uint256,bytes32)": EventFragment;
+    "DataAdded(uint256,uint256,tuple)": EventFragment;
     "GroupCreated(uint256,uint8,uint256)": EventFragment;
-    "MemberAdded(uint256)": EventFragment;
-    "MemberRemoved(uint256)": EventFragment;
+    "MemberAdded(uint256,uint256,uint256)": EventFragment;
+    "MemberRemoved(uint256,uint256,uint256)": EventFragment;
     "NullifierHashAdded(uint256)": EventFragment;
-    "ProposalCreated(uint256,uint256,bytes32,bytes32,uint256,uint256,bytes32)": EventFragment;
-    "VoteCast(uint256,uint256,bytes32)": EventFragment;
+    "OmGroupCreated(uint256,address)": EventFragment;
+    "OmMemberAdded(uint256,uint256)": EventFragment;
+    "OmMemberRemoved(uint256,uint256)": EventFragment;
+    "ProofVerified(uint256,bytes32)": EventFragment;
+    "ProposalCreated(uint256,uint256,tuple)": EventFragment;
+    "VoteCast(uint256,uint256,bool)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "DaoCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DataAdded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "GroupCreated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MemberAdded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MemberRemoved"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NullifierHashAdded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OmGroupCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OmMemberAdded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OmMemberRemoved"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ProofVerified"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ProposalCreated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "VoteCast"): EventFragment;
 }
 
-export type DaoCreatedEvent = TypedEvent<
-  [BigNumber, string] & { groupId: BigNumber; daoName: string }
+export type DataAddedEvent = TypedEvent<
+  [
+    BigNumber,
+    BigNumber,
+    [string, string, BigNumber, string, string, BigNumber, BigNumber] & {
+      title: string;
+      dataOwner: string;
+      addedDate: BigNumber;
+      dataURI: string;
+      fileURI: string;
+      groupId: BigNumber;
+      dataType: BigNumber;
+    }
+  ] & {
+    groupId: BigNumber;
+    dataId: BigNumber;
+    dataInfos: [
+      string,
+      string,
+      BigNumber,
+      string,
+      string,
+      BigNumber,
+      BigNumber
+    ] & {
+      title: string;
+      dataOwner: string;
+      addedDate: BigNumber;
+      dataURI: string;
+      fileURI: string;
+      groupId: BigNumber;
+      dataType: BigNumber;
+    };
+  }
 >;
 
 export type GroupCreatedEvent = TypedEvent<
@@ -167,11 +363,7 @@ export type GroupCreatedEvent = TypedEvent<
   }
 >;
 
-export type MemberAdded_uint256_Event = TypedEvent<
-  [BigNumber] & { groupId: BigNumber }
->;
-
-export type MemberAdded_uint256_uint256_uint256_Event = TypedEvent<
+export type MemberAddedEvent = TypedEvent<
   [BigNumber, BigNumber, BigNumber] & {
     groupId: BigNumber;
     identityCommitment: BigNumber;
@@ -179,11 +371,7 @@ export type MemberAdded_uint256_uint256_uint256_Event = TypedEvent<
   }
 >;
 
-export type MemberRemoved_uint256_Event = TypedEvent<
-  [BigNumber] & { groupId: BigNumber }
->;
-
-export type MemberRemoved_uint256_uint256_uint256_Event = TypedEvent<
+export type MemberRemovedEvent = TypedEvent<
   [BigNumber, BigNumber, BigNumber] & {
     groupId: BigNumber;
     identityCommitment: BigNumber;
@@ -195,23 +383,63 @@ export type NullifierHashAddedEvent = TypedEvent<
   [BigNumber] & { nullifierHash: BigNumber }
 >;
 
+export type OmGroupCreatedEvent = TypedEvent<
+  [BigNumber, string] & { groupId: BigNumber; admin: string }
+>;
+
+export type OmMemberAddedEvent = TypedEvent<
+  [BigNumber, BigNumber] & { groupId: BigNumber; memberID: BigNumber }
+>;
+
+export type OmMemberRemovedEvent = TypedEvent<
+  [BigNumber, BigNumber] & { groupId: BigNumber; memberID: BigNumber }
+>;
+
+export type ProofVerifiedEvent = TypedEvent<
+  [BigNumber, string] & { groupId: BigNumber; signal: string }
+>;
+
 export type ProposalCreatedEvent = TypedEvent<
-  [BigNumber, BigNumber, string, string, BigNumber, BigNumber, string] & {
+  [
+    BigNumber,
+    BigNumber,
+    [string, string, BigNumber, BigNumber, BigNumber, BigNumber, string] & {
+      title: string;
+      description: string;
+      yesCount: BigNumber;
+      noCount: BigNumber;
+      StartDate: BigNumber;
+      EndDate: BigNumber;
+      IpfsURI: string;
+    }
+  ] & {
     groupId: BigNumber;
-    proposalId: BigNumber;
-    proposalName: string;
-    proposalDescription: string;
-    startDate: BigNumber;
-    endDate: BigNumber;
-    fileUri: string;
+    proposalCounter: BigNumber;
+    proposalData: [
+      string,
+      string,
+      BigNumber,
+      BigNumber,
+      BigNumber,
+      BigNumber,
+      string
+    ] & {
+      title: string;
+      description: string;
+      yesCount: BigNumber;
+      noCount: BigNumber;
+      StartDate: BigNumber;
+      EndDate: BigNumber;
+      IpfsURI: string;
+    };
   }
 >;
 
 export type VoteCastEvent = TypedEvent<
-  [BigNumber, BigNumber, string] & {
+  [BigNumber, BigNumber, boolean] & {
     groupId: BigNumber;
     proposalId: BigNumber;
-    signal: string;
+    vote: boolean;
   }
 >;
 
@@ -259,17 +487,86 @@ export class Om extends BaseContract {
   interface: OmInterface;
 
   functions: {
+    ProposalList(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, BigNumber, BigNumber, BigNumber, BigNumber, string] & {
+        title: string;
+        description: string;
+        yesCount: BigNumber;
+        noCount: BigNumber;
+        StartDate: BigNumber;
+        EndDate: BigNumber;
+        IpfsURI: string;
+      }
+    >;
+
+    accessData(
+      groupId: BigNumberish,
+      root: BigNumberish,
+      signal: BytesLike,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    addData(
+      title: string,
+      dataURI: string,
+      fileURI: string,
+      dataType: BigNumberish,
+      groupId: BigNumberish,
+      root: BigNumberish,
+      signal: BytesLike,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     addMember(
       groupId: BigNumberish,
       identityCommitment: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    canGroupAddData(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    canGroupPropose(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     castVote(
-      proposalId: BigNumberish,
-      vote: BytesLike,
-      nullifierHash: BigNumberish,
       groupId: BigNumberish,
+      root: BigNumberish,
+      vote: boolean,
+      nullifierHash: BigNumberish,
+      externalNullifierProposalId: BigNumberish,
+      signal: BytesLike,
       proof: [
         BigNumberish,
         BigNumberish,
@@ -283,19 +580,26 @@ export class Om extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    createDao(
-      daoName: BytesLike,
+    createGroup(
+      depth: BigNumberish,
+      zeroValue: BigNumberish,
+      admin: string,
+      canPropose: boolean,
+      canAddData: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     createProposal(
-      proposalName: BytesLike,
-      proposalDescription: BytesLike,
+      title: string,
+      description: string,
+      root: BigNumberish,
       startDate: BigNumberish,
       endDate: BigNumberish,
-      nullifierHash: BigNumberish,
-      fileUri: BytesLike,
+      proposalURI: string,
       groupId: BigNumberish,
+      signal: BytesLike,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
       proof: [
         BigNumberish,
         BigNumberish,
@@ -309,15 +613,20 @@ export class Om extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    daoGroups(
+    dataFileCounter(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    dataList(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [string, BigNumber, BigNumber, BigNumber] & {
-        admin: string;
-        members: BigNumber;
-        nextProposal: BigNumber;
-        votesToPass: BigNumber;
+      [string, string, BigNumber, string, string, BigNumber, BigNumber] & {
+        title: string;
+        dataOwner: string;
+        addedDate: BigNumber;
+        dataURI: string;
+        fileURI: string;
+        groupId: BigNumber;
+        dataType: BigNumber;
       }
     >;
 
@@ -331,23 +640,62 @@ export class Om extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    getProposalData(
+      proposalId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [string, string, BigNumber, BigNumber, BigNumber, BigNumber, string] & {
+          title: string;
+          description: string;
+          yesCount: BigNumber;
+          noCount: BigNumber;
+          StartDate: BigNumber;
+          EndDate: BigNumber;
+          IpfsURI: string;
+        }
+      ] & {
+        ProposalData: [
+          string,
+          string,
+          BigNumber,
+          BigNumber,
+          BigNumber,
+          BigNumber,
+          string
+        ] & {
+          title: string;
+          description: string;
+          yesCount: BigNumber;
+          noCount: BigNumber;
+          StartDate: BigNumber;
+          EndDate: BigNumber;
+          IpfsURI: string;
+        };
+      }
+    >;
+
     getRoot(
       groupId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    proposalsPerGroup(
+    groupAdmins(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    groupCounter(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    groupMembership(
       arg0: BigNumberish,
       arg1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber, boolean] & {
-        deadline: BigNumber;
-        votesUp: BigNumber;
-        votesDown: BigNumber;
-        passed: boolean;
-      }
-    >;
+    ): Promise<[BigNumber]>;
+
+    owner(overrides?: CallOverrides): Promise<[string]>;
+
+    proposalCounter(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     removeMember(
       groupId: BigNumberish,
@@ -357,10 +705,84 @@ export class Om extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    treeDepth(overrides?: CallOverrides): Promise<[number]>;
+    verifiers(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
-    verifier(overrides?: CallOverrides): Promise<[string]>;
+    verifyProof(
+      groupId: BigNumberish,
+      signal: BytesLike,
+      root: BigNumberish,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
+
+  ProposalList(
+    arg0: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, string, BigNumber, BigNumber, BigNumber, BigNumber, string] & {
+      title: string;
+      description: string;
+      yesCount: BigNumber;
+      noCount: BigNumber;
+      StartDate: BigNumber;
+      EndDate: BigNumber;
+      IpfsURI: string;
+    }
+  >;
+
+  accessData(
+    groupId: BigNumberish,
+    root: BigNumberish,
+    signal: BytesLike,
+    nullifierHash: BigNumberish,
+    externalNullifier: BigNumberish,
+    proof: [
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish
+    ],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  addData(
+    title: string,
+    dataURI: string,
+    fileURI: string,
+    dataType: BigNumberish,
+    groupId: BigNumberish,
+    root: BigNumberish,
+    signal: BytesLike,
+    nullifierHash: BigNumberish,
+    externalNullifier: BigNumberish,
+    proof: [
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish
+    ],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   addMember(
     groupId: BigNumberish,
@@ -368,11 +790,23 @@ export class Om extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  canGroupAddData(
+    arg0: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  canGroupPropose(
+    arg0: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   castVote(
-    proposalId: BigNumberish,
-    vote: BytesLike,
-    nullifierHash: BigNumberish,
     groupId: BigNumberish,
+    root: BigNumberish,
+    vote: boolean,
+    nullifierHash: BigNumberish,
+    externalNullifierProposalId: BigNumberish,
+    signal: BytesLike,
     proof: [
       BigNumberish,
       BigNumberish,
@@ -386,19 +820,26 @@ export class Om extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  createDao(
-    daoName: BytesLike,
+  createGroup(
+    depth: BigNumberish,
+    zeroValue: BigNumberish,
+    admin: string,
+    canPropose: boolean,
+    canAddData: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   createProposal(
-    proposalName: BytesLike,
-    proposalDescription: BytesLike,
+    title: string,
+    description: string,
+    root: BigNumberish,
     startDate: BigNumberish,
     endDate: BigNumberish,
-    nullifierHash: BigNumberish,
-    fileUri: BytesLike,
+    proposalURI: string,
     groupId: BigNumberish,
+    signal: BytesLike,
+    nullifierHash: BigNumberish,
+    externalNullifier: BigNumberish,
     proof: [
       BigNumberish,
       BigNumberish,
@@ -412,15 +853,20 @@ export class Om extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  daoGroups(
+  dataFileCounter(overrides?: CallOverrides): Promise<BigNumber>;
+
+  dataList(
     arg0: BigNumberish,
     overrides?: CallOverrides
   ): Promise<
-    [string, BigNumber, BigNumber, BigNumber] & {
-      admin: string;
-      members: BigNumber;
-      nextProposal: BigNumber;
-      votesToPass: BigNumber;
+    [string, string, BigNumber, string, string, BigNumber, BigNumber] & {
+      title: string;
+      dataOwner: string;
+      addedDate: BigNumber;
+      dataURI: string;
+      fileURI: string;
+      groupId: BigNumber;
+      dataType: BigNumber;
     }
   >;
 
@@ -431,20 +877,36 @@ export class Om extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  getProposalData(
+    proposalId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, string, BigNumber, BigNumber, BigNumber, BigNumber, string] & {
+      title: string;
+      description: string;
+      yesCount: BigNumber;
+      noCount: BigNumber;
+      StartDate: BigNumber;
+      EndDate: BigNumber;
+      IpfsURI: string;
+    }
+  >;
+
   getRoot(groupId: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
-  proposalsPerGroup(
+  groupAdmins(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  groupCounter(overrides?: CallOverrides): Promise<BigNumber>;
+
+  groupMembership(
     arg0: BigNumberish,
     arg1: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber, BigNumber, boolean] & {
-      deadline: BigNumber;
-      votesUp: BigNumber;
-      votesDown: BigNumber;
-      passed: boolean;
-    }
-  >;
+  ): Promise<BigNumber>;
+
+  owner(overrides?: CallOverrides): Promise<string>;
+
+  proposalCounter(overrides?: CallOverrides): Promise<BigNumber>;
 
   removeMember(
     groupId: BigNumberish,
@@ -454,22 +916,108 @@ export class Om extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  treeDepth(overrides?: CallOverrides): Promise<number>;
+  verifiers(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-  verifier(overrides?: CallOverrides): Promise<string>;
+  verifyProof(
+    groupId: BigNumberish,
+    signal: BytesLike,
+    root: BigNumberish,
+    nullifierHash: BigNumberish,
+    externalNullifier: BigNumberish,
+    proof: [
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish
+    ],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   callStatic: {
+    ProposalList(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, BigNumber, BigNumber, BigNumber, BigNumber, string] & {
+        title: string;
+        description: string;
+        yesCount: BigNumber;
+        noCount: BigNumber;
+        StartDate: BigNumber;
+        EndDate: BigNumber;
+        IpfsURI: string;
+      }
+    >;
+
+    accessData(
+      groupId: BigNumberish,
+      root: BigNumberish,
+      signal: BytesLike,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    addData(
+      title: string,
+      dataURI: string,
+      fileURI: string,
+      dataType: BigNumberish,
+      groupId: BigNumberish,
+      root: BigNumberish,
+      signal: BytesLike,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     addMember(
       groupId: BigNumberish,
       identityCommitment: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
+    canGroupAddData(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    canGroupPropose(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     castVote(
-      proposalId: BigNumberish,
-      vote: BytesLike,
-      nullifierHash: BigNumberish,
       groupId: BigNumberish,
+      root: BigNumberish,
+      vote: boolean,
+      nullifierHash: BigNumberish,
+      externalNullifierProposalId: BigNumberish,
+      signal: BytesLike,
       proof: [
         BigNumberish,
         BigNumberish,
@@ -483,16 +1031,26 @@ export class Om extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    createDao(daoName: BytesLike, overrides?: CallOverrides): Promise<void>;
+    createGroup(
+      depth: BigNumberish,
+      zeroValue: BigNumberish,
+      admin: string,
+      canPropose: boolean,
+      canAddData: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     createProposal(
-      proposalName: BytesLike,
-      proposalDescription: BytesLike,
+      title: string,
+      description: string,
+      root: BigNumberish,
       startDate: BigNumberish,
       endDate: BigNumberish,
-      nullifierHash: BigNumberish,
-      fileUri: BytesLike,
+      proposalURI: string,
       groupId: BigNumberish,
+      signal: BytesLike,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
       proof: [
         BigNumberish,
         BigNumberish,
@@ -506,15 +1064,20 @@ export class Om extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    daoGroups(
+    dataFileCounter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    dataList(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [string, BigNumber, BigNumber, BigNumber] & {
-        admin: string;
-        members: BigNumber;
-        nextProposal: BigNumber;
-        votesToPass: BigNumber;
+      [string, string, BigNumber, string, string, BigNumber, BigNumber] & {
+        title: string;
+        dataOwner: string;
+        addedDate: BigNumber;
+        dataURI: string;
+        fileURI: string;
+        groupId: BigNumber;
+        dataType: BigNumber;
       }
     >;
 
@@ -525,23 +1088,39 @@ export class Om extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getProposalData(
+      proposalId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, BigNumber, BigNumber, BigNumber, BigNumber, string] & {
+        title: string;
+        description: string;
+        yesCount: BigNumber;
+        noCount: BigNumber;
+        StartDate: BigNumber;
+        EndDate: BigNumber;
+        IpfsURI: string;
+      }
+    >;
+
     getRoot(
       groupId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    proposalsPerGroup(
+    groupAdmins(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    groupCounter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    groupMembership(
       arg0: BigNumberish,
       arg1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber, boolean] & {
-        deadline: BigNumber;
-        votesUp: BigNumber;
-        votesDown: BigNumber;
-        passed: boolean;
-      }
-    >;
+    ): Promise<BigNumber>;
+
+    owner(overrides?: CallOverrides): Promise<string>;
+
+    proposalCounter(overrides?: CallOverrides): Promise<BigNumber>;
 
     removeMember(
       groupId: BigNumberish,
@@ -551,26 +1130,109 @@ export class Om extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    treeDepth(overrides?: CallOverrides): Promise<number>;
+    verifiers(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-    verifier(overrides?: CallOverrides): Promise<string>;
+    verifyProof(
+      groupId: BigNumberish,
+      signal: BytesLike,
+      root: BigNumberish,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
-    "DaoCreated(uint256,bytes32)"(
+    "DataAdded(uint256,uint256,tuple)"(
       groupId?: BigNumberish | null,
-      daoName?: null
+      dataId?: null,
+      dataInfos?: null
     ): TypedEventFilter<
-      [BigNumber, string],
-      { groupId: BigNumber; daoName: string }
+      [
+        BigNumber,
+        BigNumber,
+        [string, string, BigNumber, string, string, BigNumber, BigNumber] & {
+          title: string;
+          dataOwner: string;
+          addedDate: BigNumber;
+          dataURI: string;
+          fileURI: string;
+          groupId: BigNumber;
+          dataType: BigNumber;
+        }
+      ],
+      {
+        groupId: BigNumber;
+        dataId: BigNumber;
+        dataInfos: [
+          string,
+          string,
+          BigNumber,
+          string,
+          string,
+          BigNumber,
+          BigNumber
+        ] & {
+          title: string;
+          dataOwner: string;
+          addedDate: BigNumber;
+          dataURI: string;
+          fileURI: string;
+          groupId: BigNumber;
+          dataType: BigNumber;
+        };
+      }
     >;
 
-    DaoCreated(
+    DataAdded(
       groupId?: BigNumberish | null,
-      daoName?: null
+      dataId?: null,
+      dataInfos?: null
     ): TypedEventFilter<
-      [BigNumber, string],
-      { groupId: BigNumber; daoName: string }
+      [
+        BigNumber,
+        BigNumber,
+        [string, string, BigNumber, string, string, BigNumber, BigNumber] & {
+          title: string;
+          dataOwner: string;
+          addedDate: BigNumber;
+          dataURI: string;
+          fileURI: string;
+          groupId: BigNumber;
+          dataType: BigNumber;
+        }
+      ],
+      {
+        groupId: BigNumber;
+        dataId: BigNumber;
+        dataInfos: [
+          string,
+          string,
+          BigNumber,
+          string,
+          string,
+          BigNumber,
+          BigNumber
+        ] & {
+          title: string;
+          dataOwner: string;
+          addedDate: BigNumber;
+          dataURI: string;
+          fileURI: string;
+          groupId: BigNumber;
+          dataType: BigNumber;
+        };
+      }
     >;
 
     "GroupCreated(uint256,uint8,uint256)"(
@@ -591,10 +1253,6 @@ export class Om extends BaseContract {
       { groupId: BigNumber; depth: number; zeroValue: BigNumber }
     >;
 
-    "MemberAdded(uint256)"(
-      groupId?: BigNumberish | null
-    ): TypedEventFilter<[BigNumber], { groupId: BigNumber }>;
-
     "MemberAdded(uint256,uint256,uint256)"(
       groupId?: BigNumberish | null,
       identityCommitment?: null,
@@ -604,11 +1262,25 @@ export class Om extends BaseContract {
       { groupId: BigNumber; identityCommitment: BigNumber; root: BigNumber }
     >;
 
-    "MemberRemoved(uint256)"(
-      groupId?: BigNumberish | null
-    ): TypedEventFilter<[BigNumber], { groupId: BigNumber }>;
+    MemberAdded(
+      groupId?: BigNumberish | null,
+      identityCommitment?: null,
+      root?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber, BigNumber],
+      { groupId: BigNumber; identityCommitment: BigNumber; root: BigNumber }
+    >;
 
     "MemberRemoved(uint256,uint256,uint256)"(
+      groupId?: BigNumberish | null,
+      identityCommitment?: null,
+      root?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber, BigNumber],
+      { groupId: BigNumber; identityCommitment: BigNumber; root: BigNumber }
+    >;
+
+    MemberRemoved(
       groupId?: BigNumberish | null,
       identityCommitment?: null,
       root?: null
@@ -625,79 +1297,242 @@ export class Om extends BaseContract {
       nullifierHash?: null
     ): TypedEventFilter<[BigNumber], { nullifierHash: BigNumber }>;
 
-    "ProposalCreated(uint256,uint256,bytes32,bytes32,uint256,uint256,bytes32)"(
-      groupId?: BigNumberish | null,
-      proposalId?: null,
-      proposalName?: null,
-      proposalDescription?: null,
-      startDate?: null,
-      endDate?: null,
-      fileUri?: null
+    "OmGroupCreated(uint256,address)"(
+      groupId?: null,
+      admin?: null
     ): TypedEventFilter<
-      [BigNumber, BigNumber, string, string, BigNumber, BigNumber, string],
+      [BigNumber, string],
+      { groupId: BigNumber; admin: string }
+    >;
+
+    OmGroupCreated(
+      groupId?: null,
+      admin?: null
+    ): TypedEventFilter<
+      [BigNumber, string],
+      { groupId: BigNumber; admin: string }
+    >;
+
+    "OmMemberAdded(uint256,uint256)"(
+      groupId?: null,
+      memberID?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { groupId: BigNumber; memberID: BigNumber }
+    >;
+
+    OmMemberAdded(
+      groupId?: null,
+      memberID?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { groupId: BigNumber; memberID: BigNumber }
+    >;
+
+    "OmMemberRemoved(uint256,uint256)"(
+      groupId?: BigNumberish | null,
+      memberID?: BigNumberish | null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { groupId: BigNumber; memberID: BigNumber }
+    >;
+
+    OmMemberRemoved(
+      groupId?: BigNumberish | null,
+      memberID?: BigNumberish | null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { groupId: BigNumber; memberID: BigNumber }
+    >;
+
+    "ProofVerified(uint256,bytes32)"(
+      groupId?: BigNumberish | null,
+      signal?: null
+    ): TypedEventFilter<
+      [BigNumber, string],
+      { groupId: BigNumber; signal: string }
+    >;
+
+    ProofVerified(
+      groupId?: BigNumberish | null,
+      signal?: null
+    ): TypedEventFilter<
+      [BigNumber, string],
+      { groupId: BigNumber; signal: string }
+    >;
+
+    "ProposalCreated(uint256,uint256,tuple)"(
+      groupId?: BigNumberish | null,
+      proposalCounter?: null,
+      proposalData?: null
+    ): TypedEventFilter<
+      [
+        BigNumber,
+        BigNumber,
+        [string, string, BigNumber, BigNumber, BigNumber, BigNumber, string] & {
+          title: string;
+          description: string;
+          yesCount: BigNumber;
+          noCount: BigNumber;
+          StartDate: BigNumber;
+          EndDate: BigNumber;
+          IpfsURI: string;
+        }
+      ],
       {
         groupId: BigNumber;
-        proposalId: BigNumber;
-        proposalName: string;
-        proposalDescription: string;
-        startDate: BigNumber;
-        endDate: BigNumber;
-        fileUri: string;
+        proposalCounter: BigNumber;
+        proposalData: [
+          string,
+          string,
+          BigNumber,
+          BigNumber,
+          BigNumber,
+          BigNumber,
+          string
+        ] & {
+          title: string;
+          description: string;
+          yesCount: BigNumber;
+          noCount: BigNumber;
+          StartDate: BigNumber;
+          EndDate: BigNumber;
+          IpfsURI: string;
+        };
       }
     >;
 
     ProposalCreated(
       groupId?: BigNumberish | null,
-      proposalId?: null,
-      proposalName?: null,
-      proposalDescription?: null,
-      startDate?: null,
-      endDate?: null,
-      fileUri?: null
+      proposalCounter?: null,
+      proposalData?: null
     ): TypedEventFilter<
-      [BigNumber, BigNumber, string, string, BigNumber, BigNumber, string],
+      [
+        BigNumber,
+        BigNumber,
+        [string, string, BigNumber, BigNumber, BigNumber, BigNumber, string] & {
+          title: string;
+          description: string;
+          yesCount: BigNumber;
+          noCount: BigNumber;
+          StartDate: BigNumber;
+          EndDate: BigNumber;
+          IpfsURI: string;
+        }
+      ],
       {
         groupId: BigNumber;
-        proposalId: BigNumber;
-        proposalName: string;
-        proposalDescription: string;
-        startDate: BigNumber;
-        endDate: BigNumber;
-        fileUri: string;
+        proposalCounter: BigNumber;
+        proposalData: [
+          string,
+          string,
+          BigNumber,
+          BigNumber,
+          BigNumber,
+          BigNumber,
+          string
+        ] & {
+          title: string;
+          description: string;
+          yesCount: BigNumber;
+          noCount: BigNumber;
+          StartDate: BigNumber;
+          EndDate: BigNumber;
+          IpfsURI: string;
+        };
       }
     >;
 
-    "VoteCast(uint256,uint256,bytes32)"(
+    "VoteCast(uint256,uint256,bool)"(
       groupId?: BigNumberish | null,
       proposalId?: null,
-      signal?: null
+      vote?: null
     ): TypedEventFilter<
-      [BigNumber, BigNumber, string],
-      { groupId: BigNumber; proposalId: BigNumber; signal: string }
+      [BigNumber, BigNumber, boolean],
+      { groupId: BigNumber; proposalId: BigNumber; vote: boolean }
     >;
 
     VoteCast(
       groupId?: BigNumberish | null,
       proposalId?: null,
-      signal?: null
+      vote?: null
     ): TypedEventFilter<
-      [BigNumber, BigNumber, string],
-      { groupId: BigNumber; proposalId: BigNumber; signal: string }
+      [BigNumber, BigNumber, boolean],
+      { groupId: BigNumber; proposalId: BigNumber; vote: boolean }
     >;
   };
 
   estimateGas: {
+    ProposalList(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    accessData(
+      groupId: BigNumberish,
+      root: BigNumberish,
+      signal: BytesLike,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    addData(
+      title: string,
+      dataURI: string,
+      fileURI: string,
+      dataType: BigNumberish,
+      groupId: BigNumberish,
+      root: BigNumberish,
+      signal: BytesLike,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     addMember(
       groupId: BigNumberish,
       identityCommitment: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    canGroupAddData(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    canGroupPropose(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     castVote(
-      proposalId: BigNumberish,
-      vote: BytesLike,
-      nullifierHash: BigNumberish,
       groupId: BigNumberish,
+      root: BigNumberish,
+      vote: boolean,
+      nullifierHash: BigNumberish,
+      externalNullifierProposalId: BigNumberish,
+      signal: BytesLike,
       proof: [
         BigNumberish,
         BigNumberish,
@@ -711,19 +1546,26 @@ export class Om extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    createDao(
-      daoName: BytesLike,
+    createGroup(
+      depth: BigNumberish,
+      zeroValue: BigNumberish,
+      admin: string,
+      canPropose: boolean,
+      canAddData: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     createProposal(
-      proposalName: BytesLike,
-      proposalDescription: BytesLike,
+      title: string,
+      description: string,
+      root: BigNumberish,
       startDate: BigNumberish,
       endDate: BigNumberish,
-      nullifierHash: BigNumberish,
-      fileUri: BytesLike,
+      proposalURI: string,
       groupId: BigNumberish,
+      signal: BytesLike,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
       proof: [
         BigNumberish,
         BigNumberish,
@@ -737,10 +1579,9 @@ export class Om extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    daoGroups(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    dataFileCounter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    dataList(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     getDepth(
       groupId: BigNumberish,
@@ -752,16 +1593,32 @@ export class Om extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getProposalData(
+      proposalId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getRoot(
       groupId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    proposalsPerGroup(
+    groupAdmins(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    groupCounter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    groupMembership(
       arg0: BigNumberish,
       arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    proposalCounter(overrides?: CallOverrides): Promise<BigNumber>;
 
     removeMember(
       groupId: BigNumberish,
@@ -771,23 +1628,102 @@ export class Om extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    treeDepth(overrides?: CallOverrides): Promise<BigNumber>;
+    verifiers(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
-    verifier(overrides?: CallOverrides): Promise<BigNumber>;
+    verifyProof(
+      groupId: BigNumberish,
+      signal: BytesLike,
+      root: BigNumberish,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    ProposalList(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    accessData(
+      groupId: BigNumberish,
+      root: BigNumberish,
+      signal: BytesLike,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    addData(
+      title: string,
+      dataURI: string,
+      fileURI: string,
+      dataType: BigNumberish,
+      groupId: BigNumberish,
+      root: BigNumberish,
+      signal: BytesLike,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     addMember(
       groupId: BigNumberish,
       identityCommitment: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    canGroupAddData(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    canGroupPropose(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     castVote(
-      proposalId: BigNumberish,
-      vote: BytesLike,
-      nullifierHash: BigNumberish,
       groupId: BigNumberish,
+      root: BigNumberish,
+      vote: boolean,
+      nullifierHash: BigNumberish,
+      externalNullifierProposalId: BigNumberish,
+      signal: BytesLike,
       proof: [
         BigNumberish,
         BigNumberish,
@@ -801,19 +1737,26 @@ export class Om extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    createDao(
-      daoName: BytesLike,
+    createGroup(
+      depth: BigNumberish,
+      zeroValue: BigNumberish,
+      admin: string,
+      canPropose: boolean,
+      canAddData: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     createProposal(
-      proposalName: BytesLike,
-      proposalDescription: BytesLike,
+      title: string,
+      description: string,
+      root: BigNumberish,
       startDate: BigNumberish,
       endDate: BigNumberish,
-      nullifierHash: BigNumberish,
-      fileUri: BytesLike,
+      proposalURI: string,
       groupId: BigNumberish,
+      signal: BytesLike,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
       proof: [
         BigNumberish,
         BigNumberish,
@@ -827,7 +1770,9 @@ export class Om extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    daoGroups(
+    dataFileCounter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    dataList(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -842,16 +1787,32 @@ export class Om extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getProposalData(
+      proposalId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getRoot(
       groupId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    proposalsPerGroup(
+    groupAdmins(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    groupCounter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    groupMembership(
       arg0: BigNumberish,
       arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    proposalCounter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     removeMember(
       groupId: BigNumberish,
@@ -861,8 +1822,28 @@ export class Om extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    treeDepth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    verifiers(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
-    verifier(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    verifyProof(
+      groupId: BigNumberish,
+      signal: BytesLike,
+      root: BigNumberish,
+      nullifierHash: BigNumberish,
+      externalNullifier: BigNumberish,
+      proof: [
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish,
+        BigNumberish
+      ],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
   };
 }

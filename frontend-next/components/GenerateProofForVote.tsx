@@ -115,12 +115,10 @@ export const GenerateProofForVote = ({
     const { nullifierHash } = fullProof.publicSignals;
     const solidityProof = packToSolidityProof(fullProof.proof);
     console.log("Proposal Id");
-    console.log(proposalId);
+    console.log(parseInt(proposalId));
 
     setNullifierHash(nullifierHash);
-    setExternalNullifier(
-      parseInt(proposalId)
-      );
+    setExternalNullifier(parseInt(proposalId));
     setProof(solidityProof);
     setRoot(root);
 

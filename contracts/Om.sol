@@ -5,75 +5,110 @@ import "hardhat/console.sol";
 import "@semaphore-protocol/contracts/interfaces/IVerifier.sol";
 import "@semaphore-protocol/contracts/base/SemaphoreCore.sol";
 import "@semaphore-protocol/contracts/base/SemaphoreGroups.sol";
+pragma solidity ^0.8.4;
 
 contract Om is SemaphoreCore, SemaphoreGroups {
-  event DaoCreated(uint256 indexed groupId, bytes32 daoName);
-  event MemberAdded(uint256 indexed groupId);
-  event MemberRemoved(uint256 indexed groupId);
-  event VoteCast(uint256 indexed groupId, uint256 proposalId, bytes32 signal);
+  event OmMemberAdded(uint256 groupId, uint256 memberID); //Ok
+  event OmGroupCreated(uint256 groupId, address admin); //Ok
+  event ProofVerified(uint256 indexed groupId, bytes32 signal);
+
+  event OmMemberRemoved(uint256 indexed groupId, uint256 indexed memberID);
+  event VoteCast(uint256 indexed groupId, uint256 proposalId, bool vote);
   event ProposalCreated(
     uint256 indexed groupId,
-    uint256 proposalId,
-    bytes32 proposalName,
-    bytes32 proposalDescription,
-    uint256 startDate,
-    uint256 endDate,
-    bytes32 fileUri
+    uint256 proposalCounter,
+    Proposal proposalData
+  );
+  event DataAdded(
+    uint256 indexed groupId,
+    uint256 dataId,
+    dataStructure dataInfos
   );
 
-  uint8 public treeDepth;
-  IVerifier public verifier;
+  /// @dev Gets a tree depth and returns its verifier address.
+  mapping(uint8 => IVerifier) public verifiers;
 
-  struct Group {
-    address admin;
-    uint256 members;
-    uint256 nextProposal;
-    uint256 votesToPass;
+  /// @dev Gets a group id and returns the group admin address.
+  mapping(uint256 => address) public groupAdmins;
+
+  mapping(uint256 => bool) public canGroupPropose;
+  mapping(uint256 => bool) public canGroupAddData;
+  mapping(uint256 => dataStructure) public dataList;
+  mapping(uint256 => Proposal) public ProposalList;
+
+  struct Verifier {
+    address contractAddress;
+    uint8 merkleTreeDepth;
+  }
+
+  struct dataStructure {
+    string title;
+    address dataOwner;
+    uint256 addedDate;
+    string dataURI;
+    string fileURI;
+    uint256 groupId;
+    uint256 dataType;
   }
 
   struct Proposal {
-    uint256 deadline;
-    uint256 votesUp;
-    uint256 votesDown;
-    bool passed;
+    string title;
+    string description;
+    uint256 yesCount;
+    uint256 noCount;
+    uint256 StartDate;
+    uint256 EndDate;
+    string IpfsURI;
   }
 
-  mapping(uint256 => Group) public daoGroups;
-  mapping(uint256 => mapping(uint256 => Proposal)) public proposalsPerGroup;
+  uint256 public dataFileCounter;
+  address public owner;
+  uint256 public groupCounter;
+  uint256 public proposalCounter;
 
-  constructor(uint8 _treeDepth, IVerifier _verifier) {
-    treeDepth = _treeDepth;
-    verifier = _verifier;
-  }
-
-  modifier onlyAdmin(uint256 groupId) {
+  modifier onlySupportedDepth(uint8 depth) {
     require(
-      daoGroups[groupId].admin == msg.sender,
-      "Only group administrator can call this function."
+      address(verifiers[depth]) != address(0),
+      "Tree depth is not supported"
     );
     _;
   }
 
-  function createDao(bytes32 daoName) public {
-    uint256 groupId = hashDaoName(daoName);
-
-    _createGroup(groupId, treeDepth, 0);
-
-    Group memory group;
-    group.admin = msg.sender;
-    group.nextProposal = 1;
-
-    daoGroups[groupId] = group;
-
-    emit DaoCreated(groupId, daoName);
+  constructor(Verifier[] memory _verifiers) {
+    for (uint8 i = 0; i < _verifiers.length; i++) {
+      verifiers[_verifiers[i].merkleTreeDepth] = IVerifier(
+        _verifiers[i].contractAddress
+      );
+    }
+    owner = msg.sender;
+    createGroup(20, 0, msg.sender, true, true);
   }
 
-  function addMember(uint256 groupId, uint256 identityCommitment)
-    public
-    onlyAdmin(groupId)
-  {
+  function createGroup(
+    uint8 depth,
+    uint256 zeroValue,
+    address admin,
+    bool canPropose,
+    bool canAddData
+  ) public onlySupportedDepth(depth) {
+    groupCounter++;
+    _createGroup(groupCounter, depth, zeroValue);
+    groupAdmins[groupCounter] = admin;
+
+    canGroupPropose[groupCounter] = canPropose;
+    canGroupAddData[groupCounter] = canAddData;
+
+    emit OmGroupCreated(groupCounter, admin);
+  }
+
+  mapping(uint256 => uint256[]) public groupMembership;
+
+  function addMember(uint256 groupId, uint256 identityCommitment) external {
+    //check if Already a member
     _addMember(groupId, identityCommitment);
-    daoGroups[groupId].members++;
+    groupMembership[identityCommitment].push(groupId);
+
+    emit OmMemberAdded(groupId, identityCommitment);
   }
 
   function removeMember(
@@ -81,68 +116,227 @@ contract Om is SemaphoreCore, SemaphoreGroups {
     uint256 identityCommitment,
     uint256[] calldata proofSiblings,
     uint8[] calldata proofPathIndices
-  ) public onlyAdmin(groupId) {
+  ) external {
     _removeMember(groupId, identityCommitment, proofSiblings, proofPathIndices);
-    daoGroups[groupId].members--;
+    //----How to Remove membership?
+    groupMembership[identityCommitment].push(groupId);
+
+    emit OmMemberRemoved(groupId, identityCommitment);
   }
 
+  function verifyProof(
+    uint256 groupId,
+    bytes32 signal,
+    uint256 root,
+    uint256 nullifierHash,
+    uint256 externalNullifier,
+    uint256[8] calldata proof
+  ) external {
+    // uint256 root = getRoot(groupId);
+    uint8 depth = getDepth(groupId);
+
+    require(depth != 0, "Group does not exist");
+
+    IVerifier verifier = verifiers[depth];
+
+    _verifyProof(
+      signal,
+      root,
+      nullifierHash,
+      externalNullifier,
+      proof,
+      verifier
+    );
+
+    _saveNullifierHash(nullifierHash);
+
+    emit ProofVerified(groupId, signal);
+  }
+
+  //----------Voting
+
   function createProposal(
-    bytes32 proposalName,
-    bytes32 proposalDescription,
+    string memory title,
+    string memory description,
+    uint256 root,
     uint256 startDate,
     uint256 endDate,
-    uint256 nullifierHash,
-    bytes32 fileUri,
+    string memory proposalURI,
     uint256 groupId,
+    bytes32 signal,
+    uint256 nullifierHash,
+    uint256 externalNullifier,
     uint256[8] calldata proof
   ) public {
-    uint256 root = groups[groupId].root;
+    // uint256 root = getRoot(groupId);
+    uint8 depth = getDepth(groupId);
 
-    _verifyProof(proposalName, root, nullifierHash, groupId, proof, verifier);
+    require(depth != 0, "Group does not exist");
+    require(canGroupPropose[groupId], "Group cannot Vote");
 
-    // _saveNullifierHash(nullifierHash);
+    IVerifier verifier = verifiers[depth];
 
-    Proposal memory proposal;
-    uint256 proposalId = daoGroups[groupId].nextProposal;
-    proposal.deadline = block.number + 100;
-    proposalsPerGroup[groupId][proposalId] = proposal;
-    daoGroups[groupId].nextProposal++;
+    _verifyProof(
+      signal,
+      root,
+      nullifierHash,
+      externalNullifier,
+      proof,
+      verifier
+    );
 
-    // Temporary variables (needed to emit full event)
-    // bytes32 fileUri = "http://example.ipfs";
-    // uint256 startDate = block.timestamp;
-    // uint256 endDate = startDate + 3 days;
+    _saveNullifierHash(nullifierHash);
+
+    //2. Create Proposal
+    proposalCounter++;
+
+    ProposalList[proposalCounter] = Proposal(
+      title,
+      description,
+      0,
+      0,
+      startDate,
+      endDate,
+      proposalURI
+    );
 
     emit ProposalCreated(
       groupId,
-      proposalId,
-      proposalName,
-      proposalDescription,
-      startDate,
-      endDate,
-      fileUri
+      proposalCounter,
+      ProposalList[proposalCounter]
     );
   }
 
   function castVote(
-    uint256 proposalId,
-    bytes32 vote,
-    uint256 nullifierHash,
     uint256 groupId,
+    uint256 root,
+    bool vote,
+    uint256 nullifierHash,
+    uint256 externalNullifierProposalId,
+    bytes32 signal,
     uint256[8] calldata proof
   ) public {
-    uint256 root = groups[groupId].root;
+    //require that Proposal Exists
+    //require if ProposalList[proposalId] > Start Date
+    //require if ProposalList[proposalId] > End Date
 
-    _verifyProof(vote, root, nullifierHash, groupId, proof, verifier);
+    //Check if group can vote
+
+    uint8 depth = getDepth(groupId);
+    require(depth != 0, "Group does not exist");
+    require(canGroupPropose[groupId], "Group cannot Vote");
+
+    IVerifier verifier = verifiers[depth];
+
+    //Verify if member is part of a group -- ExternalNullifier needs to be poolID
+    // verifyProof(groupId, vote, nullifierHash, pollId, proof);
+    _verifyProof(
+      signal,
+      root,
+      nullifierHash,
+      externalNullifierProposalId,
+      proof,
+      verifier
+    );
+    // _verifyProof(signal, root, nullifierHash, externalNullifier, proof, verifier);
+
+    _saveNullifierHash(nullifierHash);
+    //Add a require that this group can vote
+
+    if (vote) {
+      ProposalList[externalNullifierProposalId].yesCount++;
+    } else {
+      ProposalList[externalNullifierProposalId].noCount++;
+    }
+
+    //---Adjust Emit
+    emit VoteCast(groupId, externalNullifierProposalId, vote);
+  }
+
+  //----Data Functions
+
+  function addData(
+    string memory title,
+    string memory dataURI,
+    string memory fileURI,
+    uint256 dataType,
+    uint256 groupId,
+    uint256 root,
+    bytes32 signal,
+    uint256 nullifierHash,
+    uint256 externalNullifier,
+    uint256[8] calldata proof
+  ) public {
+    uint8 depth = getDepth(groupId);
+    require(depth != 0, "Group does not exist");
+    require(canGroupAddData[groupId], "Group cannot add Data");
+
+    IVerifier verifier = verifiers[depth];
+
+    require(
+      address(verifiers[depth]) != address(0),
+      "Depth value is not supported"
+    );
+
+    _verifyProof(
+      signal,
+      root,
+      nullifierHash,
+      externalNullifier,
+      proof,
+      verifier
+    );
+    dataFileCounter++;
+    //Add to Data Struct
+
+    dataList[dataFileCounter] = dataStructure(
+      title,
+      msg.sender,
+      block.timestamp,
+      dataURI,
+      fileURI,
+      groupId,
+      dataType
+    );
+
+    emit DataAdded(groupId, dataFileCounter, dataList[dataFileCounter]);
+  }
+
+  function accessData(
+    uint256 groupId,
+    uint256 root,
+    bytes32 signal,
+    uint256 nullifierHash,
+    uint256 externalNullifier,
+    uint256[8] calldata proof
+  ) external returns (bool) {
+    uint8 depth = getDepth(groupId);
+
+    require(depth != 0, "OmContract: group does not exist");
+
+    IVerifier verifier = verifiers[depth];
+
+    _verifyProof(
+      signal,
+      root,
+      nullifierHash,
+      externalNullifier,
+      proof,
+      verifier
+    );
 
     _saveNullifierHash(nullifierHash);
 
-    // save vote counts
+    emit ProofVerified(groupId, signal);
 
-    emit VoteCast(groupId, proposalId, vote);
+    return true;
   }
 
-  function hashDaoName(bytes32 eventId) private pure returns (uint256) {
-    return uint256(keccak256(abi.encodePacked(eventId))) >> 8;
+  function getProposalData(uint256 proposalId)
+    public
+    view
+    returns (Proposal memory ProposalData)
+  {
+    return ProposalList[proposalId];
   }
 }
