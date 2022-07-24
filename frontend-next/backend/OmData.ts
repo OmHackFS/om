@@ -23,7 +23,6 @@ class OmData {
         endDate: proposalData_EndDate 
         IpfsURI: proposalData_IpfsURI
         startDate: proposalData_StartDate
-        endDate: proposalData_coordinator
         description: proposalData_description
         noCount: proposalData_noCount
         title: proposalData_title
