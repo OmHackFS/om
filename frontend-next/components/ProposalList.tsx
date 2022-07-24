@@ -1,18 +1,36 @@
 import { proposalsList } from "./mocks/proposals";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {ethers} from "ethers";
+import backEnd from "../backend/OmData"
 
-export const ProposalList = ( props: any) => {
-
-  const {proposals} = props;
-  console.log("proposals:", proposals);
+export const ProposalList = ( ) => {
+  const [data,setData] = useState<any>();
+  // console.log("proposals:", proposals);
   // console.log("proposals1:", proposals[0]);
   // console.log("proposals2", proposals[1]);
   // console.log("Group Id ---------");
 
   // console.log("proposals1:", proposals[0].groupId);
 
+
+  useEffect((): void => {
+    getProposal()
+  }, []);
+
+  async function getProposal(){
+    console.log("fetching proposals")
+    const data: any = await backEnd.getProposals()
+    console.log("proposalData", data)
+
+  }
+    
+
+  
+
+  
+const proposals = proposalsList;
+console.log(proposals);
 
 
  return (    
