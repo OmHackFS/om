@@ -4,31 +4,32 @@ import { GenerateProofBody } from "./GenerateProofBody";
 import { SelectWalletBody } from "./SelectWalletBody";
 import { SendTransactionBody } from "./SendTransactionBody";
 import { SendTransactionAddData } from "./SendTransactionAddData";
-import {ethers} from "ethers";
+import { ethers } from "ethers";
 import { SendTransactionVote } from "./SendTransactionVote";
 
 export const MultiStepFormVote = ({
-
+  voteSelected,
+  proposalId,
+  onClose,
 }: any) => {
   const [formStep, setFormStep] = useState(0);
-  const [proof,setProof] = useState();
-  const [nullifierHash,setNullifierHash] = useState();
-  const [externalNullifier,setExternalNullifier] = useState();
-  const [root,setRoot] = useState();
+  const [proof, setProof] = useState();
+  const [nullifierHash, setNullifierHash] = useState();
+  const [externalNullifier, setExternalNullifier] = useState();
+  const [root, setRoot] = useState();
   const signal = "proposals";
   const bytes32signal = ethers.utils.formatBytes32String(signal);
-
-
-
-
-
-
-
 
   const handleClickNext = (e: any) => {
     e.preventDefault();
 
-    const nextStep = formStep + 1 > 2 ? 0 : formStep + 1;
+    const nextStep = formStep + 1;
+
+    if (nextStep > 2) {
+      onClose();
+      return;
+    }
+
     setFormStep(nextStep);
   };
 
@@ -60,8 +61,8 @@ export const MultiStepFormVote = ({
         "
           >
             {formStep === 0 ? "Verifying Membership" : null}
-            {formStep === 1 ? "Selecting wallet" : null}
-            {formStep === 2 ? "Creating proposal" : null}
+            {formStep === 1 ? "Selecting Wallet" : null}
+            {formStep === 2 ? "Casting Vote" : null}
           </h2>
 
           <p className="max-w-screen-md mx-auto text-center text-gray-500 md:text-lg">
@@ -154,15 +155,14 @@ export const MultiStepFormVote = ({
 
                       <div className="h-72 flex items-center justify-center">
                         {formStep === 0 ? (
-                          <GenerateProofBody 
-                          // group={group} 
-                          setProof={setProof}
-                          setNullifierHash={setNullifierHash}
-                          setExternalNullifier={setExternalNullifier}
-                          signal={signal}
-                          setRoot={setRoot}
-
-                           />
+                          <GenerateProofBody
+                            // group={group}
+                            setProof={setProof}
+                            setNullifierHash={setNullifierHash}
+                            setExternalNullifier={setExternalNullifier}
+                            signal={signal}
+                            setRoot={setRoot}
+                          />
                         ) : null}
                         {formStep === 1 ? <SelectWalletBody /> : null}
                         {formStep === 2 ? (
@@ -172,6 +172,8 @@ export const MultiStepFormVote = ({
                             externalNullifier={externalNullifier}
                             root={root}
                             bytes32signal={bytes32signal}
+                            voteSelected={voteSelected}
+                            proposalId={proposalId}
                           />
                         ) : null}
                       </div>
@@ -225,7 +227,7 @@ export const MultiStepFormVote = ({
                     "
                         onClick={handleClickNext}
                       >
-                        Next
+                        {formStep === 2 ? "Finish" : "Next"}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="w-4 h-4"

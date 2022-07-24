@@ -8,12 +8,13 @@ import * as sigUtil from "@metamask/eth-sig-util";
 import { ethers, Signer } from "ethers";
 import omToken from "./utils/OmContract.json";
 import backEnd from "../backend/OmData";
+import { omCo } from "../contract-addresses/index";
 
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import { Provider } from "../utils/provider";
 import { injected } from "../utils/connectors";
 
-const omContractAddress = "0x560aBf82Eb1D8C86968f4314ff6a7770088f0728";
+// const omContractAddress = "0x560aBf82Eb1D8C86968f4314ff6a7770088f0728";
 
 export const SendTransactionBody = ({
   group,

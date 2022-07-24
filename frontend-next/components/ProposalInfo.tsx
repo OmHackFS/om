@@ -90,7 +90,8 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
   const [selected, setSelected] = useState<any>(people[0]);
   const [proposal, setProposal] = useState<any>({});
 
-  const handleShowProposalModal = () => setShowProposalModal(true);
+  const handleShowVoteModal = () => setShowProposalModal(true);
+  const handleHideVoteModal = () => setShowProposalModal(false);
 
   console.log("proposalId ", proposalId);
   useEffect(() => {
@@ -101,7 +102,7 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
 
   const id = Number(proposalId);
 
-  console.log("proposal --> ", proposal);
+  console.log("proposal --> ", proposal, selected);
   return (
     <>
       <div className="min-h-full">
@@ -373,14 +374,15 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                                     href="#"
                                     className="font-medium text-gray-900"
                                   >
-                                    {item.target}
+                                    {/* {item.target} */}
+                                    {item.content === "Yes"
+                                      ? proposal.yesCount + " votes"
+                                      : null}
+                                    {item.content === "No"
+                                      ? proposal.noCount + " votes"
+                                      : null}
                                   </a>
                                 </p>
-                              </div>
-                              <div className="text-right text-sm whitespace-nowrap text-gray-500">
-                                <time dateTime={item.datetime}>
-                                  {item.date}
-                                </time>
                               </div>
                             </div>
                           </div>
@@ -471,12 +473,18 @@ export const ProposalInfo = ({ proposalId }: ProposalInfoProps) => {
                   <button
                     type="button"
                     className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    onClick={handleShowProposalModal}
+                    onClick={handleShowVoteModal}
                   >
                     Vote
                   </button>
                 </div>
-                {showProposalModal ? <ProofModalVote /> : null}
+                {showProposalModal ? (
+                  <ProofModalVote
+                    voteSelected={selected}
+                    proposalId={proposalId}
+                    hideModal={handleHideVoteModal}
+                  />
+                ) : null}
               </div>
             </section>
           </div>

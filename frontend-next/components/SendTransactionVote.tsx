@@ -26,6 +26,8 @@ export const SendTransactionVote = ({
   externalNullifier,
   root,
   bytes32signal,
+  proposalId,
+  voteSelected,
 }: any) => {
   const context = useWeb3React<Provider>();
   const { activate, active, account, library } = context;
@@ -38,32 +40,31 @@ export const SendTransactionVote = ({
   const [creating, setCreating] = useState(false);
   const [proposalUri, setProposalUri] = useState<string | null>(null);
   const [contract, setContract] = useState<any>();
+  const [castedVote, setCastedVote] = useState(false);
 
-  // const omContract : any= useMemo(() => {
-  //   return new ethers.Contract(omContractAddress, omContract.abi, signer);
-  // }, [signer]);
+  const omContract: any = useMemo(() => {
+    return new ethers.Contract(omContractAddr, omContracAbi, signer);
+  }, [signer]);
 
   useEffect((): void => {
     connectWallet();
   }, []);
 
-  const handleCreateProposal = async (e: any) => {
+  const handleCreateVote = async (e: any) => {
     e.preventDefault();
     setCreating(true);
 
     console.log(contract);
 
-    const proposalCoordinator = "0xd770134156f9aB742fDB4561A684187f733A9586";
-
     const group = 1; //Bring from /proposal_info
     const voteRoot = root; //Generate Proof
-    const vote = true; //Bring from /proposal_info
+    const vote = voteSelected && voteSelected.name === "Yes"; //Bring from /proposal_info
     const voteNullifierHash = nullifierHash; //Generate Proof
     const voteExternalNullifierHash = externalNullifier; //Generate Proof
     const signal = bytes32signal; //Generate Proof
     const voteProof = proof; //Generate Proof
 
-    const voteTx = await contract.castVote(
+    const voteTx = await omContract.castVote(
       group,
       voteRoot,
       vote,
@@ -76,6 +77,7 @@ export const SendTransactionVote = ({
     console.log(tx);
 
     setCreating(false);
+    setCastedVote(true);
   };
 
   async function connectWallet() {
@@ -98,13 +100,12 @@ export const SendTransactionVote = ({
     setContract(omContract);
     setSigner(signer);
   }
-  console.log("context ", context);
   return (
     <>
       <div className="flex flex-col">
-        {!proposalUri ? (
+        {!proposalUri && !castedVote ? (
           <button
-            onClick={handleCreateProposal}
+            onClick={handleCreateVote}
             className="inline-flex mt-5 px-12 py-4
         text-sm text-white
         bg-indigo-500
@@ -154,6 +155,23 @@ export const SendTransactionVote = ({
             </svg>
             Voted successfully
             <p>Vote URI: {proposalUri}</p>
+          </div>
+        ) : null}
+        {castedVote ? (
+          <div className="h-16 items-center inline-flex mt-2 justify-center rounded-md border border-transparent bg-green-100 px-3 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Vote successfully casted
           </div>
         ) : null}
       </div>
