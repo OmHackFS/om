@@ -111,10 +111,46 @@ class OmData {
     return data;
   }
 
+  // Fetch all proposals created from subgraph
+  async getVotes(proposalId:number) {
+    const eventQueryTrue = `{ 
+        voteCasts(where: {proposalId: ${proposalId}, vote: true}) {
+          vote
+          proposalId
+          id
+          groupId
+      }}`;
+      const eventQueryFalse = `{ 
+          voteCasts(where: {proposalId: ${proposalId}, vote: false}) {
+            vote
+            proposalId
+            id
+            groupId
+        }}`;
+    let dataTrue = [];
+    let dataFalse = [];
+    const client = new ApolloClient({
+      link: new HttpLink({ uri: this.graphApiUrl, fetch }),
+      cache: new InMemoryCache(),
+    });
+    try {
+      const resultTrue = await client.query({ query: gql(eventQueryTrue) });
+      dataTrue = resultTrue.data.voteCasts;
+      const resultFalse = await client.query({ query: gql(eventQueryFalse) });
+      dataFalse = resultFalse.data.voteCasts;
+    } catch (err) {
+      console.log(err);
+    }
+    const result = {yesVotes:dataTrue.length, noVotes:dataFalse.length}
+    console.log("dataTrue", dataTrue);
+    console.log("Result:", result)
+    return result
+  }
+
   // Fetch all data added events from subgraph
   async getDataByType(dataTypeId: number) {
     const eventQuery = `{ 
-      dataAddeds(first: 1000, where: {dataInfos_dataType: ${dataTypeId}}) {
+      dataAddeds(first: 1000, where: {dataType: ${dataTypeId}}) {
         dataId
         addedDate: dataInfos_addedDate
         dataOwner: dataInfos_dataOwner
