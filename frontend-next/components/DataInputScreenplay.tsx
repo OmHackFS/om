@@ -30,6 +30,7 @@ export const DataInputScreenplay = () => {
     
     setDataUri(screenplayEncryptedPackage.dataUri)
     setDocumentUri(screenplayEncryptedPackage.documentUri)
+    backEnd.getVotes(2)
   }
 
   async function decryptData() {
