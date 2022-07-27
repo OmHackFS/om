@@ -6,7 +6,7 @@ This storage layer will have 2 types of access into it:
 
 1. Full access of an specific data set based on smart contract logic(for example: Users A can access data type A, users with soulbound B could access data sets B and so on). 
 
-2. We will have Zk layer data access(this is still in research mode). In this type of access, specific users will have access to properties of the data and not the full data. For example: a user will not have data from Dao members, but would be able to check: How many DAO members are above 18, how many DAO members are Men or Woman, How many members have Phd. All this without having specific data from each DAO Member.(The Zk feature of validating a Private dataset property later could be use for many other things such as proving specific properties to clients/buyers/etc..)
+2. We will have Zk layer(using Semaphore) data access(this is still in research mode). In this type of access, specific users will have access to properties of the data and not the full data. For example: a user will not have data from Dao members, but would be able to check: How many DAO members are above 18, how many DAO members are Men or Woman, How many members have Phd. All this without having specific data from each DAO Member.(The Zk feature of validating a Private dataset property later could be use for many other things such as proving specific properties to clients/buyers/etc..)
 
 
 For the proof of concept we will use
